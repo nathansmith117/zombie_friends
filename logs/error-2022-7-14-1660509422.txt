@@ -1,4 +1,0 @@
-'map' is in globals
-Error opening /home/nathan/Desktop/zombie_friends/test_level/hihi.mp
-Error loading /home/nathan/Desktop/zombie_friends/test_level/hihi.mp
-Error loading test_level/init.cms

@@ -1,4 +1,0 @@
-Variable '$message' not found
-Error loading test_level/init.cms
-Variable '$message' not found
-Error loading test_level/init.cms

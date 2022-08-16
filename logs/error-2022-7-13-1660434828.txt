@@ -1,3 +1,0 @@
-Variable '$hi' not found
-Variable '$message' not found
-Error loading test_level/init.cms

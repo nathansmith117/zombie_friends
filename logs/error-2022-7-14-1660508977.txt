@@ -1,3 +1,0 @@
-'map' is in globals
-Variable '$map' not found
-Error loading test_level/init.cms
