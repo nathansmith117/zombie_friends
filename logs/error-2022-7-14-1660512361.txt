@@ -1,0 +1,3 @@
+say Hi there
+load image_list2.il sl
+load test_map.mp sl

@@ -1,0 +1,22 @@
+Command not found
+Name: say, silent yes
+Name: exit, silent no
+Name: load, silent no
+Name: do_nothing, silent yes
+Name: popup, silent yes
+Name: print, silent yes
+Name: run_sequence, silent yes
+Name: set, silent no
+Name: silent_set, silent yes
+Name: show_globals, silent yes
+Name: if, silent yes
+Name: list_commands, silent no
+Name: change_heath_by, silent no
+Name: silent_change_heath_by, silent yes
+Name: set_heath, silent no
+Name: silent_set_heath, silent yes
+Name: change_coin_count_by, silent no
+Name: silent_change_coin_count_by, silent yes
+Name: set_coin_count, silent no
+Name: silent_set_coint_count, silent yes
+

@@ -1,0 +1,2 @@
+Variable '$message' not found
+Variable '$message' not found

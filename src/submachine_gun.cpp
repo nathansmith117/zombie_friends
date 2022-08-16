@@ -1,0 +1,81 @@
+#include "submachine_gun.h"
+#include "character.h"
+
+void SubmachineGun::main_init(MainData * md, Fl_Widget * item_holder) {
+	mdata = md;
+
+	type = TOOL_SUBMACHINE_GUN;
+
+	// Images.
+	images(mdata->scaled_images.weapons.submachine_gun);
+	image(mdata->scaled_images.weapons.submachine_gun[0]);
+
+	// Bullet settings.
+	bullet_w = 3;
+	bullet_h = 2;
+	bullet_color = FL_YELLOW;
+	bullet_speed = 10;
+	updates_per_add_bullet = 10;
+	max_bullets = BULLET_MAX_NONE;
+	needs_fuel = true;
+	fuel = 30;
+
+	bullet_start_locations = {
+		{22, 3},
+		{3, 3}
+	};
+
+	// Location data.
+	item_location({
+		{0, 12, 14, 19},
+		{16, 12, 0, 19}
+	});
+
+	move_to_location();
+}
+
+void SubmachineGun::update() {
+	int hit_x, hit_y;
+	int i;
+	Bullet new_bullet;
+
+	last_count++;
+
+	// Slow stuff down.
+	if (last_count < (int)roundf(mdata->settings.update_fps 
+				* mdata->settings.weapons.submachine_gun_speed))
+		return;
+	else
+		last_count = 0;
+
+	// Fire bullet.
+	if (is_being_used)
+		add_bullet();
+
+	update_bullets();
+
+	// Handle bullet hit.
+	if (bullet_hit_data.size() <= 0)
+		return;
+
+	for (i = 0; i < bullet_hit_data.size(); i++) {
+		hit_x = bullet_hit_data[i].coord.x;
+		hit_y = bullet_hit_data[i].coord.y;
+
+		// All ready handled.
+		if (bullet_hit_data[i].hit_handled)
+			continue;
+
+		// Bullet all ready removed from map.
+		if (bullet_hit_data[i].bullet_id >= bullets.size())
+			continue;
+
+		// Item.
+		if ((bullet_hit_data[i].type & HIT_ITEM) == HIT_ITEM) {
+			((Character*)item_holder)->add_item(bullet_hit_data[i].things_hit.item);
+ 			mdata->map->remove_item(hit_x, hit_y);
+			bullet_hit_data[i].hit_handled = true;
+			remove_bullet(bullet_hit_data[i].bullet_id);
+		}
+	}
+}
