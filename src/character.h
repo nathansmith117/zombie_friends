@@ -39,13 +39,13 @@ class Character : public Fl_Widget {
 		gameTools::Direction * direction() { return &dir; }
 
 		std::vector<Fl_PNG_Image*> images() { return character_images; }
-		void images(std::vector<Fl_PNG_Image*> character_images) { this->character_images = character_images; }
+		void images(std::vector<Fl_PNG_Image*> character_images);
 
 		int get_frame() { return frame; }
 		void set_frame(int frame) { this->frame = frame; }
 		Fl_PNG_Image * get_current_image();
 
-		virtual void center() = 0;
+		virtual void center() {};
 		virtual void use_tool();
 		virtual void stop_using_tool();
 
@@ -54,6 +54,9 @@ class Character : public Fl_Widget {
 
 		virtual bool facing_right() = 0;
 		virtual bool facing_left() = 0;
+
+		virtual void refresh_images() = 0;
+		virtual void refresh_tool_images();
 
 		// Gets or sets world position.
 		int wx() { return world_x; }

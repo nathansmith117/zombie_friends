@@ -40,6 +40,8 @@ class CommonTool : public Fl_Widget {
 		virtual void set_right() = 0;
 		virtual void set_left() = 0;
 
+		virtual void refresh_images() = 0;
+
 		virtual void set_on_side() = 0;
 
 		virtual void use();

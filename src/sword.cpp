@@ -4,9 +4,9 @@
 void Sword::main_init(MainData * md, Fl_Widget * item_holder) {
 	mdata = md;
 
-	// Set images.
-	images(mdata->scaled_images.weapons.sword);
-	image(mdata->scaled_images.weapons.sword[0]);
+	type = TOOL_SWORD;
+
+	refresh_images();
 
 	// Location data.
 	item_location({
@@ -55,4 +55,9 @@ void Sword::update() {
 		is_being_used = false;
 		move_to_location();
 	}
+}
+
+void Sword::refresh_images() {
+	images(gameTools::copy_image_list(mdata->scaled_images.weapons.sword));
+	image(mdata->scaled_images.weapons.sword[0]->copy());
 }

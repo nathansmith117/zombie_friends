@@ -18,6 +18,8 @@ class Sword : public Weapon {
 
 		void set_right() { frame = 0; }
 		void set_left() { frame = 3; }
+
+		void refresh_images();
 	protected:
 		void main_init(MainData * md, Fl_Widget * item_holder);
 };

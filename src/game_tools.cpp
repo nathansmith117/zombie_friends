@@ -30,6 +30,16 @@ namespace gameTools {
 		}
 	}
 
+	std::vector<Fl_PNG_Image*> copy_image_list(std::vector<Fl_PNG_Image*> imgs) {
+		std::vector<Fl_PNG_Image*> copy_of_imgs;
+
+		for (auto i : imgs)
+			copy_of_imgs.push_back((Fl_PNG_Image*)i->copy());
+
+		return copy_of_imgs;
+
+	}
+
 	void scale_all(MainData * mdata) {
 		mdata->scaled_images.player = scale_images(mdata->images.player, mdata->settings.scale);
 		mdata->scaled_images.weapons.sword = scale_images(mdata->images.weapons.sword, mdata->settings.scale);
@@ -313,6 +323,9 @@ namespace gameTools {
 		// World.
 		load_world_images(mdata, file_path, imgs_location);
 
+		// Npc.
+		load_npc_images(mdata, file_path, imgs_location);
+
 		return 0;
 	}
 
@@ -391,6 +404,24 @@ namespace gameTools {
 		if (path_list.size() > 0) {
 			set_image_list(&mdata->images.addon_images, imageLoader::load_images(path_list));
 			set_image_list(&mdata->scaled_images.addon_images, scale_images(mdata->images.addon_images, mdata->settings.scale));
+		}
+
+		return 0;
+	}
+
+	int load_npc_images(MainData * mdata, const char * file_path, const char * img_location) {
+		std::vector<std::string> path_list;
+
+		if (file_path == NULL || img_location == NULL)
+			return -1;
+
+		// Evil puppy.
+		path_list = get_paths_with_label(file_path, "evil_puppy");
+		path_list = imageLoader::add_path(path_list, img_location);
+
+		if (path_list.size() > 0) {
+			set_image_list(&mdata->images.npc.evil_puppy, imageLoader::load_images(path_list));
+			set_image_list(&mdata->scaled_images.npc.evil_puppy, scale_images(mdata->images.npc.evil_puppy, mdata->settings.scale));
 		}
 
 		return 0;
@@ -551,11 +582,12 @@ namespace gameTools {
 		}
 
 		for (i = 0; i < image_list1->size(); i++) {
-			if (!same_image(image_list1->at(i), image_list2[i]) && !image_list2[i]->fail()) {
+			if (same_image(image_list1->at(i), image_list2[i]) || image_list2[i]->fail()) {
+				delete image_list2[i];
+			} else {
 				delete image_list1->at(i);
 				image_list1->at(i) = image_list2[i];
-			} else
-				delete image_list2[i];
+			}
 		}
 
 		return 0;

@@ -178,9 +178,15 @@ struct WeaponImages {
 	std::vector<Fl_PNG_Image*> submachine_gun;
 };
 
+struct NpcImages {
+	std::vector<Fl_PNG_Image*> evil_puppy;
+};
+
 struct GameImages {
 	std::vector<Fl_PNG_Image*> player;
+
 	WeaponImages weapons;
+	NpcImages npc;
 
 	std::vector<Fl_PNG_Image*> basic_world;
 	std::vector<Fl_PNG_Image*> curr_world;

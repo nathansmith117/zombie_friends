@@ -10,11 +10,11 @@ OBJS = main.o appWindow.o player.o image_loader.o game_tools.o weapon.o \
        sword.o map.o tile.o debug_window.o view_window.o top_menu.o \
        character.o tab_menu.o game_tab_menu.o chat_box.o game_commands.o \
        common_item.o common_tool.o player_info_display.o \
-       submachine_gun.o gun.o
+       submachine_gun.o gun.o npc.o evil_puppy.o
 GAME_TOOLS = image_loader.o game_tools.o weapon.o map.o tile.o player.o \
 	     debug_window.o view_window.o top_menu.o character.o tab_menu.o \
 	     chat_box.o game_commands.o common_item.o common_tool.o \
-	     player_info_display.o
+	     player_info_display.o npc.o
 WEAPONS = weapon.o sword.o submachine_gun.o gun.o
 LIB_DIR = ../lib/
 
@@ -61,12 +61,16 @@ chat_box.o: chat_box.cpp chat_box.h game_tools.cpp game_tools.h $(DEH)
 game_commands.o: game_commands.cpp game_commands.h chat_box.cpp chat_box.h game_tools.cpp game_tools.h \
 	map.cpp map.h view_window.cpp view_window.h player.cpp player.h $(DEH)
 common_item.o: common_item.cpp common_item.h game_tools.cpp game_tools.h map.cpp map.h $(DEH)
-common_tool.o: common_item.cpp common_item.h $(DEH)
+common_tool.o: common_item.cpp common_item.h game_tools.cpp game_tools.h $(DEH)
 player_info_display.o: player_info_display.cpp player_info_display.h common_item.cpp common_item.h common_tool.cpp common_tool.h \
 	player.cpp player.h $(DEH)
 submachine_gun.o: weapon.cpp weapon.h game_tools.cpp game_tools.h character.cpp character.h gun.cpp gun.h $(DEH)
 gun.o: weapon.cpp weapon.h game_tools.cpp game_tools.h character.cpp character.h map.cpp map.h   \
-	tile.cpp tile.h common_item.cpp common_item.h $(DEH)
+	tile.cpp tile.h common_item.cpp common_item.h player.cpp player.h $(DEH)
+npc.o: npc.cpp npc.h character.cpp character.h weapon.cpp weapon.h gun.cpp gun.h \
+	game_tools.cpp game_tools.h map.cpp map.h common_tool.cpp common_tool.h \
+	common_item.cpp common_item.h tile.cpp tile.h $(DEH)
+evil_puppy.o: evil_puppy.cpp evil_puppy.h npc.cpp npc.h game_tools.cpp game_tools.h $(DEH)
 
 clean:
 	rm *.o

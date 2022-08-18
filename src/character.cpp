@@ -23,11 +23,24 @@ void Character::draw() {
 	tl->draw();
 }
 
+void Character::images(std::vector<Fl_PNG_Image*> character_images) {
+	gameTools::delete_image_list(&this->character_images);
+
+	this->character_images = character_images;
+	size(character_images[0]->w(), character_images[0]->h());
+}
+
 Fl_PNG_Image * Character::get_current_image() {
 	if (frame >= character_images.size() || frame < 0)
 		return NULL;
 
 	return character_images[frame];
+}
+
+void Character::refresh_tool_images() {
+	for (auto tl : tools)
+		if (tl != NULL)
+			tl->refresh_images();
 }
 
 bool Character::is_moving() {

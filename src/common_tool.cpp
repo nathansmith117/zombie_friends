@@ -1,4 +1,5 @@
 #include "common_tool.h"
+#include "game_tools.h"
 
 void CommonTool::main_init(MainData * md, Fl_Widget * item_holder) {
 	mdata = md;
@@ -20,6 +21,9 @@ void CommonTool::draw() {
 }
 
 void CommonTool::images(std::vector<Fl_PNG_Image*> image_frames) {
+	// Delete old list.
+	gameTools::delete_image_list(&this->image_frames);
+
 	this->image_frames = image_frames;
 	size(image_frames[0]->w(), image_frames[0]->h());
 }

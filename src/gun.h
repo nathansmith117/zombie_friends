@@ -18,6 +18,15 @@ struct Bullet {
 	int x, y;
 	BULLET_DIR dir;
 	bool removed = false;
+
+	int start_x;
+	int start_y;
+
+	int start_map_x_offset;
+	int start_map_y_offset;
+
+	int last_map_x_offset;
+	int last_map_y_offset;
 };
 
 #define BULLET_MAX_NONE -1

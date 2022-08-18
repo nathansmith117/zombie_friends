@@ -6,15 +6,13 @@ void SubmachineGun::main_init(MainData * md, Fl_Widget * item_holder) {
 
 	type = TOOL_SUBMACHINE_GUN;
 
-	// Images.
-	images(mdata->scaled_images.weapons.submachine_gun);
-	image(mdata->scaled_images.weapons.submachine_gun[0]);
+	refresh_images();
 
 	// Bullet settings.
 	bullet_w = 3;
 	bullet_h = 2;
 	bullet_color = FL_YELLOW;
-	bullet_speed = 10;
+	bullet_speed = 15;
 	updates_per_add_bullet = 10;
 	max_bullets = BULLET_MAX_NONE;
 	needs_fuel = true;
@@ -78,4 +76,9 @@ void SubmachineGun::update() {
 			remove_bullet(bullet_hit_data[i].bullet_id);
 		}
 	}
+}
+
+void SubmachineGun::refresh_images() {
+	images(gameTools::copy_image_list(mdata->scaled_images.weapons.submachine_gun));
+	image(mdata->scaled_images.weapons.submachine_gun[0]->copy());
 }

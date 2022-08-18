@@ -17,9 +17,8 @@ namespace Tile {
 		ADDON = 2
 	};
 
-	enum TYPES {
-		WALK_THROUGH = 0,
-		NONWALK_THROUGH = 1
+	enum TILE_TYPES {
+		TYPE_NO_WALKTHROUGH = 0x1 << 0
 	};
 
 	typedef int8_t tile_id;

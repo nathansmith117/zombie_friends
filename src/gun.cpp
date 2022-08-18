@@ -1,5 +1,6 @@
 #include "gun.h"
 #include "character.h"
+#include "player.h"
 
 void Gun::draw() {
 
@@ -56,6 +57,8 @@ void Gun::update_and_test_bullet(int bullet_id) {
 	BulletHitData new_hit_data;
 	Bullet curr_bullet;
 
+	Player * player = (Player*)mdata->player;
+
 	bool obj_collided;
 
 	Fl_PNG_Image * item_image;
@@ -78,8 +81,25 @@ void Gun::update_and_test_bullet(int bullet_id) {
 	if (curr_bullet.removed)
 		return;
 
-	// Update x.
+	// Update position.
 	curr_bullet.x += (bullet_speed * curr_bullet.dir);
+
+	// Keep bullet speed looking the same with map scrolling.
+	if (player != NULL) {
+		// Walking away from bullet.
+		if ((player->facing_right() && curr_bullet.dir == BULLET_LEFT)
+				|| (player->facing_left() && curr_bullet.dir == BULLET_RIGHT))
+			curr_bullet.x += abs(offset_x - curr_bullet.last_map_x_offset) * curr_bullet.dir;
+		// Walking to the bullet.
+		else
+			curr_bullet.x -= abs(offset_x - curr_bullet.last_map_x_offset) * curr_bullet.dir;
+	}
+
+	// Keep bullet y coord on the same position on map.
+	curr_bullet.y = curr_bullet.start_y + (offset_y - curr_bullet.start_map_y_offset);
+
+	curr_bullet.last_map_x_offset = offset_x;
+	curr_bullet.last_map_y_offset = offset_y;
 
 	// Update 'bullets'.
 	bullets[bullet_id] = curr_bullet;
@@ -180,6 +200,15 @@ int Gun::add_bullet() {
 	// Set position.
 	new_bullet.x = x() + bullet_start_locations[frame].x;
 	new_bullet.y = y() + bullet_start_locations[frame].y;
+
+	new_bullet.start_x = new_bullet.x;
+	new_bullet.start_y = new_bullet.y;
+
+	// Map offset.
+	new_bullet.start_map_x_offset = mdata->map->offset_x();
+	new_bullet.start_map_y_offset = mdata->map->offset_y();
+	new_bullet.last_map_x_offset = new_bullet.start_map_x_offset;
+	new_bullet.last_map_y_offset = new_bullet.start_map_y_offset;
 
 	new_bullet.removed = false;
 

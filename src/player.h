@@ -6,7 +6,7 @@
 #include "character.h"
 #include "common_tool.h"
 
-enum {
+enum PLAYER_FRAME_DIRECTIONS {
 	PLAYER_RIGHT = 0,
 	PLAYER_LEFT = 3
 };
@@ -17,7 +17,6 @@ class Player : public Character {
 			main_init(md);
 		}
 
-		void main_init(MainData * md);
 		void update();
 		void handle_items();
 
@@ -28,6 +27,8 @@ class Player : public Character {
 
 		bool facing_right();
 		bool facing_left();
+
+		void refresh_images();
 
 		int wx() { return world_x; }
 		void wx(int world_x);
@@ -40,7 +41,12 @@ class Player : public Character {
 		// Redraw screen to update update_player_info.
 		void next_tool();
 		void pre_tool();
-	protected:
+	private:
+		void main_init(MainData * md);
+
+		int old_map_x_offset;
+		int old_map_y_offset;
+
 		int last_call_count;
 
 		// Old values.

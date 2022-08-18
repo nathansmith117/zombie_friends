@@ -9,7 +9,7 @@
 void Player::main_init(MainData * md) {
 	mdata = md;
 
-	character_images = mdata->scaled_images.player;
+	refresh_images();
 
 	center();
 	go_left();
@@ -33,6 +33,12 @@ bool Player::facing_right() {
 
 bool Player::facing_left() {
 	return frame >= PLAYER_LEFT;
+}
+
+void Player::refresh_images() {
+	images(gameTools::copy_image_list(mdata->scaled_images.player));
+	refresh_tool_images();
+	center();
 }
 
 void Player::update() {
@@ -119,6 +125,12 @@ void Player::handle_items() {
 		// tile.
 		if ((hit_data[i].type & HIT_TILE) == HIT_TILE) {
 			hit_data[i].hit_handled = true;
+
+			// Hits wall or something like that.
+			if ((hit_data[i].things_hit.tile.type & Tile::TYPE_NO_WALKTHROUGH) == Tile::TYPE_NO_WALKTHROUGH) {
+				mdata->map->offset_x(old_map_x_offset);
+				mdata->map->offset_y(old_map_y_offset);
+			}
 		}
 
 		// Item.
@@ -128,6 +140,9 @@ void Player::handle_items() {
 			mdata->map->remove_item(hit_data[i].coord.x, hit_data[i].coord.y);
 		}
 	}
+
+	old_map_x_offset = mdata->map->offset_x();
+	old_map_y_offset = mdata->map->offset_y();
 }
 
 void Player::center() {

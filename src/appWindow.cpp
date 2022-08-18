@@ -58,6 +58,9 @@ int AppWindow::handle(int event) {
 				case 'n':
 					((Player*)mdata->player)->pre_tool();
 					break;
+				case 'r':
+					((Player*)mdata->player)->refresh_images();
+					break;
 				default:
 					break;
 			}

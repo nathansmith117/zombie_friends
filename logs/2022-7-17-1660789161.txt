@@ -1,0 +1,51 @@
+Starting game
+Version: Still in building
+release date: 0 0 0
+build date: Aug 17 2022
+FLTK abi version: 10300
+User: nathan
+Program Directory: /home/nathan/Desktop/zombie_friends/
+Log file path: /home/nathan/Desktop/zombie_friends/logs/2022-7-17-1660789161.txt
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_right.png
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_left.png
+Finished loading 2 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/null.png
+Loading /home/nathan/Desktop/zombie_friends/images/grass.png
+Loading /home/nathan/Desktop/zombie_friends/images/dirt.png
+Loading /home/nathan/Desktop/zombie_friends/images/gravel.png
+Loading /home/nathan/Desktop/zombie_friends/images/heart.png
+Loading /home/nathan/Desktop/zombie_friends/images/coin.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_right.png
+Finished loading 8 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/testing_image.png
+Finished loading 1 image(s) with 0 error(s)
+New map created width: 20, height: 20
+Map loaded from map_data.mp
+The hi hi 178035The hi hi 179180The hi hi 180188The hi hi 181651The hi hi 182751The hi hi 183855The hi hi 185204The hi hi 186257The hi hi 187369The hi hi 188490The hi hi 189527The hi hi 190646The hi hi 191738The hi hi 192852The hi hi 193951The hi hi 195492The hi hi 196608The hi hi 197715The hi hi 198824The hi hi 199849The hi hi 200954The hi hi 202054The hi hi 203177The hi hi 204243The hi hi 205269The hi hi 206356The hi hi 207399The hi hi 209012The hi hi 210025The hi hi 211058The hi hi 212142The hi hi 213192The hi hi 214204The hi hi 215235The hi hi 216311The hi hi 217342The hi hi 218714The hi hi 219729The hi hi 220845The hi hi 222531The hi hi 223682The hi hi 224780The hi hi 226040The hi hi 227104The hi hi 228259The hi hi 229561The hi hi 230543The hi hi 231751The hi hi 232845The hi hi 233953The hi hi 235022
+Closing window.
+Map deleted

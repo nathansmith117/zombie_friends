@@ -16,6 +16,7 @@ namespace gameTools {
 	Fl_PNG_Image * scale_image(Fl_PNG_Image * img, int s);
 
 	void delete_image_list(std::vector<Fl_PNG_Image*> * imgs);
+	std::vector<Fl_PNG_Image*> copy_image_list(std::vector<Fl_PNG_Image*> imgs);
 
 	void scale_all(MainData * mdata);
 
@@ -101,6 +102,7 @@ namespace gameTools {
 	int load_player_images(MainData * mdata, const char * file_path, const char * img_location);
 	int load_weapon_images(MainData * mdata, const char * file_path, const char * img_location);
 	int load_world_images(MainData * mdata, const char * file_path, const char * img_location);
+	int load_npc_images(MainData * mdata, const char * file_path, const char * img_location);
 
 	// File types for game data.
 	enum GameDataFileTypes {

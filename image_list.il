@@ -37,3 +37,12 @@ submachine_gun_right.png
 .start addon_images
 testing_image.png
 .end
+
+.start evil_puppy
+evil_puppy_right_1.png
+evil_puppy_right_2.png
+evil_puppy_right_3.png
+evil_puppy_left_1.png
+evil_puppy_left_2.png
+evil_puppy_left_3.png
+.end
