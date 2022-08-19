@@ -506,6 +506,42 @@ skip_getting_print_type:
 	return 0;
 }
 
+int show_script_locat_command(COM_CB_ARGS) {
+	PRINT_TYPE print_type;
+	char output_buf[NAME_MAX];
+
+	// Get print type.
+	if (arg_count <= 1) {
+		print_type = PRINT_CHATBOX;
+		goto skip_getting_print_type;
+	}
+
+	print_type = get_print_type_from_str(args[1]);
+
+	if (print_type == PRINT_UNKNOWN) {
+		fputs("Error getting print type\n", stderr);
+		return -1;
+	}
+
+skip_getting_print_type:
+
+	// Set the output.
+	memset(output_buf, 0, NAME_MAX);
+
+	if (chat_box->get_script_location()[0] == '\0')
+		strncat(output_buf, "No script location set", NAME_MAX - 1);
+	else
+		snprintf(output_buf, NAME_MAX, "Script location: %s", chat_box->get_script_location());
+
+	// Print 'output_message'.
+	if (print_to(print_type, output_buf, chat_box) == -1) {
+		fputs("Error printing data\n", stderr);
+		return -1;
+	}
+
+	return 0;
+}
+
 int change_heath_by_command(COM_CB_ARGS) {
 	int heath_gain;
 	Player * player = (Player*)mdata->player;
@@ -613,9 +649,10 @@ void add_main_commands(MainData * mdata, ChatBox * chat_box) {
 		{"run_sequence", run_sequence_command, NULL, false},
 		{"set", set_command, NULL},
 		{"silent_set", set_command, NULL, false},
-		{"show_globals", show_globals_command, NULL, false},
+		{"show_globals", show_globals_command, NULL},
 		{"if", if_command, NULL, false},
-		{"list_commands", list_commands_command, NULL}
+		{"list_commands", list_commands_command, NULL},
+		{"show_script_locat", show_script_locat_command, NULL}
 	};
 
 	chat_box->add_command_list(command_list, sizeof(command_list) / sizeof(ChatCommand));

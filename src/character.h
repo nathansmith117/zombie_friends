@@ -32,7 +32,7 @@ class Character : public Fl_Widget {
 			current_tool = 0;
 		}
 
-		void draw();
+		virtual void draw();
 		virtual void update() = 0;
 		virtual void handle_items() = 0;
 

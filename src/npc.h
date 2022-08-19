@@ -14,4 +14,11 @@
 class Npc : public Character {
 	public:
 		Npc(MainData * md) : Character(md) {}
+
+		bool get_always_updated() { return always_updated; }
+		void set_always_updated(bool always_updated) { this->always_updated = always_updated; }
+	protected:
+
+		// Update npc even when not shown in view window,
+		bool always_updated = false;
 };

@@ -1,7 +1,7 @@
 FLCON = fltk-config
 COMPILER = $(shell $(FLCON) --cxx)
 CFLAGS = $(shell $(FLCON) --use-images --cxxflags) -I../
-GAME_LDFLAGS = -lgametools -lweapons
+GAME_LDFLAGS = -lgametools -lweapons -lnpcs
 LDFLAGS = $(GAME_LDFLAGS) $(shell $(FLCON) --use-images --ldstaticflags) -static-libstdc++ -static-libgcc -L../../lib/
 
 TARGET = level_edit

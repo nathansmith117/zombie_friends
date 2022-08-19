@@ -2,6 +2,7 @@
 #include "common_item.h"
 #include "game_tools.h"
 #include "chat_box.h"
+#include "npc_map.h"
 
 Map::Map(MainData * md) {
 	mdata = md;
@@ -16,6 +17,13 @@ Map::Map(MainData * md) {
 	y_offset = 0;
 
 	memset(file_path, 0, NAME_MAX);
+
+	npc_map = new NpcMap(mdata);
+}
+
+Map::~Map() {
+	delete_map();
+	delete npc_map;
 }
 
 int Map::create_map(int width, int height) {
@@ -63,6 +71,10 @@ int Map::create_map(int width, int height) {
 	printf("New map created width: %d, height: %d\n", width, height);
 	gameTools::set_scrollbar_bounds(mdata, width, height);
 
+	// Create npc map.
+	if (npc_map->create_map(width, height) == -1)
+		return -1;
+
 	return 0;
 }
 
@@ -88,6 +100,9 @@ void Map::delete_map() {
 	item_map = NULL;
 	width = 0;
 	height = 0;
+
+	// Delete npc map.
+	npc_map->delete_map();
 
 	puts("Map deleted");
 }
@@ -244,6 +259,9 @@ void Map::draw() {
 			// Draw item.
 			CommonItem::draw_item(mdata, item_map[y][x], x, y);
 		}
+
+	// Draw npcs.
+	npc_map->draw();
 }
 
 int Map::set_file_path(const char * fpath, size_t n) {

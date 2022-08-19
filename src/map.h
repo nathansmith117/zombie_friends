@@ -3,7 +3,6 @@
 #include "program_data.h"
 #include "tile.h"
 #include "common_item.h"
-#include <linux/limits.h>
 
 #define MAP_MAGIC_NUM 7
 
@@ -40,7 +39,7 @@ struct MapFileHeader {
 class Map {
 	public:
 		Map(MainData * md);
-		~Map() { delete_map(); }
+		~Map();
 
 		int create_map(int width, int height);
 		void delete_map();
@@ -83,10 +82,13 @@ class Map {
 		int dump(const char * file_path, size_t n);
 
 		int run_item_command(CommonItem::ItemData item);
+
 	private:
 		MainData * mdata;
 		Tile::TileObject ** tile_map = NULL;
 		CommonItem::ItemData ** item_map = NULL;
+
+		class NpcMap * npc_map = NULL;
 
 		std::vector<std::string> item_commands;
 

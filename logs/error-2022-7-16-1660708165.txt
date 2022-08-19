@@ -1,1 +1,0 @@
-enum MENU_SIDES does not go to 7

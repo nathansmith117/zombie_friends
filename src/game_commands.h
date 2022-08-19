@@ -83,6 +83,11 @@ int if_command(COM_CB_ARGS);
 // default output is 'chatbox'.
 int list_commands_command(COM_CB_ARGS);
 
+// Show the script location.
+// show_script_locat [output]
+// default output is chat box.
+int show_script_locat_command(COM_CB_ARGS);
+
 // Game only commands.
 int change_heath_by_command(COM_CB_ARGS);
 int set_heath_command(COM_CB_ARGS);
