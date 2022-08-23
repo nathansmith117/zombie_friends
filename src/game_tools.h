@@ -12,6 +12,11 @@ namespace gameTools {
 		bool right, left, up, down;
 	};
 
+	enum IS_NEG {
+		NEGATIVE = -1,
+		POSITIVE = 1
+	};
+
 	std::vector<Fl_PNG_Image*> scale_images(std::vector<Fl_PNG_Image*> imgs, int s);
 	Fl_PNG_Image * scale_image(Fl_PNG_Image * img, int s);
 
@@ -21,6 +26,38 @@ namespace gameTools {
 	void scale_all(MainData * mdata);
 
 	bool test_collision(Fl_Widget * obj1, Fl_Widget * obj2);
+
+	// -1 if negative and 1 if not.
+	int is_neg(int value);
+
+	template <typename T>
+	inline T make_non_neg_angle(T angle) {
+		return (angle >= 0) ? angle : (360 + angle);
+	}
+
+	template <typename T>
+	inline T rad_to_deg(T num) {
+		return num * 180 / M_PI;
+	}
+
+	template <typename T>
+	inline T deg_to_rad(T num) {
+		return num * M_PI / 180;
+	}
+
+	template <typename T>
+	inline T angle_dis(T a1, T a2) {
+		T a, b;
+		a = make_non_neg_angle(a1);
+		b = make_non_neg_angle(a2);
+
+		return 180 - abs(abs(a - b) - 180);
+	}
+
+	template <typename T>
+	inline bool is_in_range(T num, T value1, T value2) {
+		return num >= value1 && num <= value2;
+	}
 
 	// Bit stuff.
 	template <typename T>

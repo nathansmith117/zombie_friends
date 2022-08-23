@@ -8,6 +8,8 @@
 #include "map.h"
 #include "common_tool.h"
 
+#define NO_MOVEMENT {false, false, false, false}
+
 struct CharacterHitData {
 	ThingsHit things_hit;
 	HIT_TYPE type = HIT_NONE;
@@ -20,12 +22,12 @@ class Character : public Fl_Widget {
 		Character(MainData * md) : Fl_Widget(0, 0, 0, 0) {
 			mdata = md;
 
-			dir = {false, false, false, false};
+			dir = NO_MOVEMENT;
 			frame = 0;
 
-			world_x = 0;
-			world_y = 0;
-
+			world_x = 0.0;
+			world_y = 0.0;
+//
 			coins = 0;
 			heath = 0;
 
@@ -37,6 +39,7 @@ class Character : public Fl_Widget {
 		virtual void handle_items() = 0;
 
 		gameTools::Direction * direction() { return &dir; }
+		gameTools::Direction get_direction() { return dir; }
 
 		std::vector<Fl_PNG_Image*> images() { return character_images; }
 		void images(std::vector<Fl_PNG_Image*> character_images);
@@ -59,11 +62,14 @@ class Character : public Fl_Widget {
 		virtual void refresh_tool_images();
 
 		// Gets or sets world position.
-		int wx() { return world_x; }
-		void wx(int world_x) { this->world_x = world_x; }
+		float wx() { return world_x; }
+		void wx(float world_x) { this->world_x = world_x; }
 
-		int wy() { return world_y; }
-		void wy(int world_y) { this->world_y = world_y; }
+		float wy() { return world_y; }
+		void wy(float world_y) { this->world_y = world_y; }
+
+		int wx_rounded() { return roundf(world_x); }
+		int wy_rounded() { return roundf(world_y); }
 
 		bool is_moving();
 
@@ -108,7 +114,7 @@ class Character : public Fl_Widget {
 		std::vector<CommonTool*> tools;
 		int current_tool;
 
-		int world_x, world_y;
+		float world_x, world_y;
 
 		int heath;
 		int coins;

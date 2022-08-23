@@ -6,6 +6,8 @@
 #include "tab_menu.h"
 #include "chat_box.h"
 #include "player.h"
+#include "map.h"
+#include "npc_map.h"
 
 void ViewWindow::main_init(MainData * md, int X, int Y, int W, int H, const char * l) {
 	mdata = md;
@@ -60,12 +62,25 @@ void ViewWindow::draw_cb(void * d) {
 }
 
 void ViewWindow::real_update_cb() {
+	NpcMap * npc_map;
+
 	// Resizing window.
 	if (old_w != w() || old_h != h())
 		resize_callback();
 
 	if (mdata->player != NULL)
 		mdata->player->update();
+
+	// Update npc map.
+	if (mdata->map == NULL)
+		return;
+
+	npc_map = mdata->map->get_npc_map();
+
+	if (npc_map == NULL)
+		return;
+
+	npc_map->update();
 }
 
 void ViewWindow::resize_callback() {

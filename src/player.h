@@ -30,13 +30,14 @@ class Player : public Character {
 
 		void refresh_images();
 
-		int wx() { return world_x; }
-		void wx(int world_x);
+		float wx() { return world_x; }
+		void wx(float world_x);
 
-		int wy() { return world_y; }
-		void wy(int world_y);
+		float wy() { return world_y; }
+		void wy(float world_y);
 
 		void update_player_info();
+		void update_map_offset();
 
 		// Redraw screen to update update_player_info.
 		void next_tool();
@@ -44,8 +45,8 @@ class Player : public Character {
 	private:
 		void main_init(MainData * md);
 
-		int old_map_x_offset;
-		int old_map_y_offset;
+		float old_world_x;
+		float old_world_y;
 
 		int last_call_count;
 

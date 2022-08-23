@@ -49,12 +49,14 @@ namespace gameTools {
 	}
 
 	bool test_collision(Fl_Widget * obj1, Fl_Widget * obj2) {
-		if (obj1->x() + obj1->w() >= obj2->x() 
-				&& obj1->x() <= obj2->x() + obj2->w()
-				&& obj1->y() + obj1->h() >= obj2->y() 
-				&& obj1->y() <= obj2->y() + obj2->h())
-			return true;
-		return false;
+		return obj1->x() + obj1->w() >= obj2->x() 
+			&& obj1->x() <= obj2->x() + obj2->w()
+			&& obj1->y() + obj1->h() >= obj2->y() 
+			&& obj1->y() <= obj2->y() + obj2->h();
+	}
+
+	int is_neg(int value) {
+		return (value < 0) ? -1 : 1;
 	}
 
 	size_t get_file_size(FILE * fp) {

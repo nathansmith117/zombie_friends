@@ -9,7 +9,7 @@ enum EVIL_PUPPY_FRAME_DIRECTIONS {
 
 class EvilPuppy : public Npc {
 	public:
-		EvilPuppy(MainData * md) : Npc(md) {
+		EvilPuppy(MainData * md, class NpcMap * npc_map) : Npc(md, npc_map) {
 			main_init(md);
 		}
 
@@ -23,7 +23,9 @@ class EvilPuppy : public Npc {
 		bool facing_left();
 
 		void refresh_images();
-
 	private:
 		void main_init(MainData * md);
+		void keep_pos();
+
+		int last_call_count;
 };

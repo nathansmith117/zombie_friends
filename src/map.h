@@ -83,6 +83,7 @@ class Map {
 
 		int run_item_command(CommonItem::ItemData item);
 
+		class NpcMap * get_npc_map() { return npc_map; }
 	private:
 		MainData * mdata;
 		Tile::TileObject ** tile_map = NULL;

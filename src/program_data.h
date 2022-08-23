@@ -43,6 +43,7 @@
 #include <vector>
 #include <exception>
 #include <cerrno>
+#include <bits/stdc++.h>
 
 // OS headers.
 #include <sys/types.h>
@@ -129,7 +130,7 @@ struct Settings {
 	// Speed.
 	float update_fps = 60.0;
 	float draw_fps = 60.0;
-	int player_speed = 2.0;
+	float player_speed = 0.0625;
 	float player_update_speed = 0.1;
 
 	WeaponSettings weapons;

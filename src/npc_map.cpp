@@ -45,6 +45,11 @@ int NpcMap::create_map(int width, int height) {
 		for (x = 0; x < width; x++)
 			map[y][x] = NULL;
 
+
+	// Debug.
+	npc(new EvilPuppy(mdata, this), 5, 5);
+	put_npc_to_use(5, 5);
+
 	return 0;
 }
 
@@ -65,13 +70,17 @@ void NpcMap::delete_map() {
 		return;
 	}
 
+	for (auto n : npcs_in_use)
+		if (n != NULL)
+			delete n;
+
 	map = NULL;
 	width = 0;
 	height = 0;
 }
 
 int NpcMap::npc(Npc * new_npc, int x, int y) {
-	if (map == NULL || x >= width || y >= height)
+	if (map == NULL || x >= width || y >= height || x < 0 || y < 0)
 		return -1;
 
 	// Delete npc in map.
@@ -92,11 +101,11 @@ int NpcMap::npc(Npc * new_npc) {
 	if (new_npc == NULL)
 		return -1;
 
-	return npc(new_npc, new_npc->wx(), new_npc->wy());
+	return npc(new_npc, new_npc->wx_rounded(), new_npc->wy_rounded());
 }
 
 Npc * NpcMap::npc(int x, int y) {
-	if (map == NULL || x >= width || y >= height)
+	if (map == NULL || x >= width || y >= height || x < 0 || y < 0)
 		return NULL;
 
 	return map[y][x];
@@ -185,4 +194,35 @@ void NpcMap::remove_npc_from_use(int location) {
 
 	if (curr_npc == NULL)
 		return;
+
+	npc(curr_npc);
+	npcs_in_use[location] = NULL;
+}
+
+void NpcMap::remove_npc_from_use(Npc * unused_npc) {
+	int i;
+
+	if (unused_npc == NULL)
+		return;
+	if (npcs_in_use.empty())
+		return;
+
+	for (i = 0; i < npcs_in_use.size(); i++)
+		if (npcs_in_use[i] == unused_npc) {
+			remove_npc_from_use(i);
+			break;
+		}
+}
+
+bool NpcMap::is_in_use(Npc * the_npc) {
+	if (the_npc == NULL)
+		return false;
+	if (npcs_in_use.empty())
+		return false;
+
+	for (auto n : npcs_in_use)
+		if (n == the_npc)
+			return true;
+
+	return false;
 }

@@ -32,6 +32,9 @@ class NpcMap {
 
 		void put_npc_to_use(int x, int y);
 		void remove_npc_from_use(int location);
+		void remove_npc_from_use(Npc * unused_npc);
+
+		bool is_in_use(Npc * the_npc);
 	private:
 		MainData * mdata;
 		int width, height;

@@ -108,7 +108,7 @@ void Map::delete_map() {
 }
 
 Tile::TileObject Map::tile(int x, int y) {
-	if (tile_map == NULL || x >= width || y >= height) {
+	if (tile_map == NULL || x >= width || y >= height || x < 0 || y < 0) {
 		Tile::TileObject tile_obj;
 		tile_obj.id = Tile::NONE;
 		return tile_obj;
@@ -118,7 +118,7 @@ Tile::TileObject Map::tile(int x, int y) {
 }
 
 int Map::tile(Tile::TileObject new_tile, int x, int y) {
-	if (tile_map == NULL || x >= width || y >= height)
+	if (tile_map == NULL || x >= width || y >= height || x < 0 || y < 0)
 		return -1;
 
 	tile_map[y][x] = new_tile;
@@ -126,7 +126,7 @@ int Map::tile(Tile::TileObject new_tile, int x, int y) {
 }
 
 int Map::remove_tile(int x, int y) {
-	if (tile_map == NULL || x >= width || y >= height)
+	if (tile_map == NULL || x >= width || y >= height || x < 0 || y < 0)
 		return -1;
 
 	tile_map[y][x].id = Tile::NONE;
@@ -134,7 +134,7 @@ int Map::remove_tile(int x, int y) {
 }
 
 int Map::item(CommonItem::ItemData new_item, int x, int y) {
-	if (item_map == NULL || x >= width || y >= height)
+	if (item_map == NULL || x >= width || y >= height || x < 0 || y < 0)
 		return -1;
 
 	item_map[y][x] = new_item;
@@ -142,7 +142,7 @@ int Map::item(CommonItem::ItemData new_item, int x, int y) {
 }
 
 CommonItem::ItemData Map::item(int x, int y) {
-	if (item_map == NULL || x >= width || y >= height) {
+	if (item_map == NULL || x >= width || y >= height || x < 0 || y < 0) {
 		CommonItem::ItemData item_obj;
 		item_obj.id = CommonItem::NONE;
 		return item_obj;
@@ -152,7 +152,7 @@ CommonItem::ItemData Map::item(int x, int y) {
 }
 
 int Map::remove_item(int x, int y) {
-	if (item_map == NULL || x >= width || y >= height)
+	if (item_map == NULL || x >= width || y >= height || x < 0 || y < 0)
 		return -1;
 
 	CommonItem::ItemData none_item;

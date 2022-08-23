@@ -23,8 +23,11 @@ void Player::main_init(MainData * md) {
 	world_x = 0;
 	world_y = 0;
 
-	wx(mdata->map->get_width() / 2);
-	wy(mdata->map->get_height() / 2);
+	old_world_x = 0.0;
+	old_world_y = 0.0;
+
+	wx((float)mdata->map->get_width() / 2);
+	wy((float)mdata->map->get_height() / 2);
 }
 
 bool Player::facing_right() {
@@ -43,6 +46,7 @@ void Player::refresh_images() {
 
 void Player::update() {
 	CommonTool * tl = get_current_tool();
+	float p_speed;
 
 	update_player_info();
 
@@ -57,19 +61,19 @@ void Player::update() {
 	if (tl != NULL)
 		tl->update();
 
+	p_speed = (float)mdata->settings.player_speed * mdata->settings.scale;
+
 	// Move in the world.
 	if (dir.right)
-		mdata->map->offset_x(mdata->map->offset_x() - (mdata->settings.player_speed * mdata->settings.scale));
+		world_x += p_speed;
 	if (dir.left)
-		mdata->map->offset_x(mdata->map->offset_x() + (mdata->settings.player_speed * mdata->settings.scale));
+		world_x -= p_speed;
 	if (dir.up)
-		mdata->map->offset_y(mdata->map->offset_y() + (mdata->settings.player_speed * mdata->settings.scale));
+		world_y -= p_speed;
 	if (dir.down)
-		mdata->map->offset_y(mdata->map->offset_y() - (mdata->settings.player_speed * mdata->settings.scale));
+		world_y += p_speed;
 
-	// Update world position.
-	world_x = (x() - mdata->map->offset_x()) / mdata->scale_tile_size;
-	world_y = (y() - mdata->map->offset_y()) / mdata->scale_tile_size;
+	update_map_offset();
 
 	// Slow stuff down.
 	if (last_call_count < (int)roundf(mdata->settings.update_fps 
@@ -128,8 +132,8 @@ void Player::handle_items() {
 
 			// Hits wall or something like that.
 			if ((hit_data[i].things_hit.tile.type & Tile::TYPE_NO_WALKTHROUGH) == Tile::TYPE_NO_WALKTHROUGH) {
-				mdata->map->offset_x(old_map_x_offset);
-				mdata->map->offset_y(old_map_y_offset);
+				wx(old_world_x);
+				wy(old_world_y);
 			}
 		}
 
@@ -141,8 +145,8 @@ void Player::handle_items() {
 		}
 	}
 
-	old_map_x_offset = mdata->map->offset_x();
-	old_map_y_offset = mdata->map->offset_y();
+	old_world_x = world_x;
+	old_world_y = world_y;
 }
 
 void Player::center() {
@@ -197,22 +201,22 @@ void Player::go_left() {
 	tl->move_to_location();
 }
 
-void Player::wx(int world_x) {
+void Player::wx(float world_x) {
 	this->world_x = world_x;
 
 	if (mdata->map == NULL)
 		return;
 
-	mdata->map->offset_x(-(world_x * mdata->scale_tile_size) + x());
+	update_map_offset();
 }
 
-void Player::wy(int world_y) {
+void Player::wy(float world_y) {
 	this->world_y = world_y;
 
 	if (mdata->map == NULL)
 		return;
 
-	mdata->map->offset_y(-(world_y * mdata->scale_tile_size) + y());
+	update_map_offset();
 }
 
 void Player::update_player_info() {
@@ -244,6 +248,11 @@ void Player::update_player_info() {
 	// Update info display.
 	if (mdata->player_info_display != NULL)
 		mdata->player_info_display->update();
+}
+
+void Player::update_map_offset() {
+	mdata->map->offset_x(-(world_x * mdata->scale_tile_size) + x());
+	mdata->map->offset_y(-(world_y * mdata->scale_tile_size) + y());
 }
 
 void Player::next_tool() {

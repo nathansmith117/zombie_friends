@@ -68,6 +68,16 @@ void SubmachineGun::update() {
 		if (bullet_hit_data[i].bullet_id >= bullets.size())
 			continue;
 
+		// Tile.
+		if ((bullet_hit_data[i].type & HIT_TILE) == HIT_TILE) {
+
+			// Hits wall or something like that.
+			if ((bullet_hit_data[i].things_hit.tile.type & Tile::TYPE_NO_WALKTHROUGH) == Tile::TYPE_NO_WALKTHROUGH) {
+				bullet_hit_data[i].hit_handled = true;
+				remove_bullet(bullet_hit_data[i].bullet_id);
+			}
+		}
+
 		// Item.
 		if ((bullet_hit_data[i].type & HIT_ITEM) == HIT_ITEM) {
 			((Character*)item_holder)->add_item(bullet_hit_data[i].things_hit.item);

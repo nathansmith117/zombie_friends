@@ -49,6 +49,8 @@ bool Character::is_moving() {
 
 bool Character::hit_tile(Tile::TileObject tile, int x, int y) {
 	int tile_x, tile_y;
+	int char_x, char_y;
+
 	Fl_PNG_Image * char_image = get_current_image();
 	Fl_PNG_Image * tile_image = Tile::get_image(tile, mdata);
 
@@ -56,12 +58,16 @@ bool Character::hit_tile(Tile::TileObject tile, int x, int y) {
 		return false;
 
 	// Get item x and y.
-	tile_x = x * mdata->scale_tile_size + mdata->map->offset_x();
-	tile_y = y * mdata->scale_tile_size + mdata->map->offset_y();
+	tile_x = x * mdata->scale_tile_size;
+	tile_y = y * mdata->scale_tile_size;
+
+	// Character x and y.
+	char_x = world_x * mdata->scale_tile_size;
+	char_y = world_y * mdata->scale_tile_size;
 
 	return gameTools::did_collide(
-		this->x(),
-		this->y(),
+		char_x,
+		char_y,
 		char_image->w(),
 		char_image->h(),
 		tile_x,
@@ -73,6 +79,8 @@ bool Character::hit_tile(Tile::TileObject tile, int x, int y) {
 
 bool Character::hit_item(CommonItem::ItemData item, int x, int y) {
 	int item_x, item_y;
+	int char_x, char_y;
+
 	Fl_PNG_Image * char_image = get_current_image();
 	Fl_PNG_Image * item_image = CommonItem::get_image(item, mdata);
 
@@ -81,12 +89,16 @@ bool Character::hit_item(CommonItem::ItemData item, int x, int y) {
 		return false;
 
 	// Get item x and y.
-	item_x = x * mdata->scale_tile_size + mdata->map->offset_x();
-	item_y = y * mdata->scale_tile_size + mdata->map->offset_y();
+	item_x = x * mdata->scale_tile_size;
+	item_y = y * mdata->scale_tile_size;
+
+	// Character x and y.
+	char_x = world_x * mdata->scale_tile_size;
+	char_y = world_y * mdata->scale_tile_size;
 
 	return gameTools::did_collide(
-		this->x(),
-		this->y(),
+		char_x,
+		char_y,
 		char_image->w(),
 		char_image->h(),
 		item_x,
@@ -123,10 +135,10 @@ std::vector<CharacterHitData> Character::map_hit() {
 	char_tile_h = (int)roundf((float)current_image->h() / mdata->scale_tile_size);
 
 	// Get start and end locations.
-	start_x = world_x - mdata->settings.map_search_overscan;
-	start_y = world_y - mdata->settings.map_search_overscan;
-	end_x = world_x + char_tile_w + (mdata->settings.map_search_overscan + char_tile_w);
-	end_y = world_y + char_tile_h + (mdata->settings.map_search_overscan + char_tile_h);
+	start_x = wx_rounded() - mdata->settings.map_search_overscan;
+	start_y = wy_rounded() - mdata->settings.map_search_overscan;
+	end_x = wx_rounded() + char_tile_w + (mdata->settings.map_search_overscan + char_tile_w);
+	end_y = wy_rounded() + char_tile_h + (mdata->settings.map_search_overscan + char_tile_h);
 
 	// Check values.
 	start_x = (start_x < 0) ? 0 : start_x;

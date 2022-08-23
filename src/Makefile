@@ -10,11 +10,11 @@ OBJS = main.o appWindow.o player.o image_loader.o game_tools.o weapon.o \
        sword.o map.o tile.o debug_window.o view_window.o top_menu.o \
        character.o tab_menu.o game_tab_menu.o chat_box.o game_commands.o \
        common_item.o common_tool.o player_info_display.o \
-       submachine_gun.o gun.o npc.o evil_puppy.o npc_map.o
+       submachine_gun.o gun.o npc.o evil_puppy.o npc_map.o astar_pathfinder.o
 GAME_TOOLS = image_loader.o game_tools.o weapon.o map.o tile.o player.o \
 	     debug_window.o view_window.o top_menu.o character.o tab_menu.o \
 	     chat_box.o game_commands.o common_item.o common_tool.o \
-	     player_info_display.o npc.o npc_map.o
+	     player_info_display.o npc.o npc_map.o astar_pathfinder.o
 WEAPONS = weapon.o sword.o submachine_gun.o gun.o
 NPCS = npc.o evil_puppy.o
 LIB_DIR = ../lib/
@@ -52,7 +52,7 @@ map.o: map.cpp map.h tile.cpp tile.h game_tools.cpp game_tools.h common_item.cpp
 tile.o: tile.cpp tile.h $(DEH)
 debug_window.o: debug_window.cpp debug_window.h game_tools.cpp game_tools.h character.cpp character.h $(DEH)
 view_window.o: view_window.cpp view_window.h character.cpp character.h tab_menu.cpp tab_menu.h chat_box.cpp \
-	chat_box.h   player.cpp player.h $(DEH)
+	chat_box.h player.cpp player.h npc_map.cpp npc_map.h map.cpp map.h $(DEH)
 top_menu.o: top_menu.cpp top_menu.h debug_window.cpp debug_window.h view_window.cpp view_window.h \
 	game_tools.cpp game_tools.h $(DEH)
 character.o: character.cpp character.h weapon.cpp weapon.h common_item.cpp common_item.h \
@@ -73,10 +73,13 @@ gun.o: weapon.cpp weapon.h game_tools.cpp game_tools.h character.cpp character.h
 	tile.cpp tile.h common_item.cpp common_item.h player.cpp player.h $(DEH)
 npc.o: npc.cpp npc.h character.cpp character.h weapon.cpp weapon.h gun.cpp gun.h \
 	game_tools.cpp game_tools.h map.cpp map.h common_tool.cpp common_tool.h \
-	common_item.cpp common_item.h tile.cpp tile.h $(DEH)
-evil_puppy.o: evil_puppy.cpp evil_puppy.h npc.cpp npc.h game_tools.cpp game_tools.h $(DEH)
+	common_item.cpp common_item.h tile.cpp tile.h npc_map.cpp npc_map.h \
+	astar_pathfinder.cpp astar_pathfinder.h $(DEH)
+evil_puppy.o: evil_puppy.cpp evil_puppy.h npc.cpp npc.h game_tools.cpp game_tools.h npc_map.cpp npc_map.h \
+	player.cpp player.h $(DEH)
 npc_map.o: npc_map.cpp npc_map.h npc.cpp npc.h game_tools.cpp game_tools.h \
 	evil_puppy.cpp evil_puppy.h $(DEH)
+astar_pathfinder.o: astar_pathfinder.cpp astar_pathfinder.h game_tools.cpp game_tools.h tile.cpp tile.h map.cpp map.h $(DEH)
 
 clean:
 	rm *.o
