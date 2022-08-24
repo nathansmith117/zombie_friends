@@ -32,6 +32,4 @@ class Npc : public Character {
 
 		// Update npc even when not shown in view window,
 		bool always_updated;
-
-		// Follow settings.
 };

@@ -46,20 +46,6 @@ void Npc::follow_other_char(Character * other_char, float distance) {
 	}
 	*/
 
-	std::vector<Astar::Point> points;
-
-	points = Astar::find_path(
-		mdata->map, 
-		{wx_rounded(), wy_rounded()},
-		{mdata->player->wx_rounded(), mdata->player->wy_rounded()}
-	);
-
-	for (auto p : points)
-		printf("%d %d | ", p.x, p.y);
-
-	putchar('\n');
-	return;
-
 	// Already there.
 	if (dis <= distance)
 		return;

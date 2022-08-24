@@ -1,5 +1,6 @@
 #include "program_data.h"
 #include "npc.h"
+#include "astar_pathfinder.h"
 #include "game_tools.h"
 
 enum EVIL_PUPPY_FRAME_DIRECTIONS {
@@ -12,6 +13,8 @@ class EvilPuppy : public Npc {
 		EvilPuppy(MainData * md, class NpcMap * npc_map) : Npc(md, npc_map) {
 			main_init(md);
 		}
+
+		~EvilPuppy() { delete path_finder; }
 
 		void update();
 		void handle_items();
@@ -26,6 +29,8 @@ class EvilPuppy : public Npc {
 	private:
 		void main_init(MainData * md);
 		void keep_pos();
+
+		Astar::PathFinder * path_finder = NULL;
 
 		int last_call_count;
 };

@@ -70,9 +70,14 @@ void NpcMap::delete_map() {
 		return;
 	}
 
+	// Delete npcs in use.
 	for (auto n : npcs_in_use)
-		if (n != NULL)
+		if (n != NULL) {
 			delete n;
+			n = NULL;
+		}
+
+	npcs_in_use.clear();
 
 	map = NULL;
 	width = 0;

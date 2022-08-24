@@ -16,7 +16,7 @@ GAME_TOOLS = image_loader.o game_tools.o weapon.o map.o tile.o player.o \
 	     chat_box.o game_commands.o common_item.o common_tool.o \
 	     player_info_display.o npc.o npc_map.o astar_pathfinder.o
 WEAPONS = weapon.o sword.o submachine_gun.o gun.o
-NPCS = npc.o evil_puppy.o
+NPCS = npc.o evil_puppy.o astar_pathfinder.o npc_map.o
 LIB_DIR = ../lib/
 
 %.o: %.cpp
@@ -76,10 +76,11 @@ npc.o: npc.cpp npc.h character.cpp character.h weapon.cpp weapon.h gun.cpp gun.h
 	common_item.cpp common_item.h tile.cpp tile.h npc_map.cpp npc_map.h \
 	astar_pathfinder.cpp astar_pathfinder.h $(DEH)
 evil_puppy.o: evil_puppy.cpp evil_puppy.h npc.cpp npc.h game_tools.cpp game_tools.h npc_map.cpp npc_map.h \
-	player.cpp player.h $(DEH)
+	player.cpp player.h astar_pathfinder.cpp astar_pathfinder.h $(DEH)
 npc_map.o: npc_map.cpp npc_map.h npc.cpp npc.h game_tools.cpp game_tools.h \
 	evil_puppy.cpp evil_puppy.h $(DEH)
-astar_pathfinder.o: astar_pathfinder.cpp astar_pathfinder.h game_tools.cpp game_tools.h tile.cpp tile.h map.cpp map.h $(DEH)
+astar_pathfinder.o: astar_pathfinder.cpp astar_pathfinder.h game_tools.cpp game_tools.h tile.cpp tile.h map.cpp map.h \
+	character.cpp character.h $(DEH)
 
 clean:
 	rm *.o

@@ -9,14 +9,27 @@ void EvilPuppy::main_init(MainData * md) {
 
 	// Config.
 	always_updated = true;
+
+	path_finder = new Astar::PathFinder(mdata);
+	path_finder->set_character(this);
+	path_finder->set_target(mdata->player);
 }
 
 void EvilPuppy::update() {
+
+	if (mdata->player == NULL)
+		return;
+
 	last_call_count++;
 
-	follow_other_char(mdata->player, 2);
+	//follow_other_char(mdata->player, 2);
 
-	float a_speed = (float)mdata->settings.player_speed * mdata->settings.scale;
+	path_finder->update();
+	path_finder->set_target(mdata->player);
+
+	//printf("%d %d\n", path_finder->get_current_point().x, path_finder->get_current_point().y);
+
+	float a_speed = (float)mdata->settings.player_speed / 2 * mdata->settings.scale;
 
 	if (dir.right)
 		world_x += a_speed;
@@ -58,7 +71,6 @@ void EvilPuppy::update() {
 		else
 			frame = EVIL_PUPPY_LEFT;
 	}
-
 }
 
 void EvilPuppy::handle_items() {
