@@ -43,14 +43,16 @@ namespace Astar {
 	};
 
 	int get_dis(Point p1, Point p2);
-	std::vector<Point> find_path(Map * map, Point start_point, Point end_point, int safe_zone_size=0);
+	std::vector<Point> find_path(Map * map, Point start_point, Point end_point, int safe_zone_width=0, int safe_zone_height=0);
 
-	bool is_walkable_zone(Map * map, Point pos, int safe_zone_size);
+	bool is_walkable_zone(Map * map, Point pos, int safe_zone_width, int safe_zone_height);
 	Point get_character_point(Character * character);
 
 	struct PathFinderSettings {
 		int dis_intel_update = 0;
-		int safe_zone_size = 1;
+
+		int safe_zone_width = 1;
+		int safe_zone_height = 1;
 	};
 
 	class PathFinder {

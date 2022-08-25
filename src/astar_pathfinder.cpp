@@ -5,7 +5,7 @@ namespace Astar {
 		return (int)(hypotf(p2.x - p1.x, p2.y - p1.y) * 10.0);
 	}
 
-	std::vector<Point> find_path(Map * map, Point start_point, Point end_point, int safe_zone_size) {
+	std::vector<Point> find_path(Map * map, Point start_point, Point end_point, int safe_zone_width, int safe_zone_height) {
 		int i;
 		int x, y;
 		int new_x, new_y;
@@ -39,8 +39,7 @@ namespace Astar {
 		open_nodes.push_back(new_node);
 
 		int node_index;
-
-		hypot_safe_zone_size = get_dis({0, 0,}, {safe_zone_size, safe_zone_size});
+		bool close_to_end;
 
 		while (!open_nodes.empty()) {
 			curr_node = open_nodes[0];
@@ -100,14 +99,25 @@ namespace Astar {
 
 					in_closed = false;
 					in_open = false;
+					close_to_end = false;
 
 					new_pos = {new_x, new_y};
 
 					// Check safe zone.
 					// Safe zone not used when close to end.
-					if (safe_zone_size > 0) {
-						if (!is_walkable_zone(map, new_pos, safe_zone_size) &&
-							hypot_safe_zone_size < get_dis(new_pos, end_point))
+					if (safe_zone_width > 0 || safe_zone_height > 0) {
+						close_to_end = gameTools::did_collide(
+							new_pos.x - (safe_zone_width / 2),
+							new_pos.y - (safe_zone_height / 2),
+							safe_zone_width,
+							safe_zone_height,
+							end_point.x,
+							end_point.y,
+							1,
+							1
+						);
+
+						if (!is_walkable_zone(map, new_pos, safe_zone_width, safe_zone_height) && !close_to_end)
 							continue;
 					}
 
@@ -145,7 +155,7 @@ namespace Astar {
 		return points;
 	}
 
-	bool is_walkable_zone(Map * map, Point pos, int safe_zone_size) {
+	bool is_walkable_zone(Map * map, Point pos, int safe_zone_width, int safe_zone_height) {
 		int x, y;
 		int map_x, map_y;
 		Tile::TileObject curr_tile;
@@ -155,12 +165,12 @@ namespace Astar {
 			return false;
 		if (map->map_data() == NULL)
 			return false;
-		if (safe_zone_size <= 0)
+		if (safe_zone_width <= 0 && safe_zone_height <= 0)
 			return true;
 
 		// Check map around pos.
-		for (y = -safe_zone_size; y < safe_zone_size + 1; y++)
-			for (x = -safe_zone_size; x < safe_zone_size + 1; x++) {
+		for (y = -safe_zone_height; y < safe_zone_height + 1; y++)
+			for (x = -safe_zone_width; x < safe_zone_width + 1; x++) {
 				map_x = pos.x + x;
 				map_y = pos.y + y;
 
@@ -270,7 +280,8 @@ namespace Astar {
 			mdata->map, 
 			get_character_point(character), 
 			target,
-			settings.safe_zone_size
+			settings.safe_zone_width,
+			settings.safe_zone_height
 		);
 	}
 }
