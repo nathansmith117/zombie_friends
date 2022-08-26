@@ -28,7 +28,6 @@ class EvilPuppy : public Npc {
 		void refresh_images();
 	private:
 		void main_init(MainData * md);
-		void keep_pos();
 
 		Astar::PathFinder * path_finder = NULL;
 

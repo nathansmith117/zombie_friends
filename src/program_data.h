@@ -172,6 +172,9 @@ struct Settings {
 
 	// Play info.
 	int player_info_output_height = 20;
+
+	// Npc map.
+	int npc_map_overscan = 2;
 };
 
 struct WeaponImages {

@@ -24,8 +24,6 @@ class Npc : public Character {
 
 		// Put this in update function.
 		virtual void keep_position();
-
-		void follow_other_char(Character * other_char, float distance);
 	protected:
 
 		class NpcMap * npc_map;

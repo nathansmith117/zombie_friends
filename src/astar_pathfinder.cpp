@@ -199,6 +199,7 @@ namespace Astar {
 		mdata = md;
 
 		target = {0, 0};
+		target_at_start = {0, 0};
 		reset();
 	}
 
@@ -222,14 +223,13 @@ namespace Astar {
 
 		// Target changed.
 		if (target != old_target) {
-			start_path();
-			return false;
+			if (hypotf(target.x - target_at_start.x, target.y - target_at_start.y) >= settings.dis_intel_update) {
+				start_path();
+				return false;
+			}
 		}
 
 		old_target = target;
-
-		if (character == NULL)
-			return false;
 
 		// Start path.
 		if (points.empty()) {
@@ -241,13 +241,16 @@ namespace Astar {
 		if (finished())
 			return true;
 
+		if (character == NULL)
+			return false;
+
 		dir = character->direction();
 		*dir = NO_MOVEMENT;
 
+		curr_point = points[current_point];
+
 		char_x = character->wx_rounded();
 		char_y = character->wy_rounded();
-
-		curr_point = points[current_point];
 
 		// Next point.
 		if (char_x == curr_point.x && char_y == curr_point.y) {
@@ -283,5 +286,7 @@ namespace Astar {
 			settings.safe_zone_width,
 			settings.safe_zone_height
 		);
+
+		target_at_start = target;
 	}
 }

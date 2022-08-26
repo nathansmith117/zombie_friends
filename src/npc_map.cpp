@@ -48,7 +48,9 @@ int NpcMap::create_map(int width, int height) {
 
 	// Debug.
 	npc(new EvilPuppy(mdata, this), 5, 5);
-	put_npc_to_use(5, 5);
+	EvilPuppy * evil_puppy = new EvilPuppy(mdata, this);
+	evil_puppy->set_always_updated(false);
+	npc(evil_puppy, 2, 2);
 
 	return 0;
 }
@@ -99,6 +101,10 @@ int NpcMap::npc(Npc * new_npc, int x, int y) {
 	}
 
 	map[y][x] = new_npc;
+
+	if (new_npc->get_always_updated())
+		put_npc_to_use(x, y);
+
 	return 0;
 }
 
@@ -159,17 +165,123 @@ void NpcMap::draw() {
 }
 
 void NpcMap::update() {
+	int x, y;
+	int view_w, view_h;
+	int start_x, start_y, end_x, end_y;
+	int x_offset, y_offset;
+
+	Npc * curr_npc = NULL;
+	Fl_PNG_Image * npc_image = NULL;
+
 	update_npcs_in_use();
+
+	// Add more npcs to map.
+	if (map == NULL || mdata->map == NULL)
+		return;
+
+	view_w = mdata->view_win->w();
+	view_h = mdata->view_win->h();
+
+	x_offset = mdata->map->offset_x();
+	y_offset = mdata->map->offset_y();
+
+	// Set start and end values.
+	start_x = -x_offset / mdata->scale_tile_size - mdata->settings.npc_map_overscan;
+	start_y = -y_offset / mdata->scale_tile_size - mdata->settings.npc_map_overscan;
+	start_x = (start_x < 0) ? 0 : start_x;
+	start_y = (start_y < 0) ? 0 : start_y;
+
+	end_x = (view_w / mdata->scale_tile_size) 
+		- ((x_offset / mdata->scale_tile_size) - start_x) + mdata->settings.view_overscan;
+	end_y = (view_h / mdata->scale_tile_size) 
+		- ((y_offset / mdata->scale_tile_size) - start_y) + mdata->settings.view_overscan;
+
+	end_x = (end_x > width) ? width : end_x;
+	end_y = (end_y > height) ? height : end_y;
+
+	// printf("%d %d | %d %d\n", start_x, end_x, start_y, end_y);
+	printf("%ld %ld\n", npcs_in_use.size(), clock());
+
+	for (y = start_y; y < end_y; y++)
+		for (x = start_x; x < end_x; x++) {
+			curr_npc = map[y][x];
+
+			if (curr_npc == NULL)
+				continue;
+
+			curr_npc->keep_position(); // Set position for checking if on map.
+			npc_image = curr_npc->get_current_image();
+
+			if (npc_image == NULL)
+				continue;
+
+			// Out of view.
+			if (!gameTools::did_collide(
+				curr_npc->x(),
+				curr_npc->y(),
+				npc_image->w(),
+				npc_image->h(),
+				0,
+				0,
+				view_w,
+				view_h
+			))
+				continue;
+
+			put_npc_to_use(x, y);
+		}
 }
 
 void NpcMap::update_npcs_in_use() {
+	int i;
+	bool on_view_win;
+	Fl_PNG_Image * npc_image = NULL;
+
+	Npc * curr_npc = NULL;
+
+	if (mdata->view_win == NULL)
+		return;
+
 	if (npcs_in_use.empty())
 		return;
 
 	// Update npcs.
-	for (auto n : npcs_in_use)
-		if (n != NULL)
-			n->update();
+	for (i = 0; i < npcs_in_use.size(); i++) {
+		curr_npc = npcs_in_use[i];
+
+		// Remove null npcs.
+		if (curr_npc == NULL)
+			continue;
+
+		// Update.
+		curr_npc->update();
+
+		if (curr_npc->get_always_updated())
+			continue;
+
+		// Get current npc image for getting width and height.
+		npc_image = curr_npc->get_current_image();
+
+		if (npc_image == NULL)
+			continue;
+
+		// Is on view window.
+		on_view_win = gameTools::did_collide(
+			curr_npc->x(),
+			curr_npc->y(),
+			npc_image->w(),
+			npc_image->h(),
+			0,
+			0,
+			mdata->view_win->w(),
+			mdata->view_win->h()
+		);
+
+		if (on_view_win)
+			continue;
+
+		remove_npc_from_use(i);
+	}
 
 	// Remove last npc if null.
 	if (npcs_in_use.back() == NULL)

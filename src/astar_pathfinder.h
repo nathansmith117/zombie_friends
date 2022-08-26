@@ -49,10 +49,10 @@ namespace Astar {
 	Point get_character_point(Character * character);
 
 	struct PathFinderSettings {
-		int dis_intel_update = 0;
+		float dis_intel_update = 0.0;
 
-		int safe_zone_width = 1;
-		int safe_zone_height = 1;
+		int safe_zone_width = 0;
+		int safe_zone_height = 0;
 	};
 
 	class PathFinder {
@@ -88,6 +88,7 @@ namespace Astar {
 			
 			Point target;
 			Point old_target;
+			Point target_at_start;
 
 			PathFinderSettings settings;
 

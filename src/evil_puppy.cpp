@@ -13,6 +13,13 @@ void EvilPuppy::main_init(MainData * md) {
 	path_finder = new Astar::PathFinder(mdata);
 	path_finder->set_character(this);
 	path_finder->set_target(mdata->player);
+
+	Astar::PathFinderSettings pathfinder_settings;
+	pathfinder_settings.dis_intel_update = 2.0;
+	pathfinder_settings.safe_zone_width = 1;
+	pathfinder_settings.safe_zone_height = 1;
+
+	path_finder->set_settings(pathfinder_settings);
 }
 
 void EvilPuppy::update() {
@@ -40,7 +47,7 @@ void EvilPuppy::update() {
 	if (dir.down)
 		world_y += a_speed;
 
-	keep_pos();
+	keep_position();
 
 	// Slow stuff down.
 	if (last_call_count < (int)roundf(mdata->settings.update_fps 
@@ -119,9 +126,4 @@ bool EvilPuppy::facing_left() {
 void EvilPuppy::refresh_images() {
 	images(gameTools::copy_image_list(mdata->scaled_images.npc.evil_puppy));
 	refresh_tool_images();
-}
-
-void EvilPuppy::keep_pos() {
-	x((world_x * mdata->scale_tile_size) + mdata->map->offset_x());
-	y((world_y * mdata->scale_tile_size) + mdata->map->offset_y());
 }
