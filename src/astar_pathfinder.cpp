@@ -288,5 +288,6 @@ namespace Astar {
 		);
 
 		target_at_start = target;
+		old_target = target;
 	}
 }

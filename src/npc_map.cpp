@@ -128,7 +128,6 @@ int NpcMap::remove(int x, int y) {
 
 void NpcMap::draw() {
 	Fl_PNG_Image * curr_image = NULL;
-	bool collided;
 
 	if (npcs_in_use.empty())
 		return;
@@ -145,18 +144,7 @@ void NpcMap::draw() {
 			continue;
 
 		// Check if on view window.
-		collided = gameTools::did_collide(
-			n->x(),
-			n->y(),
-			curr_image->w(),
-			curr_image->h(),
-			0,
-			0,
-			mdata->view_win->w(),
-			mdata->view_win->h()
-		);
-
-		if (!collided)
+		if (!n->is_on_view_window())
 			continue;
 
 		// Draw npc.
@@ -216,16 +204,7 @@ void NpcMap::update() {
 				continue;
 
 			// Out of view.
-			if (!gameTools::did_collide(
-				curr_npc->x(),
-				curr_npc->y(),
-				npc_image->w(),
-				npc_image->h(),
-				0,
-				0,
-				view_w,
-				view_h
-			))
+			if (!curr_npc->is_on_view_window())
 				continue;
 
 			put_npc_to_use(x, y);
@@ -234,7 +213,6 @@ void NpcMap::update() {
 
 void NpcMap::update_npcs_in_use() {
 	int i;
-	bool on_view_win;
 	Fl_PNG_Image * npc_image = NULL;
 
 	Npc * curr_npc = NULL;
@@ -266,18 +244,7 @@ void NpcMap::update_npcs_in_use() {
 			continue;
 
 		// Is on view window.
-		on_view_win = gameTools::did_collide(
-			curr_npc->x(),
-			curr_npc->y(),
-			npc_image->w(),
-			npc_image->h(),
-			0,
-			0,
-			mdata->view_win->w(),
-			mdata->view_win->h()
-		);
-
-		if (on_view_win)
+		if (curr_npc->is_on_view_window())
 			continue;
 
 		remove_npc_from_use(i);
