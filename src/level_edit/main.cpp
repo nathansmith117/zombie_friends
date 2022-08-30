@@ -7,9 +7,10 @@
 #include "map.h"
 #include "player.h"
 #include "edit_tab_menu.h"
+#include "loader_file_handling.h"
 
 void load_first_images(MainData * mdata) {
-	gameTools::load_images_from_loader_file(mdata, "../../image_list.il");
+	load_images_from_loader_file(mdata, "../../image_list.il");
 }
 
 int main(int argc, char ** argv) {

@@ -2,6 +2,10 @@
 #include "npc_map.h"
 #include "player.h"
 
+EvilPuppy::~EvilPuppy() {
+	delete path_finder;
+}
+
 void EvilPuppy::main_init(MainData * md) {
 	mdata = md;
 	
@@ -15,11 +19,15 @@ void EvilPuppy::main_init(MainData * md) {
 	path_finder->set_target(mdata->player);
 
 	Astar::PathFinderSettings pathfinder_settings;
-	pathfinder_settings.dis_intel_update = 2.0;
-	pathfinder_settings.safe_zone_width = 1;
+	pathfinder_settings.dis_intel_update = 1.0;
+	pathfinder_settings.safe_zone_width = 2;
 	pathfinder_settings.safe_zone_height = 1;
+	pathfinder_settings.character_is_npc = true;
+	pathfinder_settings.thread_speed = 10;
+	// pathfinder_settings.try_after_path_failed = true;
 
 	path_finder->set_settings(pathfinder_settings);
+	path_finder->start_thread();
 }
 
 void EvilPuppy::update() {
@@ -29,12 +37,8 @@ void EvilPuppy::update() {
 
 	last_call_count++;
 
-	//follow_other_char(mdata->player, 2);
-
-	path_finder->update();
+	//path_finder->update();
 	path_finder->set_target(mdata->player);
-
-	//printf("%d %d\n", path_finder->get_current_point().x, path_finder->get_current_point().y);
 
 	float a_speed = (float)mdata->settings.player_speed / 2 * mdata->settings.scale;
 

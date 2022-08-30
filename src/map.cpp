@@ -253,7 +253,7 @@ void Map::draw() {
 				mdata, 
 				tile_map[y][x], 
 				(x * mdata->scale_tile_size) + x_offset, 
-				(y * mdata->scale_tile_size ) + y_offset
+				(y * mdata->scale_tile_size) + y_offset
 			);
 
 			// Draw item.

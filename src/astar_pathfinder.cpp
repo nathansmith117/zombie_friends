@@ -203,23 +203,78 @@ namespace Astar {
 		reset();
 	}
 
+	PathFinder::~PathFinder() {
+		stop_thread();
+	}
+
 	void PathFinder::set_target(Character * character) {
 		if (character == NULL)
 			return;
 
 		target = get_character_point(character);
 	}
+
+	void PathFinder::update_thread_cb(PathFinder * path_finder) {
+		while (!path_finder->should_stop_thread) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(path_finder->settings.thread_speed));
+
+			// If npc is not being updated.
+			if (path_finder->settings.character_is_npc && path_finder->character != NULL)
+				if (!((Npc*)path_finder->character)->get_being_updated())
+					continue;
+
+			path_finder->update();
+		}
+	}
+
+	void PathFinder::start_thread() {
+
+		// Already using thread.
+		if (update_thread != NULL)
+			return;
+
+		should_stop_thread = false;
+		update_thread = new std::thread(update_thread_cb, this);
+	}
+
+	void PathFinder::stop_thread() {
+		if (update_thread == NULL)
+			return;
+
+		should_stop_thread = true;
+		update_thread->join();
+
+		delete update_thread;
+		update_thread = NULL;
+	}
 	
 	void PathFinder::reset() {
 		points.clear();
 		current_point = 0;
 		old_target = target;
+		path_failed = false;
 	}
 
 	bool PathFinder::update() {
 		int char_x, char_y;
 		gameTools::Direction * dir = NULL;
 		Point curr_point;
+
+		if (character == NULL)
+			return false;
+		if (mdata->map == NULL)
+			return false;
+
+		dir = character->direction();
+		*dir = NO_MOVEMENT;
+
+		char_x = character->wx_rounded();
+		char_y = character->wy_rounded();
+
+		// To far from target.
+		if (settings.max_dis != -1)
+			if (hypotf(target.x - character->wx(), target.y - character->wy()) > settings.max_dis)
+				return false;
 
 		// Target changed.
 		if (target != old_target) {
@@ -231,6 +286,9 @@ namespace Astar {
 
 		old_target = target;
 
+		if (path_failed && !settings.try_after_path_failed)
+			return false;
+
 		// Start path.
 		if (points.empty()) {
 			start_path();
@@ -241,16 +299,7 @@ namespace Astar {
 		if (finished())
 			return true;
 
-		if (character == NULL)
-			return false;
-
-		dir = character->direction();
-		*dir = NO_MOVEMENT;
-
 		curr_point = points[current_point];
-
-		char_x = character->wx_rounded();
-		char_y = character->wy_rounded();
 
 		// Next point.
 		if (char_x == curr_point.x && char_y == curr_point.y) {
@@ -286,6 +335,9 @@ namespace Astar {
 			settings.safe_zone_width,
 			settings.safe_zone_height
 		);
+
+		if (points.empty())
+			path_failed = true;
 
 		target_at_start = target;
 		old_target = target;

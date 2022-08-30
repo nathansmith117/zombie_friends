@@ -14,7 +14,7 @@ class EvilPuppy : public Npc {
 			main_init(md);
 		}
 
-		~EvilPuppy() { delete path_finder; }
+		~EvilPuppy();
 
 		void update();
 		void handle_items();

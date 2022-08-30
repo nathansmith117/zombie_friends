@@ -131,15 +131,8 @@ namespace gameTools {
 	int str_to_int(const char * str, size_t n, int * int_value, bool force_hex=false);
 	int char_to_int(char c); // -1 on error.
 	int hex_char_to_int(char c);
-	
-	// Loading stuff.
-	std::vector<std::string> get_paths_with_label(const char * image_loader_path, const char * label);
-	int load_images_from_loader_file(MainData * mdata, const char * file_path, const char * image_folder=NULL);
 
-	int load_player_images(MainData * mdata, const char * file_path, const char * img_location);
-	int load_weapon_images(MainData * mdata, const char * file_path, const char * img_location);
-	int load_world_images(MainData * mdata, const char * file_path, const char * img_location);
-	int load_npc_images(MainData * mdata, const char * file_path, const char * img_location);
+	std::vector<std::string> get_paths_with_label(const char * image_loader_path, const char * label);
 
 	// File types for game data.
 	enum GameDataFileTypes {

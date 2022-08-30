@@ -5,6 +5,7 @@
 #include "tile.h"
 #include "map.h"
 #include "character.h"
+#include "npc.h"
 
 namespace Astar {
 	struct Point {
@@ -53,11 +54,23 @@ namespace Astar {
 
 		int safe_zone_width = 0;
 		int safe_zone_height = 0;
+
+		// -1 for no max distance.
+		float max_dis = -1.0;
+
+		// Thread speed (milliseconds).
+		int thread_speed = 10;
+
+		bool character_is_npc = false;
+
+		// Try to find path even if last one failed.
+		bool try_after_path_failed = false;
 	};
 
 	class PathFinder {
 		public:
 			PathFinder(MainData * md);
+			~PathFinder();
 
 			void set_character(Character * character) { this->character = character; }
 			Character * get_character() { return character; }
@@ -76,6 +89,9 @@ namespace Astar {
 			int get_current_point_locat() { return current_point; }
 			Point get_current_point() { return points[current_point]; }
 
+			void start_thread();
+			void stop_thread();
+
 			void reset();
 			bool finished() { return current_point >= points.size() - 1; }
 
@@ -89,6 +105,13 @@ namespace Astar {
 			Point target;
 			Point old_target;
 			Point target_at_start;
+
+			bool path_failed;
+
+			// Threading.
+			static void update_thread_cb(PathFinder * path_finder);
+			std::thread * update_thread = NULL;
+			bool should_stop_thread;
 
 			PathFinderSettings settings;
 

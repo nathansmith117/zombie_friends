@@ -102,8 +102,10 @@ int NpcMap::npc(Npc * new_npc, int x, int y) {
 
 	map[y][x] = new_npc;
 
-	if (new_npc->get_always_updated())
-		put_npc_to_use(x, y);
+	// Put npc to use if always updated.
+	if (new_npc != NULL)
+		if (new_npc->get_always_updated())
+			put_npc_to_use(x, y);
 
 	return 0;
 }
@@ -127,7 +129,6 @@ int NpcMap::remove(int x, int y) {
 }
 
 void NpcMap::draw() {
-	Fl_PNG_Image * curr_image = NULL;
 
 	if (npcs_in_use.empty())
 		return;
@@ -135,12 +136,6 @@ void NpcMap::draw() {
 	// Draw npcs.
 	for (auto n : npcs_in_use) {
 		if (n == NULL)
-			continue;
-
-		// Get image. For check if on view window not for drawing.
-		curr_image = n->get_current_image();
-
-		if (curr_image == NULL)
 			continue;
 
 		// Check if on view window.
@@ -159,7 +154,6 @@ void NpcMap::update() {
 	int x_offset, y_offset;
 
 	Npc * curr_npc = NULL;
-	Fl_PNG_Image * npc_image = NULL;
 
 	update_npcs_in_use();
 
@@ -188,19 +182,12 @@ void NpcMap::update() {
 	end_y = (end_y > height) ? height : end_y;
 
 	// printf("%d %d | %d %d\n", start_x, end_x, start_y, end_y);
-	printf("%ld %ld\n", npcs_in_use.size(), clock());
 
 	for (y = start_y; y < end_y; y++)
 		for (x = start_x; x < end_x; x++) {
 			curr_npc = map[y][x];
 
 			if (curr_npc == NULL)
-				continue;
-
-			curr_npc->keep_position(); // Set position for checking if on map.
-			npc_image = curr_npc->get_current_image();
-
-			if (npc_image == NULL)
 				continue;
 
 			// Out of view.
@@ -213,7 +200,6 @@ void NpcMap::update() {
 
 void NpcMap::update_npcs_in_use() {
 	int i;
-	Fl_PNG_Image * npc_image = NULL;
 
 	Npc * curr_npc = NULL;
 
@@ -227,7 +213,6 @@ void NpcMap::update_npcs_in_use() {
 	for (i = 0; i < npcs_in_use.size(); i++) {
 		curr_npc = npcs_in_use[i];
 
-		// Remove null npcs.
 		if (curr_npc == NULL)
 			continue;
 
@@ -235,12 +220,6 @@ void NpcMap::update_npcs_in_use() {
 		curr_npc->update();
 
 		if (curr_npc->get_always_updated())
-			continue;
-
-		// Get current npc image for getting width and height.
-		npc_image = curr_npc->get_current_image();
-
-		if (npc_image == NULL)
 			continue;
 
 		// Is on view window.
@@ -262,6 +241,7 @@ void NpcMap::put_npc_to_use(int x, int y) {
 		return;
 
 	// Add to 'npcs_in_use'.
+	curr_npc->set_being_updated(true);
 	npcs_in_use.push_back(curr_npc);
 
 	// Remove from map (without deleting).
@@ -279,6 +259,7 @@ void NpcMap::remove_npc_from_use(int location) {
 	if (curr_npc == NULL)
 		return;
 
+	curr_npc->set_being_updated(false);
 	npc(curr_npc);
 	npcs_in_use[location] = NULL;
 }

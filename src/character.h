@@ -27,7 +27,7 @@ class Character : public Fl_Widget {
 
 			world_x = 0.0;
 			world_y = 0.0;
-//
+
 			coins = 0;
 			heath = 0;
 

@@ -10,11 +10,13 @@ OBJS = main.o appWindow.o player.o image_loader.o game_tools.o weapon.o \
        sword.o map.o tile.o debug_window.o view_window.o top_menu.o \
        character.o tab_menu.o game_tab_menu.o chat_box.o game_commands.o \
        common_item.o common_tool.o player_info_display.o \
-       submachine_gun.o gun.o npc.o evil_puppy.o npc_map.o astar_pathfinder.o
+       submachine_gun.o gun.o npc.o evil_puppy.o npc_map.o astar_pathfinder.o \
+       loader_file_handling.o
 GAME_TOOLS = image_loader.o game_tools.o weapon.o map.o tile.o player.o \
 	     debug_window.o view_window.o top_menu.o character.o tab_menu.o \
 	     chat_box.o game_commands.o common_item.o common_tool.o \
-	     player_info_display.o npc.o npc_map.o astar_pathfinder.o
+	     player_info_display.o npc.o npc_map.o astar_pathfinder.o \
+	     loader_file_handling.o
 WEAPONS = weapon.o sword.o submachine_gun.o gun.o
 NPCS = npc.o evil_puppy.o astar_pathfinder.o npc_map.o
 LIB_DIR = ../lib/
@@ -80,7 +82,8 @@ evil_puppy.o: evil_puppy.cpp evil_puppy.h npc.cpp npc.h game_tools.cpp game_tool
 npc_map.o: npc_map.cpp npc_map.h npc.cpp npc.h game_tools.cpp game_tools.h \
 	evil_puppy.cpp evil_puppy.h $(DEH)
 astar_pathfinder.o: astar_pathfinder.cpp astar_pathfinder.h game_tools.cpp game_tools.h tile.cpp tile.h map.cpp map.h \
-	character.cpp character.h $(DEH)
+	character.cpp character.h npc.cpp npc.h $(DEH)
+loader_file_handling.o: loader_file_handling.cpp loader_file_handling.h image_loader.cpp image_loader.h game_tools.cpp game_tools.h $(DEH)
 
 clean:
 	rm *.o

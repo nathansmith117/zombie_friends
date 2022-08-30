@@ -1,0 +1,162 @@
+Starting game
+Version: Still in building
+release date: 0 0 0
+build date: Aug 27 2022
+FLTK abi version: 10300
+User: nathan
+Program Directory: /home/nathan/Desktop/zombie_friends/
+Log file path: /home/nathan/Desktop/zombie_friends/logs/2022-7-27-1661661993.txt
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_right.png
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_left.png
+Finished loading 2 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/null.png
+Loading /home/nathan/Desktop/zombie_friends/images/grass.png
+Loading /home/nathan/Desktop/zombie_friends/images/dirt.png
+Loading /home/nathan/Desktop/zombie_friends/images/gravel.png
+Loading /home/nathan/Desktop/zombie_friends/images/heart.png
+Loading /home/nathan/Desktop/zombie_friends/images/coin.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_right.png
+Finished loading 8 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/testing_image.png
+Finished loading 1 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+New map created width: 20, height: 20
+Map loaded from map_data.mp
+Open size: 0, Closed size: 364
+No path found
+Open size: 23, Closed size: 6
+Open size: 13, Closed size: 6
+Open size: 17, Closed size: 10
+Open size: 11, Closed size: 4
+Open size: 11, Closed size: 3
+Open size: 15, Closed size: 8
+Map deleted
+New map created width: 100, height: 100
+Map loaded from /home/nathan/Desktop/zombie_friends/weird_map.mp
+Open size: 27, Closed size: 20
+Open size: 21, Closed size: 14
+Open size: 23, Closed size: 13
+Open size: 23, Closed size: 10
+Open size: 27, Closed size: 12
+Open size: 13, Closed size: 6
+Open size: 17, Closed size: 10
+Open size: 19, Closed size: 12
+Open size: 21, Closed size: 14
+Open size: 23, Closed size: 16
+Open size: 27, Closed size: 22
+Open size: 11, Closed size: 4
+Open size: 15, Closed size: 6
+Open size: 0, Closed size: 9613
+No path found
+Open size: 0, Closed size: 9613
+No path found
+Open size: 127, Closed size: 1924
+Open size: 133, Closed size: 1773
+Open size: 142, Closed size: 1648
+Open size: 163, Closed size: 1440
+Open size: 182, Closed size: 1188
+Open size: 180, Closed size: 934
+Open size: 169, Closed size: 787
+Open size: 132, Closed size: 575
+Open size: 116, Closed size: 443
+Open size: 94, Closed size: 338
+Open size: 82, Closed size: 262
+Open size: 92, Closed size: 319
+Open size: 98, Closed size: 358
+Open size: 105, Closed size: 387
+Open size: 113, Closed size: 429
+Open size: 97, Closed size: 337
+Open size: 88, Closed size: 269
+Open size: 79, Closed size: 200
+Open size: 63, Closed size: 147
+Open size: 60, Closed size: 112
+Open size: 52, Closed size: 66
+Open size: 33, Closed size: 29
+Open size: 48, Closed size: 76
+Open size: 47, Closed size: 65
+Open size: 48, Closed size: 80
+Open size: 50, Closed size: 85
+Open size: 47, Closed size: 107
+Open size: 48, Closed size: 113
+Open size: 46, Closed size: 117
+Open size: 45, Closed size: 134
+Open size: 33, Closed size: 131
+Open size: 27, Closed size: 128
+Open size: 25, Closed size: 127
+Open size: 26, Closed size: 128
+Open size: 30, Closed size: 132
+Open size: 29, Closed size: 131
+Open size: 0, Closed size: 9613
+No path found
+Open size: 33, Closed size: 123
+Open size: 22, Closed size: 39
+Open size: 12, Closed size: 35
+Open size: 12, Closed size: 21
+Open size: 9, Closed size: 18
+Open size: 9, Closed size: 16
+Open size: 9, Closed size: 12
+Open size: 7, Closed size: 7
+Open size: 5, Closed size: 4
+Open size: 4, Closed size: 2
+Open size: 3, Closed size: 5
+Open size: 5, Closed size: 5
+Open size: 5, Closed size: 3
+Open size: 7, Closed size: 4
+Open size: 8, Closed size: 4
+Open size: 14, Closed size: 8
+Open size: 16, Closed size: 11
+Open size: 19, Closed size: 13
+Open size: 20, Closed size: 11
+Open size: 17, Closed size: 9
+Open size: 13, Closed size: 16
+Open size: 12, Closed size: 22
+Open size: 15, Closed size: 11
+Open size: 13, Closed size: 9
+Open size: 15, Closed size: 11
+Open size: 16, Closed size: 14
+Open size: 16, Closed size: 17
+Open size: 18, Closed size: 14
+Open size: 17, Closed size: 15
+Open size: 53, Closed size: 137
+Open size: 58, Closed size: 146
+Open size: 64, Closed size: 157
+Open size: 0, Closed size: 9613
+No path found
+Open size: 0, Closed size: 9613
+No path found
+
+Closing window.
+Map deleted
