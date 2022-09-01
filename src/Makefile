@@ -59,7 +59,8 @@ top_menu.o: top_menu.cpp top_menu.h debug_window.cpp debug_window.h view_window.
 	game_tools.cpp game_tools.h $(DEH)
 character.o: character.cpp character.h weapon.cpp weapon.h common_item.cpp common_item.h \
 	  game_tools.cpp game_tools.h map.cpp map.h \
-	common_tool.cpp common_tool.h gun.cpp gun.h sword.cpp sword.h submachine_gun.cpp submachine_gun.h $(DEH)
+	common_tool.cpp common_tool.h gun.cpp gun.h sword.cpp sword.h submachine_gun.cpp submachine_gun.h \
+	npc_map.cpp npc_map.h $(DEH)
 tab_menu.o: tab_menu.cpp tab_menu.h $(DEH)
 game_tab_menu.o: game_tab_menu.cpp game_tab_menu.h tab_menu.cpp tab_menu.h debug_window.cpp debug_window.h \
 	chat_box.cpp chat_box.h game_commands.cpp game_commands.h player_info_display.cpp player_info_display.h $(DEH)
@@ -76,13 +77,13 @@ gun.o: weapon.cpp weapon.h game_tools.cpp game_tools.h character.cpp character.h
 npc.o: npc.cpp npc.h character.cpp character.h weapon.cpp weapon.h gun.cpp gun.h \
 	game_tools.cpp game_tools.h map.cpp map.h common_tool.cpp common_tool.h \
 	common_item.cpp common_item.h tile.cpp tile.h npc_map.cpp npc_map.h \
-	astar_pathfinder.cpp astar_pathfinder.h $(DEH)
+	astar_pathfinder.cpp astar_pathfinder.h npc_map.cpp npc_map.h $(DEH)
 evil_puppy.o: evil_puppy.cpp evil_puppy.h npc.cpp npc.h game_tools.cpp game_tools.h npc_map.cpp npc_map.h \
 	player.cpp player.h astar_pathfinder.cpp astar_pathfinder.h $(DEH)
 npc_map.o: npc_map.cpp npc_map.h npc.cpp npc.h game_tools.cpp game_tools.h \
 	evil_puppy.cpp evil_puppy.h $(DEH)
 astar_pathfinder.o: astar_pathfinder.cpp astar_pathfinder.h game_tools.cpp game_tools.h tile.cpp tile.h map.cpp map.h \
-	character.cpp character.h npc.cpp npc.h $(DEH)
+	character.cpp character.h npc.cpp npc.h npc_map.cpp npc_map.h $(DEH)
 loader_file_handling.o: loader_file_handling.cpp loader_file_handling.h image_loader.cpp image_loader.h game_tools.cpp game_tools.h $(DEH)
 
 clean:

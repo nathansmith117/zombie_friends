@@ -56,7 +56,7 @@ void Player::update() {
 
 	last_call_count++;
 
-	handle_items();
+	handle_hit_data();
 
 	if (tl != NULL)
 		tl->update();
@@ -106,16 +106,16 @@ void Player::update() {
 	}
 }
 
-void Player::handle_items() {
+void Player::handle_hit_data() {
 	int i;
 	std::vector<CharacterHitData> hit_data;
 
 	Tile::TileObject curr_tile;
 	CommonItem::ItemData curr_item;
 
-	hit_data = map_hit();
+	hit_data = get_hit_data();
 
-	if (hit_data.size() <= 0)
+	if (hit_data.empty())
 		return;
 
 	for (i = 0; i < hit_data.size(); i++) {
@@ -142,6 +142,13 @@ void Player::handle_items() {
 			hit_data[i].hit_handled = true;
 			add_item(curr_item);
 			mdata->map->remove_item(hit_data[i].coord.x, hit_data[i].coord.y);
+		}
+
+		// Character/npc.
+		if ((hit_data[i].type & HIT_CHARACTER) == HIT_CHARACTER) {
+			hit_data[i].hit_handled = true;
+			wx(old_world_x);
+			wy(old_world_y);
 		}
 	}
 

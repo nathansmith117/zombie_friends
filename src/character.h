@@ -36,7 +36,7 @@ class Character : public Fl_Widget {
 
 		virtual void draw();
 		virtual void update() = 0;
-		virtual void handle_items() = 0;
+		virtual void handle_hit_data() = 0;
 
 		gameTools::Direction * direction() { return &dir; }
 		gameTools::Direction get_direction() { return dir; }
@@ -75,7 +75,8 @@ class Character : public Fl_Widget {
 
 		bool hit_tile(Tile::TileObject tile, int x, int y);
 		bool hit_item(CommonItem::ItemData item, int x, int y);
-		std::vector<CharacterHitData> map_hit();
+		bool hit_character(Character * character);
+		std::vector<CharacterHitData> get_hit_data();
 
 		void add_item(CommonItem::ItemData item);
 

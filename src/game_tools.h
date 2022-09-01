@@ -10,6 +10,14 @@ namespace gameTools {
 
 	struct Direction {
 		bool right, left, up, down;
+
+		bool operator==(Direction dir) {
+			return right == dir.right && left == dir.left && up == dir.up && down == dir.down;
+		}
+
+		bool operator!=(Direction dir) {
+			return right != dir.right && left != dir.left && up != dir.up && down != dir.down;
+		}
 	};
 
 	enum IS_NEG {

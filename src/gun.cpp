@@ -1,6 +1,7 @@
 #include "gun.h"
 #include "character.h"
 #include "player.h"
+#include "npc_map.h"
 
 void Gun::draw() {
 
@@ -64,6 +65,9 @@ void Gun::update_and_test_bullet(int bullet_id) {
 	Fl_PNG_Image * item_image;
 	Tile::TileObject curr_tile;
 	CommonItem::ItemData curr_item;
+
+	Fl_PNG_Image * char_image = NULL;
+	NpcMap * npc_map = mdata->map->get_npc_map();
 
 	int tile_x, tile_y; // What tile coord the bullet is on.
 	
@@ -143,7 +147,7 @@ void Gun::update_and_test_bullet(int bullet_id) {
 			item_image->h()
 		);
 
-	// Bullet hit item.
+	// Hits item.
 	if (obj_collided && curr_item.id != CommonItem::NONE
 			&& tile_x < mdata->map->get_width()
 			&& tile_y < mdata->map->get_height()
@@ -152,6 +156,62 @@ void Gun::update_and_test_bullet(int bullet_id) {
 
 		new_hit_data.things_hit.item = curr_item;
 		new_hit_data.type |= HIT_ITEM;
+	}
+
+	// Hits npc.
+	for (auto n : npc_map->get_npcs_in_use()) {
+		if (n == NULL)
+			continue;
+		if (n == item_holder)
+			continue;
+
+		char_image = n->get_current_image();
+
+		if (char_image == NULL)
+			continue;
+
+		obj_collided = gameTools::did_collide(
+			curr_bullet.x,
+			curr_bullet.y,
+			bullet_w,
+			bullet_h,
+			n->x(),
+			n->y(),
+			char_image->w(),
+			char_image->h()
+		);
+
+		if (obj_collided) {
+			new_hit_data.things_hit.character = n;
+			new_hit_data.type |= HIT_CHARACTER;
+			break;
+		}
+	}
+
+	char_image = NULL;
+
+	if (player != NULL)
+		char_image = player->get_current_image();
+
+	obj_collided = false;
+
+	// Test for collion.
+	if (char_image != NULL)
+		obj_collided = gameTools::did_collide(
+			curr_bullet.x,
+			curr_bullet.y,
+			bullet_w,
+			bullet_h,
+			player->x(),
+			player->y(),
+			char_image->w(),
+			char_image->h()
+		);
+
+	// Hits player.
+	if (obj_collided && item_holder != player) {
+		new_hit_data.things_hit.character = player;
+		new_hit_data.type |= HIT_CHARACTER;
 	}
 
 	// Add bullet hit data.

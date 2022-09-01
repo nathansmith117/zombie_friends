@@ -279,6 +279,38 @@ void NpcMap::remove_npc_from_use(Npc * unused_npc) {
 		}
 }
 
+void NpcMap::delete_npc_in_use(int location) {
+	if (location >= npcs_in_use.size() || location < 0)
+		return;
+	if (npcs_in_use[location] == NULL)
+		return;
+
+	delete npcs_in_use[location];
+	npcs_in_use[location] = NULL;
+}
+
+void NpcMap::delete_npc_in_use(Npc * unused_npc) {
+	int i;
+	Npc * curr_npc;
+
+	if (unused_npc == NULL)
+		return;
+	if (npcs_in_use.empty())
+		return;
+
+	for (i = 0; i < npcs_in_use.size(); i++) {
+		curr_npc = npcs_in_use[i];
+
+		if (curr_npc == NULL)
+			continue;
+
+		if (curr_npc == unused_npc) {
+			delete_npc_in_use(i);
+			break;
+		}
+	}
+}
+
 bool NpcMap::is_in_use(Npc * the_npc) {
 	if (the_npc == NULL)
 		return false;

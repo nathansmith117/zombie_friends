@@ -34,6 +34,9 @@ class NpcMap {
 		void remove_npc_from_use(int location);
 		void remove_npc_from_use(Npc * unused_npc);
 
+		void delete_npc_in_use(int location);
+		void delete_npc_in_use(Npc * unused_npc);
+
 		bool is_in_use(Npc * the_npc);
 	private:
 		MainData * mdata;

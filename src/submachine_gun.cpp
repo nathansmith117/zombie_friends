@@ -1,5 +1,7 @@
 #include "submachine_gun.h"
 #include "character.h"
+#include "map.h"
+#include "npc_map.h"
 
 void SubmachineGun::main_init(MainData * md, Fl_Widget * item_holder) {
 	mdata = md;
@@ -84,6 +86,13 @@ void SubmachineGun::update() {
  			mdata->map->remove_item(hit_x, hit_y);
 			bullet_hit_data[i].hit_handled = true;
 			remove_bullet(bullet_hit_data[i].bullet_id);
+		}
+
+		// Character/npc.
+		if ((bullet_hit_data[i].type & HIT_CHARACTER) == HIT_CHARACTER) {
+			bullet_hit_data[i].hit_handled = true;
+			mdata->map->get_npc_map()->delete_npc_in_use((Npc*)bullet_hit_data[i].things_hit.character);
+			puts("Hitting npc");
 		}
 	}
 }

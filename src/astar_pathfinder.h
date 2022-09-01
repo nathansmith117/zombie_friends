@@ -44,9 +44,12 @@ namespace Astar {
 	};
 
 	int get_dis(Point p1, Point p2);
-	std::vector<Point> find_path(Map * map, Point start_point, Point end_point, int safe_zone_width=0, int safe_zone_height=0);
+
+	// 'scale_tile_size' is only used if 'go_around_characters' is true.
+	std::vector<Point> find_path(Map * map, Point start_point, Point end_point, int safe_zone_width=0, int safe_zone_height=0, bool go_around_characters=false, int scale_tile_size=TILE_SIZE);
 
 	bool is_walkable_zone(Map * map, Point pos, int safe_zone_width, int safe_zone_height);
+	bool point_hit_npc(Map * map, int scale_tile_size, Point pos, Point start, Point end, int safe_zone_width=0, int safe_zone_height=0);
 	Point get_character_point(Character * character);
 
 	struct PathFinderSettings {

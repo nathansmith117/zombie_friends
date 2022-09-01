@@ -9,7 +9,8 @@
 enum HitTypes {
 	HIT_NONE = 0,
 	HIT_TILE = 0x1 << 0,
-	HIT_ITEM = 0x1 << 1
+	HIT_ITEM = 0x1 << 1,
+	HIT_CHARACTER = 0x1 << 2
 };
 
 typedef uint16_t HIT_TYPE;
@@ -23,6 +24,7 @@ struct ItemDataWithCoord {
 struct ThingsHit {
 	Tile::TileObject tile;
 	CommonItem::ItemData item;
+	class Character * character = NULL;
 };
 
 struct MapFileHeader {

@@ -18,7 +18,7 @@ class Player : public Character {
 		}
 
 		void update();
-		void handle_items();
+		void handle_hit_data();
 
 		void center();
 

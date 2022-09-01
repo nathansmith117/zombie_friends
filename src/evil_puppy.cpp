@@ -11,6 +11,9 @@ void EvilPuppy::main_init(MainData * md) {
 	
 	refresh_images();
 
+	old_world_x = 0.0;
+	old_world_y = 0.0;
+
 	// Config.
 	always_updated = true;
 
@@ -34,6 +37,8 @@ void EvilPuppy::update() {
 
 	if (mdata->player == NULL)
 		return;
+
+	handle_hit_data();
 
 	last_call_count++;
 
@@ -84,7 +89,40 @@ void EvilPuppy::update() {
 	}
 }
 
-void EvilPuppy::handle_items() {
+void EvilPuppy::handle_hit_data() {
+	int i;
+	std::vector<CharacterHitData> hit_data;
+
+	Tile::TileObject curr_tile;
+	CommonItem::ItemData curr_item;
+
+	hit_data = get_hit_data();
+
+	if (hit_data.empty())
+		return;
+
+	for (i = 0; i < hit_data.size(); i++) {
+		curr_tile = mdata->map->tile(hit_data[i].coord.x, hit_data[i].coord.y);
+		curr_item = mdata->map->item(hit_data[i].coord.x, hit_data[i].coord.y);
+
+		// Hit already handled.
+		if (hit_data[i].hit_handled)
+			continue;
+
+		// Character/npc.
+		if ((hit_data[i].type & HIT_CHARACTER) == HIT_CHARACTER) {
+			hit_data[i].hit_handled = true;
+			
+			//if (dir != old_direction) {
+				wx(old_world_x);
+				wy(old_world_y);
+			//}
+		}
+	}
+
+	old_world_x = world_x;
+	old_world_y = world_y;
+	old_direction = dir;
 }
 
 void EvilPuppy::go_right() {

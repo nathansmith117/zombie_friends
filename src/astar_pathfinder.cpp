@@ -1,11 +1,12 @@
 #include "astar_pathfinder.h"
+#include "npc_map.h"
 
 namespace Astar {
 	int get_dis(Point p1, Point p2) {
 		return (int)(hypotf(p2.x - p1.x, p2.y - p1.y) * 10.0);
 	}
 
-	std::vector<Point> find_path(Map * map, Point start_point, Point end_point, int safe_zone_width, int safe_zone_height) {
+	std::vector<Point> find_path(Map * map, Point start_point, Point end_point, int safe_zone_width, int safe_zone_height, bool go_around_characters, int scale_tile_size) {
 		int i;
 		int x, y;
 		int new_x, new_y;
@@ -103,6 +104,17 @@ namespace Astar {
 
 					new_pos = {new_x, new_y};
 
+					if (go_around_characters)
+						if (point_hit_npc(
+							map, 
+							scale_tile_size, 
+							new_pos, 
+							start_point, 
+							end_point, 
+							safe_zone_width, 
+							safe_zone_height))
+							continue;
+
 					// Check safe zone.
 					// Safe zone not used when close to end.
 					if (safe_zone_width > 0 || safe_zone_height > 0) {
@@ -185,6 +197,54 @@ namespace Astar {
 			}
 
 		return true;
+	}
+
+	bool point_hit_npc(Map * map, int scale_tile_size, Point pos, Point start, Point end, int safe_zone_width, int safe_zone_height) {
+		int pos_pixel_x, pos_pixel_y;
+		int pos_width, pos_height;
+		Point char_point;
+		Fl_PNG_Image * char_image = NULL;
+
+		if (map == NULL || scale_tile_size <= 0)
+			return false;
+
+		pos_pixel_x = pos.x * scale_tile_size;
+		pos_pixel_y = pos.y * scale_tile_size;
+		pos_width = scale_tile_size + (scale_tile_size * safe_zone_width);
+		pos_height = scale_tile_size + (scale_tile_size * safe_zone_height);
+
+		pos_pixel_x -= (safe_zone_width > 0) ? pos_width / 2 : 0;
+		pos_pixel_y -= (safe_zone_height > 0) ? pos_height / 2 : 0;
+
+		// Npcs.
+		for (auto n : map->get_npc_map()->get_npcs_in_use()) {
+			if (n == NULL)
+				continue;
+
+			char_image = n->get_current_image();
+
+			if (char_image == NULL)
+				continue;
+
+			char_point = get_character_point(n);
+
+			// Same as start or end.
+			if (char_point == start || char_point == end)
+				continue;
+
+			if (gameTools::did_collide(
+				pos_pixel_x,
+				pos_pixel_y,
+				pos_width,
+				pos_height,
+				roundf((float)n->wx() * scale_tile_size),
+				roundf((float)n->wy() * scale_tile_size),
+				char_image->w(),
+				char_image->h()))
+				return true;
+		}
+
+		return false;
 	}
 	
 	Point get_character_point(Character * character) {
@@ -333,7 +393,9 @@ namespace Astar {
 			get_character_point(character), 
 			target,
 			settings.safe_zone_width,
-			settings.safe_zone_height
+			settings.safe_zone_height,
+			true,
+			mdata->scale_tile_size
 		);
 
 		if (points.empty())

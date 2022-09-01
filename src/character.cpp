@@ -1,4 +1,5 @@
 #include "character.h"
+#include "npc_map.h"
 
 // Tools/Weapons.
 #include "common_tool.h"
@@ -84,7 +85,7 @@ bool Character::hit_item(CommonItem::ItemData item, int x, int y) {
 	Fl_PNG_Image * char_image = get_current_image();
 	Fl_PNG_Image * item_image = CommonItem::get_image(item, mdata);
 
-	// Check is images are NULL.
+	// Check if images are NULL.
 	if (char_image == NULL || item_image == NULL || mdata->map == NULL)
 		return false;
 
@@ -108,7 +109,30 @@ bool Character::hit_item(CommonItem::ItemData item, int x, int y) {
 	);
 }
 
-std::vector<CharacterHitData> Character::map_hit() {
+bool Character::hit_character(Character * character) {
+	if (character == NULL)
+		return false;
+
+	Fl_PNG_Image * curr_image = get_current_image();
+	Fl_PNG_Image * char_image = character->get_current_image();
+
+	// Check if images are NULL.
+	if (curr_image == NULL || char_image == NULL)
+		return false;
+
+	return gameTools::did_collide(
+		x(),
+		y(),
+		curr_image->w(),
+		curr_image->h(),
+		character->x(),
+		character->y(),
+		char_image->w(),
+		char_image->h()
+	);
+}
+
+std::vector<CharacterHitData> Character::get_hit_data() {
 	Fl_PNG_Image * current_image;
 	std::vector<CharacterHitData> hits_data;
 	int x, y;
@@ -174,6 +198,33 @@ std::vector<CharacterHitData> Character::map_hit() {
 			if (curr_hit_data.type != HIT_NONE)
 				hits_data.push_back(curr_hit_data);
 		}
+
+	// Npcs.
+	for (auto n : mdata->map->get_npc_map()->get_npcs_in_use()) {
+		if (n == NULL)
+			continue;
+		if (n == this)
+			continue;
+
+		if (hit_character(n)) {
+			curr_hit_data.coord = {n->wx_rounded(), n->wy_rounded()};
+			curr_hit_data.things_hit.character = n;
+			curr_hit_data.type = HIT_CHARACTER;
+			hits_data.push_back(curr_hit_data);
+			break;
+		}
+	}
+
+	// Hits player.
+	if (mdata->player == NULL || mdata->player == this)
+		return hits_data;
+
+	if (hit_character(mdata->player)) {
+		curr_hit_data.coord = {mdata->player->wx_rounded(), mdata->player->wy_rounded()};
+		curr_hit_data.things_hit.character = mdata->player;
+		curr_hit_data.type = HIT_CHARACTER;
+		hits_data.push_back(curr_hit_data);
+	}
 
 	return hits_data;
 }
