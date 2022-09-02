@@ -68,6 +68,8 @@ namespace Astar {
 
 		// Try to find path even if last one failed.
 		bool try_after_path_failed = false;
+
+		bool go_around_characters = true;
 	};
 
 	class PathFinder {

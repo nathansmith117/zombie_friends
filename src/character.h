@@ -31,6 +31,10 @@ class Character : public Fl_Widget {
 			coins = 0;
 			heath = 0;
 
+			old_world_x = 0.0;
+			old_world_y = 0.0;
+			old_direction = NO_MOVEMENT;
+
 			current_tool = 0;
 		}
 
@@ -107,6 +111,8 @@ class Character : public Fl_Widget {
 
 		// Return the tool id if owned or -1.
 		int tool_owned(int tool_type);
+
+		virtual void handle_collision();
 	protected:
 		MainData * mdata;
 		gameTools::Direction dir;
@@ -120,5 +126,11 @@ class Character : public Fl_Widget {
 		int heath;
 		int coins;
 
+		float old_world_x, old_world_y;
+		gameTools::Direction old_direction;
+
 		std::vector<Fl_PNG_Image*> character_images;
+
+		virtual void update_world_position(float speed); // Put this in update.
+		virtual void update_old_values(); // Put this at top of 'update_world_position'.
 };

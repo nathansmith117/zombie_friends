@@ -45,9 +45,6 @@ class Player : public Character {
 	private:
 		void main_init(MainData * md);
 
-		float old_world_x;
-		float old_world_y;
-
 		int last_call_count;
 
 		// Old values.

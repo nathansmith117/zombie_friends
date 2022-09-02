@@ -394,7 +394,7 @@ namespace Astar {
 			target,
 			settings.safe_zone_width,
 			settings.safe_zone_height,
-			true,
+			settings.go_around_characters,
 			mdata->scale_tile_size
 		);
 

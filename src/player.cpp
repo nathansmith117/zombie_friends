@@ -20,11 +20,8 @@ void Player::main_init(MainData * md) {
 	dir = {false, false, false, false};
 	last_call_count = 0;
 
-	world_x = 0;
-	world_y = 0;
-
-	old_world_x = 0.0;
-	old_world_y = 0.0;
+	world_x = 0.0;
+	world_y = 0.0;
 
 	wx((float)mdata->map->get_width() / 2);
 	wy((float)mdata->map->get_height() / 2);
@@ -64,14 +61,7 @@ void Player::update() {
 	p_speed = (float)mdata->settings.player_speed * mdata->settings.scale;
 
 	// Move in the world.
-	if (dir.right)
-		world_x += p_speed;
-	if (dir.left)
-		world_x -= p_speed;
-	if (dir.up)
-		world_y -= p_speed;
-	if (dir.down)
-		world_y += p_speed;
+	update_world_position(p_speed);
 
 	update_map_offset();
 
@@ -132,8 +122,7 @@ void Player::handle_hit_data() {
 
 			// Hits wall or something like that.
 			if ((hit_data[i].things_hit.tile.type & Tile::TYPE_NO_WALKTHROUGH) == Tile::TYPE_NO_WALKTHROUGH) {
-				wx(old_world_x);
-				wy(old_world_y);
+				handle_collision();
 			}
 		}
 
@@ -147,13 +136,9 @@ void Player::handle_hit_data() {
 		// Character/npc.
 		if ((hit_data[i].type & HIT_CHARACTER) == HIT_CHARACTER) {
 			hit_data[i].hit_handled = true;
-			wx(old_world_x);
-			wy(old_world_y);
+			// handle_collision();
 		}
 	}
-
-	old_world_x = world_x;
-	old_world_y = world_y;
 }
 
 void Player::center() {

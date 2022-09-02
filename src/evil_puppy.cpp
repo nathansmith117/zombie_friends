@@ -11,19 +11,15 @@ void EvilPuppy::main_init(MainData * md) {
 	
 	refresh_images();
 
-	old_world_x = 0.0;
-	old_world_y = 0.0;
-
 	// Config.
 	always_updated = true;
 
 	path_finder = new Astar::PathFinder(mdata);
 	path_finder->set_character(this);
-	path_finder->set_target(mdata->player);
 
 	Astar::PathFinderSettings pathfinder_settings;
-	pathfinder_settings.dis_intel_update = 1.0;
-	pathfinder_settings.safe_zone_width = 2;
+	pathfinder_settings.dis_intel_update = 0.0;
+	pathfinder_settings.safe_zone_width = 1;
 	pathfinder_settings.safe_zone_height = 1;
 	pathfinder_settings.character_is_npc = true;
 	pathfinder_settings.thread_speed = 10;
@@ -42,19 +38,15 @@ void EvilPuppy::update() {
 
 	last_call_count++;
 
-	//path_finder->update();
-	path_finder->set_target(mdata->player);
+	path_finder->update();
+
+	if (leader == NULL)
+		path_finder->set_target(mdata->player);
+	else
+		path_finder->set_target(leader);
 
 	float a_speed = (float)mdata->settings.player_speed / 2 * mdata->settings.scale;
-
-	if (dir.right)
-		world_x += a_speed;
-	if (dir.left)
-		world_x -= a_speed;
-	if (dir.up)
-		world_y -= a_speed;
-	if (dir.down)
-		world_y += a_speed;
+	update_world_position(a_speed);
 
 	keep_position();
 
@@ -112,17 +104,9 @@ void EvilPuppy::handle_hit_data() {
 		// Character/npc.
 		if ((hit_data[i].type & HIT_CHARACTER) == HIT_CHARACTER) {
 			hit_data[i].hit_handled = true;
-			
-			//if (dir != old_direction) {
-				wx(old_world_x);
-				wy(old_world_y);
-			//}
+			handle_collision();
 		}
 	}
-
-	old_world_x = world_x;
-	old_world_y = world_y;
-	old_direction = dir;
 }
 
 void EvilPuppy::go_right() {

@@ -29,9 +29,14 @@ class Npc : public Character {
 		// Put this in update function.
 		virtual void keep_position();
 
+		void set_leader(Character * leader) { this->leader = leader; }
+		Character * get_leader() { return leader; }
+
 		virtual bool is_on_view_window();
 	protected:
 		class NpcMap * npc_map;
+
+		Character * leader = NULL;
 
 		bool being_updated;
 

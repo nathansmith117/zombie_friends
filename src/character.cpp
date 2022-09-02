@@ -366,3 +366,29 @@ int Character::tool_owned(int tool_type) {
 
 	return -1;
 }
+
+void Character::handle_collision() {
+	wx(old_world_x);
+	wy(old_world_y);
+
+	update_old_values();
+}
+
+void Character::update_world_position(float speed) {
+	update_old_values();
+
+	if (dir.right)
+		world_x += speed;
+	if (dir.left)
+		world_x -= speed;
+	if (dir.up)
+		world_y -= speed;
+	if (dir.down)
+		world_y += speed;
+}
+
+void Character::update_old_values() {
+	old_world_x = world_x;
+	old_world_y = world_y;
+	old_direction = dir;
+}
