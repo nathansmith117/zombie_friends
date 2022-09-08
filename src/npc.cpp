@@ -12,22 +12,16 @@ void Npc::keep_position() {
 }
 
 bool Npc::is_on_view_window() {
-	Fl_PNG_Image * curr_image = NULL;
-
 	if (mdata->view_win == NULL)
 		return false;
 
 	keep_position();
-	curr_image = get_current_image();
-
-	if (curr_image == NULL)
-		return false;
 
 	return gameTools::did_collide(
 		x(),
 		y(),
-		curr_image->w(),
-		curr_image->h(),
+		get_width(),
+		get_height(),
 		0,
 		0,
 		mdata->view_win->w(),

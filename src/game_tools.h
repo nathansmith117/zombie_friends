@@ -16,7 +16,7 @@ namespace gameTools {
 		}
 
 		bool operator!=(Direction dir) {
-			return right != dir.right && left != dir.left && up != dir.up && down != dir.down;
+			return right != dir.right || left != dir.left || up != dir.up || down != dir.down;
 		}
 	};
 

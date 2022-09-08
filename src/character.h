@@ -65,6 +65,10 @@ class Character : public Fl_Widget {
 		virtual void refresh_images() = 0;
 		virtual void refresh_tool_images();
 
+		// Use these for getting character size.
+		virtual int get_width();
+		virtual int get_height();
+
 		// Gets or sets world position.
 		float wx() { return world_x; }
 		void wx(float world_x) { this->world_x = world_x; }
@@ -113,6 +117,7 @@ class Character : public Fl_Widget {
 		int tool_owned(int tool_type);
 
 		virtual void handle_collision();
+		virtual void handle_collision(Character * character);
 	protected:
 		MainData * mdata;
 		gameTools::Direction dir;

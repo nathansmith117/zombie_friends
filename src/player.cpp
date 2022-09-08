@@ -143,18 +143,12 @@ void Player::handle_hit_data() {
 
 void Player::center() {
 	int win_width, win_height, p_width, p_height;
-	Fl_PNG_Image * current_image;
-
-	current_image = get_current_image();
-
-	if (current_image == NULL)
-		return;
 
 	win_width = mdata->view_win->w();
 	win_height = mdata->view_win->h();
 
-	p_width = current_image->w();
-	p_height = current_image->h();
+	p_width = get_width();
+	p_height = get_height();
 
 	resize((win_width / 2) - (p_width / 2) , 
 			(win_height / 2) - (p_height / 2), 

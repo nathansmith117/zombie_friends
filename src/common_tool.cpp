@@ -1,6 +1,11 @@
 #include "common_tool.h"
 #include "game_tools.h"
 
+// Tools/Weapons.
+#include "gun.h"
+#include "sword.h"
+#include "submachine_gun.h"
+
 void CommonTool::main_init(MainData * md, Fl_Widget * item_holder) {
 	mdata = md;
 
@@ -65,4 +70,15 @@ void CommonTool::stop_using() {
 	is_being_used = false;
 	action_frame = 0;
 	last_count = 0;
+}
+
+CommonTool * get_tool_from_type(TOOL_TYPE type, MainData * mdata, Fl_Widget * item_holder) {
+	switch(type) {
+		case TOOL_SWORD:
+			return new Sword(mdata, item_holder);
+		case TOOL_SUBMACHINE_GUN:
+			return new SubmachineGun(mdata, item_holder);
+		default:
+			return NULL;
+	}
 }

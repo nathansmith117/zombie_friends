@@ -75,3 +75,5 @@ class CommonTool : public Fl_Widget {
 
 		TOOL_TYPE type = TOOL_NONE;
 };
+
+CommonTool * get_tool_from_type(TOOL_TYPE type, MainData * mdata, Fl_Widget * item_holder=NULL);

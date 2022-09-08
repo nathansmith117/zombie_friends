@@ -1,12 +1,6 @@
 #include "character.h"
 #include "npc_map.h"
 
-// Tools/Weapons.
-#include "common_tool.h"
-#include "gun.h"
-#include "sword.h"
-#include "submachine_gun.h"
-
 void Character::draw() {
 	Fl_PNG_Image * current_image;
 	current_image = get_current_image();
@@ -44,6 +38,24 @@ void Character::refresh_tool_images() {
 			tl->refresh_images();
 }
 
+int Character::get_width() {
+	Fl_PNG_Image * curr_image = get_current_image();
+
+	if (curr_image == NULL)
+		return 0;
+
+	return curr_image->w();
+}
+
+int Character::get_height() {
+	Fl_PNG_Image * curr_image = get_current_image();
+
+	if (curr_image == NULL)
+		return 0;
+
+	return curr_image->h();
+}
+
 bool Character::is_moving() {
 	return dir.right || dir.left || dir.up || dir.down;
 }
@@ -52,10 +64,9 @@ bool Character::hit_tile(Tile::TileObject tile, int x, int y) {
 	int tile_x, tile_y;
 	int char_x, char_y;
 
-	Fl_PNG_Image * char_image = get_current_image();
 	Fl_PNG_Image * tile_image = Tile::get_image(tile, mdata);
 
-	if (char_image == NULL || tile_image == NULL || mdata->map == NULL)
+	if (tile_image == NULL || mdata->map == NULL)
 		return false;
 
 	// Get item x and y.
@@ -69,8 +80,8 @@ bool Character::hit_tile(Tile::TileObject tile, int x, int y) {
 	return gameTools::did_collide(
 		char_x,
 		char_y,
-		char_image->w(),
-		char_image->h(),
+		get_width(),
+		get_height(),
 		tile_x,
 		tile_y,
 		tile_image->w(),
@@ -82,11 +93,9 @@ bool Character::hit_item(CommonItem::ItemData item, int x, int y) {
 	int item_x, item_y;
 	int char_x, char_y;
 
-	Fl_PNG_Image * char_image = get_current_image();
 	Fl_PNG_Image * item_image = CommonItem::get_image(item, mdata);
 
-	// Check if images are NULL.
-	if (char_image == NULL || item_image == NULL || mdata->map == NULL)
+	if (item_image == NULL || mdata->map == NULL)
 		return false;
 
 	// Get item x and y.
@@ -100,8 +109,8 @@ bool Character::hit_item(CommonItem::ItemData item, int x, int y) {
 	return gameTools::did_collide(
 		char_x,
 		char_y,
-		char_image->w(),
-		char_image->h(),
+		get_width(),
+		get_height(),
 		item_x,
 		item_y,
 		item_image->w(),
@@ -113,27 +122,19 @@ bool Character::hit_character(Character * character) {
 	if (character == NULL)
 		return false;
 
-	Fl_PNG_Image * curr_image = get_current_image();
-	Fl_PNG_Image * char_image = character->get_current_image();
-
-	// Check if images are NULL.
-	if (curr_image == NULL || char_image == NULL)
-		return false;
-
 	return gameTools::did_collide(
 		x(),
 		y(),
-		curr_image->w(),
-		curr_image->h(),
+		get_width(),
+		get_height(),
 		character->x(),
 		character->y(),
-		char_image->w(),
-		char_image->h()
+		character->get_width(),
+		character->get_height()
 	);
 }
 
 std::vector<CharacterHitData> Character::get_hit_data() {
-	Fl_PNG_Image * current_image;
 	std::vector<CharacterHitData> hits_data;
 	int x, y;
 	
@@ -141,13 +142,16 @@ std::vector<CharacterHitData> Character::get_hit_data() {
 	int char_tile_w, char_tile_h;
 	int map_w, map_h;
 
+	int char_width, char_height;
+
+	char_width = get_width();
+	char_height = get_height();
+
 	CharacterHitData curr_hit_data;
 	Tile::TileObject curr_tile;
 	CommonItem::ItemData curr_item;
 
-	current_image = get_current_image();
-
-	if (mdata->map == NULL || current_image == NULL)
+	if (mdata->map == NULL)
 		return hits_data;
 
 	// Get item map width and height.
@@ -155,8 +159,8 @@ std::vector<CharacterHitData> Character::get_hit_data() {
 	map_h = mdata->map->get_height();
 
 	// Get character tile width and height.
-	char_tile_w = (int)roundf((float)current_image->w() / mdata->scale_tile_size);
-	char_tile_h = (int)roundf((float)current_image->h() / mdata->scale_tile_size);
+	char_tile_w = (int)roundf((float)char_width / mdata->scale_tile_size);
+	char_tile_h = (int)roundf((float)char_height / mdata->scale_tile_size);
 
 	// Get start and end locations.
 	start_x = wx_rounded() - mdata->settings.map_search_overscan;
@@ -230,7 +234,7 @@ std::vector<CharacterHitData> Character::get_hit_data() {
 }
 
 void Character::add_item(CommonItem::ItemData item) {
-	bool tool_added = false;
+	CommonTool * tool_gained = NULL;
 	int tool_id;
 
 	if (item.id == CommonItem::NONE)
@@ -252,33 +256,22 @@ void Character::add_item(CommonItem::ItemData item) {
 		return;
 	}
 
-	switch (item.gain_tool) {
-		case TOOL_NONE:
-			return;
-		case TOOL_SWORD:
-			tools.push_back(new Sword(mdata, this));
-			tool_added = true;
-			break;
-		case TOOL_SUBMACHINE_GUN:
-			tools.push_back(new SubmachineGun(mdata, this));
-			tool_added = true;
-			break;
-		default:
-			break;
-	}
+	// Gain tool.
+	tool_gained = get_tool_from_type(item.gain_tool, mdata, this);
 
-	if (!tool_added)
+	if (tool_gained == NULL)
 		return;
 
-	tools.back()->add_fuel(item.gain_fuel);
+	tool_gained->add_fuel(item.gain_fuel);
 
 	// Set direction.
 	if (facing_right())
-		tools.back()->set_right();
+		tool_gained->set_right();
 	else
-		tools.back()->set_left();
+		tool_gained->set_left();
 
-	tools.back()->move_to_location();
+	tool_gained->move_to_location();
+	tools.push_back(tool_gained);
 }
 
 int Character::insert_tool(CommonTool * tl, int pos) {
@@ -370,8 +363,32 @@ int Character::tool_owned(int tool_type) {
 void Character::handle_collision() {
 	wx(old_world_x);
 	wy(old_world_y);
+}
 
-	update_old_values();
+void Character::handle_collision(Character * character) {
+	gameTools::Direction * char_dir = NULL;
+
+	if (character == NULL)
+		return;
+
+	char_dir = character->direction();
+
+	if (!is_moving())
+		return;
+
+	if (!character->is_moving())
+		dir = NO_MOVEMENT;
+
+	if ((char_dir->right && dir.right)
+		|| (char_dir->left && dir.left)
+		|| (char_dir->up && dir.up)
+		|| (char_dir->down && dir.down)) {
+		dir = NO_MOVEMENT;
+		return;
+	}
+
+	wx(old_world_x);
+	wy(old_world_y);
 }
 
 void Character::update_world_position(float speed) {

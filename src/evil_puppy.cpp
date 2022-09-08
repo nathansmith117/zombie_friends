@@ -104,7 +104,7 @@ void EvilPuppy::handle_hit_data() {
 		// Character/npc.
 		if ((hit_data[i].type & HIT_CHARACTER) == HIT_CHARACTER) {
 			hit_data[i].hit_handled = true;
-			handle_collision();
+			handle_collision(hit_data[i].things_hit.character);
 		}
 	}
 }

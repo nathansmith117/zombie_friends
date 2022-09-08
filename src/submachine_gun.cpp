@@ -92,7 +92,6 @@ void SubmachineGun::update() {
 		if ((bullet_hit_data[i].type & HIT_CHARACTER) == HIT_CHARACTER) {
 			bullet_hit_data[i].hit_handled = true;
 			mdata->map->get_npc_map()->delete_npc_in_use((Npc*)bullet_hit_data[i].things_hit.character);
-			puts("Hitting npc");
 		}
 	}
 }

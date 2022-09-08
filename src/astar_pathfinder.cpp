@@ -203,7 +203,6 @@ namespace Astar {
 		int pos_pixel_x, pos_pixel_y;
 		int pos_width, pos_height;
 		Point char_point;
-		Fl_PNG_Image * char_image = NULL;
 
 		if (map == NULL || scale_tile_size <= 0)
 			return false;
@@ -221,11 +220,6 @@ namespace Astar {
 			if (n == NULL)
 				continue;
 
-			char_image = n->get_current_image();
-
-			if (char_image == NULL)
-				continue;
-
 			char_point = get_character_point(n);
 
 			// Same as start or end.
@@ -239,8 +233,8 @@ namespace Astar {
 				pos_height,
 				roundf((float)n->wx() * scale_tile_size),
 				roundf((float)n->wy() * scale_tile_size),
-				char_image->w(),
-				char_image->h()))
+				n->get_width(),
+				n->get_height()))
 				return true;
 		}
 
