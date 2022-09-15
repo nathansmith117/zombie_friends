@@ -37,7 +37,7 @@ class Player : public Character {
 		void wy(float world_y);
 
 		void update_player_info();
-		void update_map_offset();
+		void keep_position();
 
 		// Redraw screen to update update_player_info.
 		void next_tool();

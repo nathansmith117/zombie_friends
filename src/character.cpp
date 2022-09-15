@@ -61,58 +61,36 @@ bool Character::is_moving() {
 }
 
 bool Character::hit_tile(Tile::TileObject tile, int x, int y) {
-	int tile_x, tile_y;
-	int char_x, char_y;
-
 	Fl_PNG_Image * tile_image = Tile::get_image(tile, mdata);
 
 	if (tile_image == NULL || mdata->map == NULL)
 		return false;
 
-	// Get item x and y.
-	tile_x = x * mdata->scale_tile_size;
-	tile_y = y * mdata->scale_tile_size;
-
-	// Character x and y.
-	char_x = world_x * mdata->scale_tile_size;
-	char_y = world_y * mdata->scale_tile_size;
-
 	return gameTools::did_collide(
-		char_x,
-		char_y,
+		world_x * mdata->scale_tile_size,
+		world_y * mdata->scale_tile_size,
 		get_width(),
 		get_height(),
-		tile_x,
-		tile_y,
+		x * mdata->scale_tile_size,
+		y * mdata->scale_tile_size,
 		tile_image->w(),
 		tile_image->h()
 	);
 }
 
 bool Character::hit_item(CommonItem::ItemData item, int x, int y) {
-	int item_x, item_y;
-	int char_x, char_y;
-
 	Fl_PNG_Image * item_image = CommonItem::get_image(item, mdata);
 
 	if (item_image == NULL || mdata->map == NULL)
 		return false;
 
-	// Get item x and y.
-	item_x = x * mdata->scale_tile_size;
-	item_y = y * mdata->scale_tile_size;
-
-	// Character x and y.
-	char_x = world_x * mdata->scale_tile_size;
-	char_y = world_y * mdata->scale_tile_size;
-
 	return gameTools::did_collide(
-		char_x,
-		char_y,
+		world_x * mdata->scale_tile_size,
+		world_y * mdata->scale_tile_size,
 		get_width(),
 		get_height(),
-		item_x,
-		item_y,
+		x * mdata->scale_tile_size,
+		y * mdata->scale_tile_size,
 		item_image->w(),
 		item_image->h()
 	);
@@ -123,12 +101,12 @@ bool Character::hit_character(Character * character) {
 		return false;
 
 	return gameTools::did_collide(
-		x(),
-		y(),
+		world_x * mdata->scale_tile_size,
+		world_y * mdata->scale_tile_size,
 		get_width(),
 		get_height(),
-		character->x(),
-		character->y(),
+		character->wx() * mdata->scale_tile_size,
+		character->wy() * mdata->scale_tile_size,
 		character->get_width(),
 		character->get_height()
 	);
@@ -366,42 +344,72 @@ void Character::handle_collision() {
 }
 
 void Character::handle_collision(Character * character) {
+	int i;
 	gameTools::Direction * char_dir = NULL;
+
+	float rise, run;
+	float hit_angle;
+
+	// Center coords.
+	float char_cx, char_cy;
+	float cx, cy;
+
+	float char_width, char_height;
+	float tile_width, tile_height;
 
 	if (character == NULL)
 		return;
 
-	char_dir = character->direction();
-
+	/*
 	if (!is_moving())
 		return;
 
+	char_dir = character->direction();
+
 	if (!character->is_moving())
 		dir = NO_MOVEMENT;
+	*/
 
-	if ((char_dir->right && dir.right)
-		|| (char_dir->left && dir.left)
-		|| (char_dir->up && dir.up)
-		|| (char_dir->down && dir.down)) {
-		dir = NO_MOVEMENT;
-		return;
-	}
+	// Get width and height.
+	char_width = (float)character->get_width() / 2 / mdata->scale_tile_size;
+	char_height = (float)character->get_height() / 2 / mdata->scale_tile_size;
 
-	wx(old_world_x);
-	wy(old_world_y);
+	tile_width = (float)get_width() / 2 / mdata->scale_tile_size;
+	tile_height = (float)get_height() / 2 / mdata->scale_tile_size;
+
+	// Get center position
+	char_cx = character->wx() + char_width;
+	char_cy = character->wy() + char_height;
+
+	cx = world_x + tile_width;
+	cy = world_y + tile_height;
+
+	// Get rise over run and angle.
+	rise = char_cy - cy;
+	run = char_cx - cx;
+
+	hit_angle = atan2(rise, run);
+
+	rise = sinf(hit_angle) * mdata->settings.collision_correction;
+	run = cosf(hit_angle) * mdata->settings.collision_correction;
+
+	// Reset position.
+	world_x -= run;
+	world_y -= rise;
 }
 
-void Character::update_world_position(float speed) {
+void Character::update_world_position() {
+	float s = get_scaled_speed();
 	update_old_values();
 
 	if (dir.right)
-		world_x += speed;
+		world_x += s;
 	if (dir.left)
-		world_x -= speed;
+		world_x -= s;
 	if (dir.up)
-		world_y -= speed;
+		world_y -= s;
 	if (dir.down)
-		world_y += speed;
+		world_y += s;
 }
 
 void Character::update_old_values() {

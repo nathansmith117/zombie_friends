@@ -1,0 +1,192 @@
+Starting game
+Version: Still in building
+release date: 0 0 0
+build date: Sep 14 2022
+FLTK abi version: 10300
+User: nathan
+Program Directory: /home/nathan/Desktop/zombie_friends/
+Log file path: /home/nathan/Desktop/zombie_friends/logs/2022-8-14-1663215413.txt
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_right.png
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_left.png
+Finished loading 2 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/null.png
+Loading /home/nathan/Desktop/zombie_friends/images/grass.png
+Loading /home/nathan/Desktop/zombie_friends/images/dirt.png
+Loading /home/nathan/Desktop/zombie_friends/images/gravel.png
+Loading /home/nathan/Desktop/zombie_friends/images/heart.png
+Loading /home/nathan/Desktop/zombie_friends/images/coin.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_right.png
+Finished loading 8 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/testing_image.png
+Finished loading 1 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+New map created width: 20, height: 20
+Map loaded from map_data.mp
+0.093547 -0.035340
+0.092456 -0.038104
+0.091259 -0.040887
+0.089870 -0.043857
+0.088260 -0.047013
+0.086516 -0.050149
+0.084525 -0.053437
+0.082395 -0.056666
+0.079999 -0.060001
+0.065244 -0.075784
+0.069584 -0.071819
+0.073909 -0.067360
+0.077868 -0.062742
+-0.079652 0.060461
+0.083040 -0.055716
+0.080697 -0.059060
+-0.049934 -0.086641
+-0.054446 -0.083878
+-0.059204 -0.080590
+-0.063770 -0.077029
+-0.068426 -0.072924
+-0.072764 -0.068596
+-0.076756 -0.064098
+-0.080383 -0.059486
+-0.083640 -0.054813
+0.088058 0.047390
+0.091774 0.039718
+0.093382 0.035773
+0.092863 0.037100
+0.091715 0.039854
+0.091082 0.041280
+0.089689 0.044224
+0.088926 0.045741
+0.088131 0.047253
+0.086398 0.050352
+0.085457 0.051933
+0.083417 0.055150
+0.082317 0.056780
+0.081182 0.058390
+-0.043891 -0.089853
+-0.048375 -0.087521
+-0.052804 -0.084922
+-0.057497 -0.081818
+-0.062023 -0.078442
+-0.066668 -0.074534
+-0.071026 -0.070394
+-0.075064 -0.066071
+-0.078994 -0.061318
+0.080758 0.058976
+-0.084092 -0.054116
+0.087886 0.047708
+0.092360 0.038336
+0.094474 0.032783
+0.098021 0.019798
+0.099227 0.012406
+0.099927 -0.003832
+0.099229 -0.012393
+0.095555 -0.029483
+0.089003 -0.045590
+0.084952 -0.052756
+0.082303 -0.056800
+0.094219 -0.033507
+0.093284 -0.036029
+0.092192 -0.038739
+0.090917 -0.041643
+0.089527 -0.044553
+0.087925 -0.047636
+0.086085 -0.050886
+0.084106 -0.054093
+0.081867 -0.057426
+0.049594 0.086836
+0.058699 0.080959
+0.063208 0.077490
+0.065461 0.075597
+0.067649 0.073646
+-0.071954 -0.069445
+0.067868 0.073444
+-0.072106 -0.069287
+0.067985 0.073335
+-0.072191 -0.069199
+0.068107 0.073222
+-0.072280 -0.069106
+0.068232 0.073105
+-0.072374 -0.069008
+0.068362 0.072984
+-0.072472 -0.068904
+0.068496 0.072858
+-0.072575 -0.068796
+0.068635 0.072728
+-0.072683 -0.068681
+0.068778 0.072592
+-0.072797 -0.068561
+0.068927 0.072450
+-0.072916 -0.068434
+0.069081 0.072303
+-0.073041 -0.068301
+0.069156 0.072232
+-0.073318 -0.068004
+0.069342 0.072054
+-0.073471 -0.067838
+0.069535 0.071867
+-0.073632 -0.067663
+0.069735 0.071673
+-0.073801 -0.067479
+0.069943 0.071470
+-0.073978 -0.067285
+0.070159 0.071258
+-0.074164 -0.067080
+0.070384 0.071036
+-0.074358 -0.066865
+0.070618 0.070804
+-0.074561 -0.066639
+0.070860 0.070561
+-0.074773 -0.066400
+0.071112 0.070307
+-0.074995 -0.066150
+0.071374 0.070041
+-0.075227 -0.065886
+0.071645 0.069763
+-0.075468 -0.065609
+0.071927 0.069473
+-0.075721 -0.065317
+0.072220 0.069168
+-0.075984 -0.065011
+0.072524 0.068849
+-0.076258 -0.064689
+0.072840 0.068516
+-0.076543 -0.064351
+0.073602 0.067696
+0.073771 0.067512
+0.075766 0.065265
+-0.082281 -0.056832
+
+Closing window.
+Map deleted

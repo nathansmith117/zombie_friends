@@ -1,0 +1,76 @@
+Starting game
+Version: Still in building
+release date: 0 0 0
+build date: Sep 14 2022
+FLTK abi version: 10300
+User: nathan
+Program Directory: /home/nathan/Desktop/zombie_friends/
+Log file path: /home/nathan/Desktop/zombie_friends/logs/2022-8-14-1663214242.txt
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/player_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_right.png
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_left.png
+Finished loading 2 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/null.png
+Loading /home/nathan/Desktop/zombie_friends/images/grass.png
+Loading /home/nathan/Desktop/zombie_friends/images/dirt.png
+Loading /home/nathan/Desktop/zombie_friends/images/gravel.png
+Loading /home/nathan/Desktop/zombie_friends/images/heart.png
+Loading /home/nathan/Desktop/zombie_friends/images/coin.png
+Loading /home/nathan/Desktop/zombie_friends/images/sword_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/submachine_gun_right.png
+Finished loading 8 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/testing_image.png
+Finished loading 1 image(s) with 0 error(s)
+
+Loading images.
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_right_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_right_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_right_3.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_left_1.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_left_2.png
+Loading /home/nathan/Desktop/zombie_friends/images/evil_puppy_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+New map created width: 20, height: 20
+Map loaded from map_data.mp
+0.988116 0.153707
+0.542629 0.839972
+0.520327 0.853967
+0.540438 0.841384
+0.540149 0.841569
+0.515000 0.857190
+0.531207 0.847242
+0.536812 0.843702
+0.533277 0.845941
+0.540468 0.841365
+0.540210 0.841530
+0.515485 0.856898
+0.531860 0.846832
+0.500019 0.866014
+0.503320 0.864100
+0.509457 0.860496
+
+Closing window.
+Map deleted

@@ -51,7 +51,7 @@ int NpcMap::create_map(int width, int height) {
 	npc(evil_puppy, 5, 5);
 
 	EvilPuppy * evil_puppy2 = new EvilPuppy(mdata, this);
-	evil_puppy2->set_leader(evil_puppy);
+	//evil_puppy2->set_leader(evil_puppy);
 	//evil_puppy->set_always_updated(false);
 	npc(evil_puppy2, 2, 2);
 

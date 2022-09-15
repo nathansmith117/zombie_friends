@@ -36,6 +36,8 @@ class Character : public Fl_Widget {
 			old_direction = NO_MOVEMENT;
 
 			current_tool = 0;
+
+			speed = 0.0;
 		}
 
 		virtual void draw();
@@ -81,6 +83,9 @@ class Character : public Fl_Widget {
 
 		bool is_moving();
 
+		// Put this in update function.
+		virtual void keep_position() = 0;
+
 		bool hit_tile(Tile::TileObject tile, int x, int y);
 		bool hit_item(CommonItem::ItemData item, int x, int y);
 		bool hit_character(Character * character);
@@ -118,6 +123,10 @@ class Character : public Fl_Widget {
 
 		virtual void handle_collision();
 		virtual void handle_collision(Character * character);
+
+		float get_speed() { return speed; }
+		float get_scaled_speed() { return (float)speed * mdata->settings.scale; }
+		void set_speed(float speed) { this->speed = speed; }
 	protected:
 		MainData * mdata;
 		gameTools::Direction dir;
@@ -136,6 +145,8 @@ class Character : public Fl_Widget {
 
 		std::vector<Fl_PNG_Image*> character_images;
 
-		virtual void update_world_position(float speed); // Put this in update.
+		float speed;
+
+		virtual void update_world_position(); // Put this in update.
 		virtual void update_old_values(); // Put this at top of 'update_world_position'.
 };

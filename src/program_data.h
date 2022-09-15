@@ -177,6 +177,9 @@ struct Settings {
 
 	// Npc map.
 	int npc_map_overscan = 2;
+
+	// Smaller number means better collision correction but slower game.
+	float collision_correction = 0.3;
 };
 
 struct WeaponImages {

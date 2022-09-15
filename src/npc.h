@@ -26,8 +26,7 @@ class Npc : public Character {
 		virtual bool get_being_updated() { return being_updated; }
 		virtual void set_being_updated(bool being_updated) { this->being_updated = being_updated; }
 
-		// Put this in update function.
-		virtual void keep_position();
+		void keep_position();
 
 		void set_leader(Character * leader) { this->leader = leader; }
 		Character * get_leader() { return leader; }

@@ -25,6 +25,8 @@ void Player::main_init(MainData * md) {
 
 	wx((float)mdata->map->get_width() / 2);
 	wy((float)mdata->map->get_height() / 2);
+
+	speed = mdata->settings.player_speed;
 }
 
 bool Player::facing_right() {
@@ -58,12 +60,10 @@ void Player::update() {
 	if (tl != NULL)
 		tl->update();
 
-	p_speed = (float)mdata->settings.player_speed * mdata->settings.scale;
-
 	// Move in the world.
-	update_world_position(p_speed);
+	update_world_position();
 
-	update_map_offset();
+	keep_position();
 
 	// Slow stuff down.
 	if (last_call_count < (int)roundf(mdata->settings.update_fps 
@@ -136,7 +136,7 @@ void Player::handle_hit_data() {
 		// Character/npc.
 		if ((hit_data[i].type & HIT_CHARACTER) == HIT_CHARACTER) {
 			hit_data[i].hit_handled = true;
-			// handle_collision();
+			handle_collision(hit_data[i].things_hit.character);
 		}
 	}
 }
@@ -193,7 +193,7 @@ void Player::wx(float world_x) {
 	if (mdata->map == NULL)
 		return;
 
-	update_map_offset();
+	keep_position();
 }
 
 void Player::wy(float world_y) {
@@ -202,7 +202,7 @@ void Player::wy(float world_y) {
 	if (mdata->map == NULL)
 		return;
 
-	update_map_offset();
+	keep_position();
 }
 
 void Player::update_player_info() {
@@ -236,7 +236,7 @@ void Player::update_player_info() {
 		mdata->player_info_display->update();
 }
 
-void Player::update_map_offset() {
+void Player::keep_position() {
 	mdata->map->offset_x(-(world_x * mdata->scale_tile_size) + x());
 	mdata->map->offset_y(-(world_y * mdata->scale_tile_size) + y());
 }

@@ -18,15 +18,18 @@ void EvilPuppy::main_init(MainData * md) {
 	path_finder->set_character(this);
 
 	Astar::PathFinderSettings pathfinder_settings;
-	pathfinder_settings.dis_intel_update = 0.0;
+	pathfinder_settings.dis_intel_update = 1.0;
 	pathfinder_settings.safe_zone_width = 1;
 	pathfinder_settings.safe_zone_height = 1;
 	pathfinder_settings.character_is_npc = true;
-	pathfinder_settings.thread_speed = 10;
+	pathfinder_settings.thread_speed = 100;
+	pathfinder_settings.go_around_characters = false;
 	// pathfinder_settings.try_after_path_failed = true;
 
 	path_finder->set_settings(pathfinder_settings);
 	path_finder->start_thread();
+
+	speed = mdata->settings.player_speed / 2.0;
 }
 
 void EvilPuppy::update() {
@@ -45,8 +48,7 @@ void EvilPuppy::update() {
 	else
 		path_finder->set_target(leader);
 
-	float a_speed = (float)mdata->settings.player_speed / 2 * mdata->settings.scale;
-	update_world_position(a_speed);
+	update_world_position();
 
 	keep_position();
 
