@@ -9,6 +9,7 @@ EvilPuppy::~EvilPuppy() {
 void EvilPuppy::main_init(MainData * md) {
 	mdata = md;
 	
+	type = NPC_TYPE_EVIL_PUPPY;
 	refresh_images();
 
 	// Config.
@@ -22,9 +23,9 @@ void EvilPuppy::main_init(MainData * md) {
 	pathfinder_settings.safe_zone_width = 1;
 	pathfinder_settings.safe_zone_height = 1;
 	pathfinder_settings.character_is_npc = true;
-	pathfinder_settings.thread_speed = 100;
+	pathfinder_settings.thread_speed = 1;
 	pathfinder_settings.go_around_characters = false;
-	// pathfinder_settings.try_after_path_failed = true;
+	pathfinder_settings.try_after_path_failed = false;
 
 	path_finder->set_settings(pathfinder_settings);
 	path_finder->start_thread();
@@ -41,12 +42,12 @@ void EvilPuppy::update() {
 
 	last_call_count++;
 
-	path_finder->update();
+	//path_finder->update();
 
-	if (leader == NULL)
+//	if (leader == NULL)
 		path_finder->set_target(mdata->player);
-	else
-		path_finder->set_target(leader);
+//	else
+//		path_finder->set_target(leader);
 
 	update_world_position();
 
@@ -102,6 +103,16 @@ void EvilPuppy::handle_hit_data() {
 		// Hit already handled.
 		if (hit_data[i].hit_handled)
 			continue;
+
+		// tile.
+		if ((hit_data[i].type & HIT_TILE) == HIT_TILE) {
+			hit_data[i].hit_handled = true;
+
+			// Hits wall or something like that.
+			if ((hit_data[i].things_hit.tile.type & Tile::TYPE_NO_WALKTHROUGH) == Tile::TYPE_NO_WALKTHROUGH) {
+				handle_collision(hit_data[i].coord.x, hit_data[i].coord.y);
+			}
+		}
 
 		// Character/npc.
 		if ((hit_data[i].type & HIT_CHARACTER) == HIT_CHARACTER) {

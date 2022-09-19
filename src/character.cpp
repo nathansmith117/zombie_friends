@@ -61,9 +61,7 @@ bool Character::is_moving() {
 }
 
 bool Character::hit_tile(Tile::TileObject tile, int x, int y) {
-	Fl_PNG_Image * tile_image = Tile::get_image(tile, mdata);
-
-	if (tile_image == NULL || mdata->map == NULL)
+	if (mdata->map == NULL)
 		return false;
 
 	return gameTools::did_collide(
@@ -73,8 +71,8 @@ bool Character::hit_tile(Tile::TileObject tile, int x, int y) {
 		get_height(),
 		x * mdata->scale_tile_size,
 		y * mdata->scale_tile_size,
-		tile_image->w(),
-		tile_image->h()
+		mdata->scale_tile_size,
+		mdata->scale_tile_size
 	);
 }
 
@@ -343,59 +341,114 @@ void Character::handle_collision() {
 	wy(old_world_y);
 }
 
-void Character::handle_collision(Character * character) {
-	int i;
-	gameTools::Direction * char_dir = NULL;
-
+void Character::handle_collision(float obj_x, float obj_y, int obj_width, int obj_height) {
 	float rise, run;
 	float hit_angle;
 
+	float dis_traveled_x, dis_traveled_y;
+	float max_dis_traveled;
+
 	// Center coords.
-	float char_cx, char_cy;
+	float obj_cx, obj_cy;
 	float cx, cy;
 
-	float char_width, char_height;
+	float obj_w, obj_h;
 	float tile_width, tile_height;
 
-	if (character == NULL)
-		return;
+	float curr_width, curr_height;
 
-	/*
-	if (!is_moving())
-		return;
+	// Pixal x and y.
+	float obj_px, obj_py;
 
-	char_dir = character->direction();
+	obj_px = obj_x * mdata->scale_tile_size;
+	obj_py = obj_y * mdata->scale_tile_size;
 
-	if (!character->is_moving())
-		dir = NO_MOVEMENT;
-	*/
+	curr_width = get_width();
+	curr_height = get_height();
 
 	// Get width and height.
-	char_width = (float)character->get_width() / 2 / mdata->scale_tile_size;
-	char_height = (float)character->get_height() / 2 / mdata->scale_tile_size;
+	obj_w = (float)obj_width / 2 / mdata->scale_tile_size;
+	obj_h = (float)obj_height / 2 / mdata->scale_tile_size;
+
+	max_dis_traveled = (obj_w * 2) + (obj_h * 2);
 
 	tile_width = (float)get_width() / 2 / mdata->scale_tile_size;
 	tile_height = (float)get_height() / 2 / mdata->scale_tile_size;
 
 	// Get center position
-	char_cx = character->wx() + char_width;
-	char_cy = character->wy() + char_height;
+	obj_cx = obj_x + obj_w;
+	obj_cy = obj_y + obj_h;
 
 	cx = world_x + tile_width;
 	cy = world_y + tile_height;
 
 	// Get rise over run and angle.
-	rise = char_cy - cy;
-	run = char_cx - cx;
+	rise = obj_cy - cy;
+	run = obj_cx - cx;
 
 	hit_angle = atan2(rise, run);
 
 	rise = sinf(hit_angle) * mdata->settings.collision_correction;
 	run = cosf(hit_angle) * mdata->settings.collision_correction;
 
+	dis_traveled_x = 0.0;
+	dis_traveled_y = 0.0;
+
 	// Reset position.
-	world_x -= run;
-	world_y -= rise;
+	while (true) {
+
+		// No longer colliding.
+		if (!gameTools::did_collide(
+			obj_px,
+			obj_py,
+			obj_width,
+			obj_height,
+			world_x * mdata->scale_tile_size,
+			world_y * mdata->scale_tile_size,
+			curr_width,
+			curr_height))
+			break;
+
+		// Give up.
+		if (dis_traveled_x >= max_dis_traveled || dis_traveled_y >= max_dis_traveled)
+			break;
+
+		world_x -= run;
+		world_y -= rise;
+
+		dis_traveled_x += abs(run);
+		dis_traveled_y += abs(rise);
+	}
+}
+
+void Character::handle_collision(float obj_x, float obj_y) {
+	handle_collision(obj_x, obj_y, mdata->scale_tile_size, mdata->scale_tile_size);
+}
+
+void Character::handle_collision(CommonItem::ItemData item, int item_x, int item_y) {
+	Fl_PNG_Image * item_image = CommonItem::get_image(item, mdata);
+
+	if (item_image == NULL)
+		return;
+
+	handle_collision(
+		item_x,
+		item_y,
+		item_image->w(),
+		item_image->h()
+	);
+}
+
+void Character::handle_collision(Character * character) {
+	if (character == NULL)
+		return;
+
+	handle_collision(
+		character->wx(),
+		character->wy(),
+		character->get_width(),
+		character->get_heath()
+	);
 }
 
 void Character::update_world_position() {

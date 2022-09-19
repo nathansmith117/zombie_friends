@@ -4,6 +4,11 @@
 #include "npc.h"
 #include "game_tools.h"
 
+struct NpcData {
+	NPC_TYPE type;
+	int16_t x, y;
+};
+
 class NpcMap {
 	public:
 		NpcMap(MainData * md);
@@ -15,11 +20,14 @@ class NpcMap {
 		int create_map(int width, int height);
 		void delete_map();
 
+		void add_npcs_from_data(NpcData * npc_data, size_t n);
+
 		int get_width() { return width; }
 		int get_height() { return height; }
 
 		int npc(Npc * new_npc, int x, int y); // Can set npc to null.
 		int npc(Npc * new_npc);
+		int npc(NpcData npc_data);
 		Npc * npc(int x, int y);
 		int remove(int x, int y);
 
@@ -47,3 +55,5 @@ class NpcMap {
 
 		void update_npcs_in_use();
 };
+
+Npc * get_npc_from_type(MainData * mdata, NpcMap * npc_map, NPC_TYPE type);

@@ -31,5 +31,5 @@ class EvilPuppy : public Npc {
 
 		Astar::PathFinder * path_finder = NULL;
 
-		int last_call_count;
+		int last_call_count = 0;
 };

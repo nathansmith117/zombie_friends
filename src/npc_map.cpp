@@ -45,15 +45,23 @@ int NpcMap::create_map(int width, int height) {
 		for (x = 0; x < width; x++)
 			map[y][x] = NULL;
 
-
 	// Debug.
-	EvilPuppy * evil_puppy = new EvilPuppy(mdata, this);
-	npc(evil_puppy, 5, 5);
+	//EvilPuppy * evil_puppy = new EvilPuppy(mdata, this);
+	//npc(evil_puppy, 5, 5);
 
-	EvilPuppy * evil_puppy2 = new EvilPuppy(mdata, this);
+	//EvilPuppy * evil_puppy2 = new EvilPuppy(mdata, this);
 	//evil_puppy2->set_leader(evil_puppy);
 	//evil_puppy->set_always_updated(false);
-	npc(evil_puppy2, 2, 2);
+	//npc(evil_puppy2, 2, 2);
+
+	/*
+	NpcData npc_data[] = {
+		//{NPC_TYPE_EVIL_PUPPY, 5, 5}
+		{NPC_TYPE_EVIL_PUPPY, 2, 2}
+	};
+
+	add_npcs_from_data(npc_data, sizeof(npc_data) / sizeof(NpcData));
+	*/
 
 	return 0;
 }
@@ -77,16 +85,25 @@ void NpcMap::delete_map() {
 
 	// Delete npcs in use.
 	for (auto n : npcs_in_use)
-		if (n != NULL) {
+		if (n != NULL)
 			delete n;
-			n = NULL;
-		}
 
 	npcs_in_use.clear();
 
 	map = NULL;
 	width = 0;
 	height = 0;
+}
+
+void NpcMap::add_npcs_from_data(NpcData * npc_data, size_t n) {
+	int i;
+	Npc * new_npc = NULL;
+
+	if (npc_data == NULL || n <= 0)
+		return;
+
+	for (i = 0; i < n; i++)
+		npc(npc_data[i]);
 }
 
 int NpcMap::npc(Npc * new_npc, int x, int y) {
@@ -118,6 +135,15 @@ int NpcMap::npc(Npc * new_npc) {
 		return -1;
 
 	return npc(new_npc, new_npc->wx_rounded(), new_npc->wy_rounded());
+}
+
+int NpcMap::npc(NpcData npc_data) {
+	Npc * new_npc = get_npc_from_type(mdata, this, npc_data.type);
+
+	if (new_npc == NULL)
+		return -1;
+
+	return npc(new_npc, npc_data.x, npc_data.y);
 }
 
 Npc * NpcMap::npc(int x, int y) {
@@ -325,4 +351,15 @@ bool NpcMap::is_in_use(Npc * the_npc) {
 			return true;
 
 	return false;
+}
+
+Npc * get_npc_from_type(MainData * mdata, NpcMap * npc_map, NPC_TYPE type) {
+	switch (type) {
+		case NPC_TYPE_NONE:
+			return NULL;
+		case NPC_TYPE_EVIL_PUPPY:
+			return new EvilPuppy(mdata, npc_map);
+		default:
+			return NULL;
+	}
 }

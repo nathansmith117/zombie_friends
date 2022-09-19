@@ -12,10 +12,20 @@
 #include "tile.h"
 #include "astar_pathfinder.h"
 
+enum NPC_TYPES {
+	NPC_TYPE_NONE = -1,
+	NPC_TYPE_EVIL_PUPPY = 0
+};
+
+typedef int8_t NPC_TYPE;
+
 class Npc : public Character {
 	public:
 		Npc(MainData * md, class NpcMap * npc_map) : Character(md) {
 			this->npc_map = npc_map;
+
+			type = NPC_TYPE_NONE;
+
 			always_updated = false;
 			being_updated = false;
 		}
@@ -32,8 +42,13 @@ class Npc : public Character {
 		Character * get_leader() { return leader; }
 
 		virtual bool is_on_view_window();
+
+		NPC_TYPE get_type() { return type; }
+		void set_type(NPC_TYPE type) { this->type = type; }
 	protected:
 		class NpcMap * npc_map;
+
+		NPC_TYPE type;
 
 		Character * leader = NULL;
 

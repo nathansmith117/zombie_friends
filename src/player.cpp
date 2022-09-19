@@ -122,7 +122,7 @@ void Player::handle_hit_data() {
 
 			// Hits wall or something like that.
 			if ((hit_data[i].things_hit.tile.type & Tile::TYPE_NO_WALKTHROUGH) == Tile::TYPE_NO_WALKTHROUGH) {
-				handle_collision();
+				handle_collision(hit_data[i].coord.x, hit_data[i].coord.y);
 			}
 		}
 

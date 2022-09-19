@@ -11,12 +11,12 @@ OBJS = main.o appWindow.o player.o image_loader.o game_tools.o weapon.o \
        character.o tab_menu.o game_tab_menu.o chat_box.o game_commands.o \
        common_item.o common_tool.o player_info_display.o \
        submachine_gun.o gun.o npc.o evil_puppy.o npc_map.o astar_pathfinder.o \
-       loader_file_handling.o
+       loader_file_handling.o progress_bar.o
 GAME_TOOLS = image_loader.o game_tools.o weapon.o map.o tile.o player.o \
 	     debug_window.o view_window.o top_menu.o character.o tab_menu.o \
 	     chat_box.o game_commands.o common_item.o common_tool.o \
 	     player_info_display.o npc.o npc_map.o astar_pathfinder.o \
-	     loader_file_handling.o
+	     loader_file_handling.o progress_bar.o
 WEAPONS = weapon.o sword.o submachine_gun.o gun.o
 NPCS = npc.o evil_puppy.o astar_pathfinder.o npc_map.o
 LIB_DIR = ../lib/
@@ -50,7 +50,7 @@ game_tools.o: game_tools.cpp game_tools.h $(DEH)
 weapon.o: weapon.cpp weapon.h common_item.cpp common_item.h common_tool.cpp common_tool.h character.cpp character.h $(DEH)
 sword.o: sword.cpp sword.h weapon.cpp weapon.h character.cpp character.h $(DEH)
 map.o: map.cpp map.h tile.cpp tile.h game_tools.cpp game_tools.h common_item.cpp common_item.h chat_box.cpp chat_box.h \
-	npc_map.cpp npc_map.h $(DEH)
+	npc_map.cpp npc_map.h progress_bar.cpp progress_bar.h $(DEH)
 tile.o: tile.cpp tile.h $(DEH)
 debug_window.o: debug_window.cpp debug_window.h game_tools.cpp game_tools.h character.cpp character.h $(DEH)
 view_window.o: view_window.cpp view_window.h character.cpp character.h tab_menu.cpp tab_menu.h chat_box.cpp \
@@ -85,6 +85,7 @@ npc_map.o: npc_map.cpp npc_map.h npc.cpp npc.h game_tools.cpp game_tools.h \
 astar_pathfinder.o: astar_pathfinder.cpp astar_pathfinder.h game_tools.cpp game_tools.h tile.cpp tile.h map.cpp map.h \
 	character.cpp character.h npc.cpp npc.h npc_map.cpp npc_map.h $(DEH)
 loader_file_handling.o: loader_file_handling.cpp loader_file_handling.h image_loader.cpp image_loader.h game_tools.cpp game_tools.h $(DEH)
+progress_bar.o: progress_bar.cpp progress_bar.h $(DEH)
 
 clean:
 	rm *.o

@@ -122,6 +122,10 @@ class Character : public Fl_Widget {
 		int tool_owned(int tool_type);
 
 		virtual void handle_collision();
+
+		virtual void handle_collision(float obj_x, float obj_y, int obj_width, int obj_height);
+		virtual void handle_collision(float obj_x, float obj_y);
+		virtual void handle_collision(CommonItem::ItemData item, int item_x, int item_y);
 		virtual void handle_collision(Character * character);
 
 		float get_speed() { return speed; }

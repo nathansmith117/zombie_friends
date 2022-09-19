@@ -13,6 +13,7 @@
 #include "tab_menu.h"
 #include "game_tab_menu.h"
 #include "common_item.h"
+#include "progress_bar.h"
 
 void load_first_images(MainData * mdata) {
 	// Get image data directory.

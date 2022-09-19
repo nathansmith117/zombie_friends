@@ -271,6 +271,7 @@ namespace Astar {
 	void PathFinder::update_thread_cb(PathFinder * path_finder) {
 		while (!path_finder->should_stop_thread) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(path_finder->settings.thread_speed));
+
 			// If npc is not being updated.
 			if (path_finder->settings.character_is_npc && path_finder->character != NULL)
 				if (!((Npc*)path_finder->character)->get_being_updated())

@@ -11,7 +11,7 @@ enum TOOL_TYPES {
 	TOOL_SUBMACHINE_GUN
 };
 
-typedef unsigned char TOOL_TYPE;
+typedef int8_t TOOL_TYPE;
 
 class CommonTool : public Fl_Widget {
 	public:

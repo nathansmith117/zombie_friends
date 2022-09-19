@@ -24,6 +24,7 @@
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Group.H>
 #include <FL/fl_ask.H>
+#include <FL/Fl_Progress.H>
 #include <FL/Fl_Check_Button.H>
 #include <FL/names.h>
 #include <FL/x.H>
@@ -128,6 +129,11 @@ struct WeaponSettings {
 	float submachine_gun_speed = 0.0001;
 };
 
+struct ProgressBarSettings {
+	int width = 200;
+	int height = 100;
+};
+
 struct Settings {
 	// Speed.
 	float update_fps = 60.0;
@@ -142,6 +148,7 @@ struct Settings {
 
 	MenuSettings menu;
 	EditorSettings editor;
+	ProgressBarSettings progress_bar;
 
 	// Rendering.
 	Fl_Color background_color = FL_BLACK;
@@ -179,7 +186,7 @@ struct Settings {
 	int npc_map_overscan = 2;
 
 	// Smaller number means better collision correction but slower game.
-	float collision_correction = 0.3;
+	float collision_correction = 0.05;
 };
 
 struct WeaponImages {

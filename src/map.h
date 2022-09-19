@@ -3,6 +3,7 @@
 #include "program_data.h"
 #include "tile.h"
 #include "common_item.h"
+#include "progress_bar.h"
 
 #define MAP_MAGIC_NUM 7
 
@@ -33,9 +34,11 @@ struct MapFileHeader {
 
 	uint32_t tile_object_size;
 	uint32_t item_object_size;
+	uint32_t npc_object_size;
 
 	uint32_t item_data_size;
 	uint32_t command_list_size; // 0 for no commands.
+	uint32_t npc_list_size;
 };
 
 class Map {
@@ -93,7 +96,12 @@ class Map {
 
 		class NpcMap * npc_map = NULL;
 
+		ProgressBar * progress = NULL;
+
 		std::vector<std::string> item_commands;
+
+		// Used for level editor only.
+		std::vector<struct NpcData> npc_data;
 
 		char file_path[NAME_MAX];
 

@@ -19,6 +19,8 @@ Map::Map(MainData * md) {
 	memset(file_path, 0, NAME_MAX);
 
 	npc_map = new NpcMap(mdata);
+
+	progress = new ProgressBar(mdata);
 }
 
 Map::~Map() {
@@ -100,6 +102,8 @@ void Map::delete_map() {
 	item_map = NULL;
 	width = 0;
 	height = 0;
+
+	npc_data.clear();
 
 	// Delete npc map.
 	npc_map->delete_map();
@@ -290,6 +294,7 @@ int Map::load(const char * file_path, size_t n) {
 
 	uint32_t tile_object_size = (uint32_t)sizeof(Tile::TileObject);
 	uint32_t item_object_size = (uint32_t)sizeof(ItemDataWithCoord);
+	uint32_t npc_object_size = (uint32_t)sizeof(NpcData);
 
 	MapFileHeader header;
 
@@ -303,6 +308,12 @@ int Map::load(const char * file_path, size_t n) {
 
 	size_t command_list_size;
 	char * command_list = NULL;
+
+	size_t npc_list_size;
+	NpcData * npc_list = NULL;
+
+	Npc * curr_npc = NULL;
+	NpcData curr_npc_data;
 
 	long int i = 0;
 	int x, y;
@@ -344,6 +355,15 @@ int Map::load(const char * file_path, size_t n) {
 	if (header.item_object_size != item_object_size) {
 		fprintf(stderr, "Item object size is not correct. current: %u, correct %u\n", 
 				header.item_object_size, item_object_size
+		);
+		res = -1;
+		goto clean_mem;
+	}
+
+	// Check npc object size.
+	if (header.npc_object_size != npc_object_size) {
+		fprintf(stderr, "Npc object size is not correct. current: %u, correct %u\n", 
+				header.npc_object_size, npc_object_size
 		);
 		res = -1;
 		goto clean_mem;
@@ -424,6 +444,21 @@ skip_getting_command_list:
 
 skip_creating_item_data:
 
+	npc_list_size = header.npc_list_size;
+
+	if (npc_list_size <= 0)
+		goto skip_creating_npc_list;
+
+	npc_list = new NpcData[npc_list_size];
+
+	if (npc_list == NULL) {
+		fputs("Error getting memory for 'npc_list'\n", stderr);
+		res = -1;
+		goto clean_mem;
+	}
+
+skip_creating_npc_list:
+
 	// Load tiles.
 	if (fread(tile_data, tile_object_size, map_size, fp) == -1) {
 		fprintf(stderr, "Error loading tile data from %s\n", file_path);
@@ -435,6 +470,14 @@ skip_creating_item_data:
 	if (item_data != NULL)
 		if (fread(item_data, item_object_size, item_data_size, fp) == -1) {
 			fprintf(stderr, "Error loading item data from %s\n", file_path);
+			res = -1;
+			goto clean_mem;
+		}
+
+	// Load npcs.
+	if (npc_list != NULL)
+		if (fread(npc_list, npc_object_size, npc_list_size, fp) == -1) {
+			fprintf(stderr, "Error loading npc list from %s\n", file_path);
 			res = -1;
 			goto clean_mem;
 		}
@@ -455,6 +498,14 @@ skip_creating_item_data:
 			item(curr_item.item, curr_item.x, curr_item.y);
 		}
 
+	// Add npcs.
+	if (npc_list != NULL) {
+		npc_map->add_npcs_from_data(npc_list, npc_list_size);
+
+		for (i = 0; i < npc_list_size; i++)
+			npc_data.push_back(npc_list[i]);
+	}
+
 	printf("Map loaded from %s\n", file_path);
 	gameTools::set_scrollbar_bounds(mdata, width, height);
 
@@ -472,6 +523,8 @@ clean_mem:
 		delete [] item_data;
 	if (command_list != NULL)
 		delete [] command_list;
+	if (npc_list != NULL)
+		delete [] npc_list;
 
 	return res;
 }
@@ -489,6 +542,12 @@ int Map::dump(const char * file_path, size_t n) {
 
 	size_t command_list_size;
 	char * command_list = NULL;
+
+	size_t npc_list_size;
+	NpcData * npc_list = NULL;
+
+	Npc * curr_npc = NULL;
+	NpcData curr_npc_data;
 
 	CommonItem::ItemData curr_item;
 
@@ -575,6 +634,27 @@ skip_create_command_list:
 
 skip_creating_item_data:
 
+	npc_list_size = npc_data.size();
+	
+	// No npcs.
+	if (npc_data.empty())
+		goto skip_creating_npc_list;
+
+	// Create 'npc_list'.
+	npc_list = new NpcData[npc_list_size];
+
+	if (npc_list == NULL) {
+		fputs("Error getting memory for 'npc_list'\n", stderr);
+		res = -1;
+		goto clean_mem;
+	}
+
+	// Add npcs.
+	for (i = 0; i < npc_list_size; i++)
+		npc_list[i] = npc_data[i];
+
+skip_creating_npc_list:
+
 	// Create header.
 	header.magic_number = MAP_MAGIC_NUM;
 	header.w = (MAP_SIZE)width;
@@ -582,9 +662,11 @@ skip_creating_item_data:
 
 	header.tile_object_size = sizeof(Tile::TileObject);
 	header.item_object_size = sizeof(ItemDataWithCoord);
+	header.npc_object_size = sizeof(NpcData);
 
 	header.item_data_size = (uint32_t)item_data_size;
-	header.command_list_size = command_list_size;
+	header.command_list_size = (uint32_t)command_list_size;
+	header.npc_list_size = (uint32_t)npc_list_size;
 
 	// Create tile array.
 	map_size = header.w * header.h;
@@ -648,6 +730,14 @@ skip_creating_item_data:
 			res = -1;
 			goto clean_mem;
 		}
+	
+	// Write npc list.
+	if (npc_list != NULL)
+		if (fwrite(npc_list, sizeof(NpcData), npc_list_size, fp) == -1) {
+			fprintf(stderr, "Error writing npc list to %s\n", file_path);
+			res = -1;
+			goto clean_mem;
+		}
 
 	// Set path for map object.
 	set_file_path(file_path, n);
@@ -663,6 +753,8 @@ clean_mem:
 		delete [] item_data;
 	if (command_list != NULL)
 		delete [] command_list;
+	if (npc_list != NULL)
+		delete [] npc_list;
 
 	return res;
 }
