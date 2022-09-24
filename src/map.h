@@ -89,6 +89,9 @@ class Map {
 		int run_item_command(CommonItem::ItemData item);
 
 		class NpcMap * get_npc_map() { return npc_map; }
+
+		// Way this way )-----:
+		std::vector<struct NpcData> * get_npc_data() { return &npc_data; }
 	private:
 		MainData * mdata;
 		Tile::TileObject ** tile_map = NULL;

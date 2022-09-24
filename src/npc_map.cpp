@@ -53,14 +53,16 @@ int NpcMap::create_map(int width, int height) {
 	//evil_puppy2->set_leader(evil_puppy);
 	//evil_puppy->set_always_updated(false);
 	//npc(evil_puppy2, 2, 2);
-
 	/*
 	NpcData npc_data[] = {
-		//{NPC_TYPE_EVIL_PUPPY, 5, 5}
+		{NPC_TYPE_EVIL_PUPPY, 5, 5},
 		{NPC_TYPE_EVIL_PUPPY, 2, 2}
 	};
 
 	add_npcs_from_data(npc_data, sizeof(npc_data) / sizeof(NpcData));
+
+	for (auto n : npc_data)
+		mdata->map->get_npc_data()->push_back(n);
 	*/
 
 	return 0;

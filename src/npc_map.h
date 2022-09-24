@@ -4,9 +4,23 @@
 #include "npc.h"
 #include "game_tools.h"
 
+#define NPC_DATA_TOOLS_SIZE 5
+
 struct NpcData {
 	NPC_TYPE type;
 	int16_t x, y;
+
+	int8_t health;
+	int8_t coins;
+
+	// Tools that npc will start with.
+	int8_t tools[NPC_DATA_TOOLS_SIZE] = {
+		0, 0, 0, 0, 0
+	};
+
+	int8_t fuel[NPC_DATA_TOOLS_SIZE] = {
+		0, 0, 0, 0, 0
+	};
 };
 
 class NpcMap {
