@@ -341,9 +341,11 @@ void Character::handle_collision() {
 	wy(old_world_y);
 }
 
-void Character::handle_collision(float obj_x, float obj_y, int obj_width, int obj_height) {
+void Character::handle_collision(float obj_x, float obj_y, int obj_width, int obj_height, float correction_speed) {
 	float rise, run;
 	float hit_angle;
+
+	float corr_speed;
 
 	float dis_traveled_x, dis_traveled_y;
 	float max_dis_traveled;
@@ -388,8 +390,13 @@ void Character::handle_collision(float obj_x, float obj_y, int obj_width, int ob
 
 	hit_angle = atan2(rise, run);
 
-	rise = sinf(hit_angle) * mdata->settings.collision_correction;
-	run = cosf(hit_angle) * mdata->settings.collision_correction;
+	if (correction_speed == 0.0)
+		corr_speed = get_scaled_speed();
+	else
+		corr_speed = correction_speed;
+
+	rise = sinf(hit_angle) * corr_speed;
+	run = cosf(hit_angle) * corr_speed;
 
 	dis_traveled_x = 0.0;
 	dis_traveled_y = 0.0;
@@ -447,8 +454,13 @@ void Character::handle_collision(Character * character) {
 		character->wx(),
 		character->wy(),
 		character->get_width(),
-		character->get_heath()
+		character->get_heath(),
+		character->get_scaled_speed()
 	);
+}
+
+float Character::get_scaled_speed() {
+	return (float)speed * mdata->settings.scale / mdata->settings.update_fps;
 }
 
 void Character::update_world_position() {

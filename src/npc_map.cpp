@@ -1,6 +1,18 @@
 #include "npc_map.h"
 #include "evil_puppy.h"
 
+NpcData get_clear_npc_data() {
+	int i;
+	NpcData npc_data;
+
+	for (i = 0; i < NPC_DATA_TOOLS_SIZE; i++) {
+		npc_data.tools[i] = -1;
+		npc_data.fuel[i] = 0;
+	}
+
+	return npc_data;
+}
+
 NpcMap::NpcMap(MainData * md) {
 	mdata = md;
 	
@@ -46,13 +58,7 @@ int NpcMap::create_map(int width, int height) {
 			map[y][x] = NULL;
 
 	// Debug.
-	//EvilPuppy * evil_puppy = new EvilPuppy(mdata, this);
-	//npc(evil_puppy, 5, 5);
 
-	//EvilPuppy * evil_puppy2 = new EvilPuppy(mdata, this);
-	//evil_puppy2->set_leader(evil_puppy);
-	//evil_puppy->set_always_updated(false);
-	//npc(evil_puppy2, 2, 2);
 	/*
 	NpcData npc_data[] = {
 		{NPC_TYPE_EVIL_PUPPY, 5, 5},
@@ -140,10 +146,28 @@ int NpcMap::npc(Npc * new_npc) {
 }
 
 int NpcMap::npc(NpcData npc_data) {
+	int i;
+
 	Npc * new_npc = get_npc_from_type(mdata, this, npc_data.type);
+	CommonTool * new_tool = NULL;
 
 	if (new_npc == NULL)
 		return -1;
+
+	// Coins and health.
+	new_npc->set_coins(npc_data.coins);
+	new_npc->set_heath(npc_data.health);
+
+	// Add tools.
+	for (i = 0; i < NPC_DATA_TOOLS_SIZE; i++) {
+		new_tool = get_tool_from_type(npc_data.tools[i], mdata, new_npc);
+
+		if (new_tool == NULL)
+			continue;
+
+		new_tool->set_fuel(npc_data.fuel[i]);
+		new_npc->add_tool(new_tool);
+	}
 
 	return npc(new_npc, npc_data.x, npc_data.y);
 }

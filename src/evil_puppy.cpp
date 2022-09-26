@@ -28,9 +28,19 @@ void EvilPuppy::main_init(MainData * md) {
 	pathfinder_settings.try_after_path_failed = false;
 
 	path_finder->set_settings(pathfinder_settings);
-	path_finder->start_thread();
+	//path_finder->start_thread();
 
 	speed = mdata->settings.player_speed / 2.0;
+
+	// Points.
+	points = {
+		{5, 5},
+		{5, 10},
+		{10, 10},
+		{10, 5}
+	};
+
+	following_type = POINT_FOLLOWING_BACK_AND_FORTH;
 }
 
 void EvilPuppy::update() {
@@ -42,12 +52,9 @@ void EvilPuppy::update() {
 
 	last_call_count++;
 
-	//path_finder->update();
+	path_finder->set_target(mdata->player);
 
-//	if (leader == NULL)
-		path_finder->set_target(mdata->player);
-//	else
-//		path_finder->set_target(leader);
+	follow_points();
 
 	update_world_position();
 

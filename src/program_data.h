@@ -138,7 +138,9 @@ struct Settings {
 	// Speed.
 	float update_fps = 60.0;
 	float draw_fps = 60.0;
-	float player_speed = 0.0625;
+
+	// Player speed.
+	float player_speed = 3.75; // Tiles per second.
 	float player_update_speed = 0.1;
 
 	WeaponSettings weapons;
@@ -184,9 +186,6 @@ struct Settings {
 
 	// Npc map.
 	int npc_map_overscan = 2;
-
-	// Smaller number means better collision correction but slower game.
-	float collision_correction = 0.05;
 };
 
 struct WeaponImages {

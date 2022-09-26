@@ -71,8 +71,9 @@ class Gun : public Weapon {
 		std::vector<BulletHitData> bullet_hit_data;
 
 		// Bullet settings.
-		int bullet_w, bullet_h, bullet_speed;
-		int updates_per_add_bullet = 0;
+		int bullet_w, bullet_h;
+		int bullet_speed; // Pixels per second.
+		int bullets_per_second = 0;
 		int max_bullets = BULLET_MAX_NONE;
 		Fl_Color bullet_color = FL_BLACK;
 

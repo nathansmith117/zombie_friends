@@ -1,5 +1,6 @@
 #include "astar_pathfinder.h"
 #include "npc_map.h"
+#include "npc.h"
 
 namespace Astar {
 	int get_dis(Point p1, Point p2) {

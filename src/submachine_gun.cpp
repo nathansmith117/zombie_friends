@@ -14,8 +14,8 @@ void SubmachineGun::main_init(MainData * md, Fl_Widget * item_holder) {
 	bullet_w = 3;
 	bullet_h = 2;
 	bullet_color = FL_YELLOW;
-	bullet_speed = 15;
-	updates_per_add_bullet = 10;
+	bullet_speed = 900;
+	bullets_per_second = 4;
 	max_bullets = BULLET_MAX_NONE;
 	needs_fuel = true;
 	fuel = 30;

@@ -29,7 +29,7 @@ void Gun::update_bullets() {
 
 	// Bullet add speed.
 	// Make sure there are no returns before this.
-	if (updates_after_bullet_added >= updates_per_add_bullet)
+	if ((float)updates_after_bullet_added / mdata->settings.update_fps * bullets_per_second >= 1.0)
 		can_add_bullet = true;
 	else {
 		can_add_bullet = false;
@@ -85,7 +85,7 @@ void Gun::update_and_test_bullet(int bullet_id) {
 		return;
 
 	// Update position.
-	curr_bullet.x += (bullet_speed * curr_bullet.dir);
+	curr_bullet.x += ((bullet_speed / mdata->settings.update_fps) * curr_bullet.dir);
 
 	// Keep bullet speed looking the same with map scrolling.
 	if (player != NULL) {

@@ -123,13 +123,13 @@ class Character : public Fl_Widget {
 
 		virtual void handle_collision();
 
-		virtual void handle_collision(float obj_x, float obj_y, int obj_width, int obj_height);
+		virtual void handle_collision(float obj_x, float obj_y, int obj_width, int obj_height, float correction_speed=0.0);
 		virtual void handle_collision(float obj_x, float obj_y);
 		virtual void handle_collision(CommonItem::ItemData item, int item_x, int item_y);
 		virtual void handle_collision(Character * character);
 
 		float get_speed() { return speed; }
-		float get_scaled_speed() { return (float)speed * mdata->settings.scale; }
+		float get_scaled_speed();
 		void set_speed(float speed) { this->speed = speed; }
 	protected:
 		MainData * mdata;

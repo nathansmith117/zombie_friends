@@ -5,7 +5,6 @@
 #include "tile.h"
 #include "map.h"
 #include "character.h"
-#include "npc.h"
 
 namespace Astar {
 	struct Point {
