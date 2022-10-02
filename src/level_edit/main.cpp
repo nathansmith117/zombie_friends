@@ -8,6 +8,7 @@
 #include "player.h"
 #include "edit_tab_menu.h"
 #include "loader_file_handling.h"
+#include "settings_editor.h"
 
 void load_first_images(MainData * mdata) {
 	load_images_from_loader_file(mdata, "../../image_list.il");
@@ -35,7 +36,7 @@ int main(int argc, char ** argv) {
 	time(&raw_time);
 	mdata.timeinfo = localtime(&raw_time);
 
-	snprintf(log_file_name, NAME_MAX, "%d-%d-%d-%d.txt", 
+	snprintf(log_file_name, NAME_MAX, "%d-%d-%d-%ld.txt", 
 		mdata.timeinfo->tm_year + 1900,
 		mdata.timeinfo->tm_mon, 
 		mdata.timeinfo->tm_mday, 
@@ -62,6 +63,9 @@ int main(int argc, char ** argv) {
 	load_first_images(&mdata);
 
 	mdata.map = new Map(&mdata);
+
+	// Settings editor.
+	mdata.settings_editor = new SettingsEditor(&mdata);
 
 	// Start size.
 	if (mdata.settings.editor.start_with_created_map)

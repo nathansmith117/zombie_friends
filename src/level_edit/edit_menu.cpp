@@ -89,6 +89,8 @@ void editor_save_as_cb(Fl_Widget * w, void * d) {
 }
 
 int editor_save_as(Fl_Menu_Bar * menu_bar, MainData * mdata) {
+	int res = 0;
+
 	if (mdata->map == NULL) {
 		fputs("You have to create or open a map first\n", stderr);
 		return -1;
@@ -104,19 +106,26 @@ int editor_save_as(Fl_Menu_Bar * menu_bar, MainData * mdata) {
 	switch (file_browser->show()) {
 		case -1: // Error
 			fprintf(stderr, "Error with Fl_Native_File_Chooser: %s\n", file_browser->errmsg());
-			return -1;
+			res = -1;
+			goto clear_mem;
 		case 1: // cancel
-			return 0;
+			goto clear_mem;
 		default:
 			file_name = file_browser->filename();
 			break;
 	}
 
-	if (file_name == NULL)
-		return -1;
+	if (file_name == NULL) {
+		res = -1;
+		goto clear_mem;
+	}
 
 	mdata->map->dump(file_name, NAME_MAX);
-	return 0;
+
+clear_mem:
+	delete file_browser;
+
+	return res;
 }
 
 void create_diologs(MainData * mdata) {
@@ -188,6 +197,7 @@ void add_editor_menu_items(MainData * mdata, Fl_Menu_Bar * menu) {
 	menu->add("&File/New", FL_CTRL + 'n', (Fl_Callback*)editor_new_cb, (void*)mdata->edit_menu_diologs->new_diolog);
 	menu->add("&File/Save", FL_CTRL + 's', (Fl_Callback*)editor_save_cb, (void*)mdata);
 	menu->add("&File/Save As", FL_CTRL + FL_SHIFT + 's', (Fl_Callback*)editor_save_as_cb, (void*)mdata, FL_MENU_DIVIDER);
+	menu->add("&File/Settings", 0, (Fl_Callback*)settings_cb, (void*)mdata);
 	menu->add("&File/Exit", FL_ALT + FL_F + 4, (Fl_Callback*)exit_cb, (void*)mdata);
 
 	// Edit.

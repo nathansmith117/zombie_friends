@@ -4,6 +4,7 @@
 
 // Callbacks.
 void exit_cb(Fl_Widget * w, void * d);
+void settings_cb(Fl_Widget * w, void * d);
 void open_cb(Fl_Widget * w, void * d);
 void fullscreen_cb(Fl_Widget * w, void * d);
 void view_window_cb(Fl_Widget * w, void * d);

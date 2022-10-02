@@ -11,12 +11,12 @@ OBJS = main.o appWindow.o player.o image_loader.o game_tools.o weapon.o \
        character.o tab_menu.o game_tab_menu.o chat_box.o game_commands.o \
        common_item.o common_tool.o player_info_display.o \
        submachine_gun.o gun.o npc.o evil_puppy.o npc_map.o astar_pathfinder.o \
-       loader_file_handling.o progress_bar.o
+       loader_file_handling.o progress_bar.o settings_editor.o
 GAME_TOOLS = image_loader.o game_tools.o weapon.o map.o tile.o player.o \
 	     debug_window.o view_window.o top_menu.o character.o tab_menu.o \
 	     chat_box.o game_commands.o common_item.o common_tool.o \
 	     player_info_display.o npc.o npc_map.o astar_pathfinder.o \
-	     loader_file_handling.o progress_bar.o
+	     loader_file_handling.o progress_bar.o settings_editor.o
 WEAPONS = weapon.o sword.o submachine_gun.o gun.o
 NPCS = npc.o evil_puppy.o astar_pathfinder.o npc_map.o
 LIB_DIR = ../lib/
@@ -56,7 +56,7 @@ debug_window.o: debug_window.cpp debug_window.h game_tools.cpp game_tools.h char
 view_window.o: view_window.cpp view_window.h character.cpp character.h tab_menu.cpp tab_menu.h chat_box.cpp \
 	chat_box.h player.cpp player.h npc_map.cpp npc_map.h map.cpp map.h $(DEH)
 top_menu.o: top_menu.cpp top_menu.h debug_window.cpp debug_window.h view_window.cpp view_window.h \
-	game_tools.cpp game_tools.h $(DEH)
+	game_tools.cpp game_tools.h settings_editor.cpp settings_editor.h $(DEH)
 character.o: character.cpp character.h weapon.cpp weapon.h common_item.cpp common_item.h \
 	  game_tools.cpp game_tools.h map.cpp map.h \
 	common_tool.cpp common_tool.h npc_map.cpp npc_map.h $(DEH)
@@ -86,6 +86,7 @@ astar_pathfinder.o: astar_pathfinder.cpp astar_pathfinder.h game_tools.cpp game_
 	character.cpp character.h npc.cpp npc.h npc_map.cpp npc_map.h $(DEH)
 loader_file_handling.o: loader_file_handling.cpp loader_file_handling.h image_loader.cpp image_loader.h game_tools.cpp game_tools.h $(DEH)
 progress_bar.o: progress_bar.cpp progress_bar.h $(DEH)
+settings_editor.o: settings_editor.cpp settings_editor.h game_tools.cpp game_tools.h player.cpp player.h $(DEH)
 
 clean:
 	rm *.o

@@ -3,11 +3,24 @@
 #include "view_window.h"
 #include "tab_menu.h"
 #include "game_tools.h"
+#include "settings_editor.h"
 
 void exit_cb(Fl_Widget * w, void * d) {
 	MainData * mdata = (MainData*)d;
 	mdata->win->hide();
 	exit(0);
+}
+
+void settings_cb(Fl_Widget * w, void * d) {
+	MainData * mdata = (MainData*)d;
+	SettingsEditor * settings_editor = (SettingsEditor*)mdata->settings_editor;
+
+	if (settings_editor == NULL) {
+		fputs("Settings editor is null\n", stderr);
+		return;
+	}
+
+	settings_editor->show_and_position();
 }
 
 void open_cb(Fl_Widget * w, void * d) {
@@ -22,6 +35,7 @@ void open_cb(Fl_Widget * w, void * d) {
 	char file_locat[NAME_MAX];
 	char file_ext[NAME_MAX];
 	gameTools::GAME_DATA_TYPE data_type;
+
 	
 	memset(file_locat, 0, NAME_MAX);
 	memset(file_ext, 0, NAME_MAX);
@@ -35,8 +49,10 @@ void open_cb(Fl_Widget * w, void * d) {
 	switch (file_browser->show()) {
 		case -1: // Error
 			fprintf(stderr, "Error with Fl_Native_File_Chooser: %s\n", file_browser->errmsg());
+			delete file_browser;
 			return;
 		case 1: // cancel
+			delete file_browser;
 			return;
 		default:
 			file_name_size = strnlen(file_browser->filename(), NAME_MAX);
@@ -98,6 +114,7 @@ void open_cb(Fl_Widget * w, void * d) {
 
 clear_mem:
 	delete [] file_name;
+	delete file_browser;
 
 	if (img_folder != NULL)
 		delete [] img_folder;
@@ -190,6 +207,7 @@ void add_menu_items(Fl_Menu_Bar * menu, MainData * mdata) {
 	menu->add("&File/Open", FL_CTRL + 'o', (Fl_Callback*)open_cb, (void*)mdata);
 	menu->add("&File/Save", FL_CTRL + 's', 0, 0);
 	menu->add("&File/Save as", FL_CTRL + FL_SHIFT + 's', 0, 0, FL_MENU_DIVIDER);
+	menu->add("&File/Settings", 0, (Fl_Callback*)settings_cb, (void*)mdata);
 	menu->add("&File/Exit", FL_ALT + FL_F + 4, (Fl_Callback*)exit_cb, (void*)mdata);
 
 	// View.

@@ -23,10 +23,11 @@ int AppWindow::handle(int event) {
 			return 1;
 		// To get debug_window and other widgets to work.
 		case FL_PUSH:
+		case FL_RELEASE:
 		case FL_DRAG:
 		case FL_MOUSEWHEEL:
 			Fl_Group::handle(event);
-			return 0;
+			return 1;
 		case FL_KEYDOWN:
 			switch (Fl::event_key()) {
 				case ' ':

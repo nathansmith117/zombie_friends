@@ -14,6 +14,7 @@
 #include "game_tab_menu.h"
 #include "common_item.h"
 #include "progress_bar.h"
+#include "settings_editor.h"
 
 void load_first_images(MainData * mdata) {
 	// Get image data directory.
@@ -66,7 +67,7 @@ int main(int argc, char ** argv) {
 	time(&raw_time);
 	mdata.timeinfo = localtime(&raw_time);
 
-	snprintf(log_file_name, NAME_MAX, "%d-%d-%d-%d.txt", 
+	snprintf(log_file_name, NAME_MAX, "%d-%d-%d-%ld.txt", 
 		mdata.timeinfo->tm_year + 1900,
 		mdata.timeinfo->tm_mon, 
 		mdata.timeinfo->tm_mday, 
@@ -98,46 +99,8 @@ int main(int argc, char ** argv) {
 	mdata.map = new Map(&mdata);
 	mdata.map->load(map_file_name, NAME_MAX);
 
-	/*
-	CommonItem::ItemData new_item;
-	new_item.id = 6;
-	new_item.load_type = CommonItem::BASIC;
-	new_item.gain_tool = TOOL_SWORD;
-	new_item.gain_fuel = 30;
-
-	mdata.map->item(new_item, 5, 5);
-
-	new_item.id = 7;
-	new_item.load_type = CommonItem::BASIC;
-	new_item.gain_tool = TOOL_SUBMACHINE_GUN;
-	new_item.gain_fuel = 30;
-	new_item.command_location = 0;
-
-	mdata.map->item(new_item, 8, 15);
-
-	new_item.id = 4;
-	new_item.heath_gain = 1;
-	new_item.load_type = CommonItem::BASIC;
-	new_item.gain_tool = CommonItem::NONE;
-	new_item.gain_fuel = 0;
-	new_item.command_location = CommonItem::NONE;
-
-	mdata.map->item(new_item, 15, 15);
-
-	new_item.id = 5;
-	new_item.heath_gain = 0;
-	new_item.coin_gain = 1;
-	new_item.load_type = CommonItem::BASIC;
-	new_item.gain_tool = CommonItem::NONE;
-	new_item.gain_fuel = 0;
-	new_item.command_location = CommonItem::NONE;
-
-	mdata.map->item(new_item, 5, 15);
-
-	mdata.map->set_item_commands({std::string("say hi hi you big dummy")});
-
-	mdata.map->dump(map_file_name, NAME_MAX);
-	*/
+	// Settings editor.
+	mdata.settings_editor = new SettingsEditor(&mdata);
 
 	// Open window.
 	mdata.win = new AppWindow(&mdata, Fl::w() / 2, Fl::h() / 2, "Zombie Friends");

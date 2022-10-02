@@ -147,10 +147,19 @@ namespace gameTools {
 		GAME_NONE,
 		GAME_MAP,
 		GAME_COMMAND_SCRIPT,
-		GAME_IMAGE_LOADER
+		GAME_IMAGE_LOADER,
+		GAME_SETTINGS
 	};
 
 	typedef unsigned char GAME_DATA_TYPE;
+
+	struct GameFileTypeData {
+		char file_ext[NAME_MAX];
+		GAME_DATA_TYPE type;
+	};
+
+	const size_t FILE_TYPE_DATA_SIZE = 4;
+	extern const GameFileTypeData FILE_TYPE_DATA[FILE_TYPE_DATA_SIZE];
 
 	int get_file_ext(const char * file_name, char * file_ext, size_t file_ext_size);
 	GAME_DATA_TYPE file_ext_to_datatype(const char * file_ext); // NAME_MAX as

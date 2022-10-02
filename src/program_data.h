@@ -19,11 +19,13 @@
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Output.H>
 #include <FL/Fl_Scrollbar.H>
+#include <FL/Fl_Scroll.H>
 #include <FL/Fl_Menu_Window.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Group.H>
 #include <FL/fl_ask.H>
+#include <FL/Fl_Float_Input.H>
 #include <FL/Fl_Progress.H>
 #include <FL/Fl_Check_Button.H>
 #include <FL/names.h>
@@ -96,32 +98,32 @@ enum MENU_SIDES {
 typedef uint8_t MENU_SIDE;
 
 struct MenuSettings {
-	int x = 0;
-	int y = 0;
-	int w = -1; // -1 for window width.
-	int h = 20;
+	int32_t x = 0;
+	int32_t y = 0;
+	int32_t w = -1; // -1 for window width.
+	int32_t h = 20;
 };
 
 struct EditorSettings {
-	int side_menu_width = 300;
-	int tab_size = 20;
+	int32_t side_menu_width = 300;
+	int32_t tab_size = 20;
 
 	// Scroll.
-	int scrollbar_thickness = 20;
-	int scrollbar_output_width = 100;
-	int scrollbar_output_height = 20;
+	int32_t scrollbar_thickness = 20;
+	int32_t scrollbar_output_width = 100;
+	int32_t scrollbar_output_height = 20;
 
 	// Input.
-	int input_thinkness = 20;
+	int32_t input_thinkness = 20;
 
 	// Item command list.
-	int item_command_list_button_width = 50;
-	int item_command_list_button_height = 30;
+	int32_t item_command_list_button_width = 50;
+	int32_t item_command_list_button_height = 30;
 
 	// Map start size.
 	bool start_with_created_map = false;
-	int start_width = 10;
-	int start_height = 10;
+	int32_t start_width = 10;
+	int32_t start_height = 10;
 };
 
 struct WeaponSettings {
@@ -130,10 +132,16 @@ struct WeaponSettings {
 };
 
 struct ProgressBarSettings {
-	int width = 200;
-	int height = 100;
+	int32_t width = 200;
+	int32_t height = 100;
 };
 
+struct SettingsEditorSettings {
+	int32_t width = 480;
+	int32_t height = 600;
+};
+
+// Always use stdint for settings because the data in 'Settings' will be writen to a file.
 struct Settings {
 	// Speed.
 	float update_fps = 60.0;
@@ -143,49 +151,49 @@ struct Settings {
 	float player_speed = 3.75; // Tiles per second.
 	float player_update_speed = 0.1;
 
-	WeaponSettings weapons;
-
 	// Scale for sprites.
-	int scale = 2;
+	int32_t scale = 2;
 
+	WeaponSettings weapons;
 	MenuSettings menu;
 	EditorSettings editor;
 	ProgressBarSettings progress_bar;
+	SettingsEditorSettings settings_editor;
 
 	// Rendering.
-	Fl_Color background_color = FL_BLACK;
+	uint32_t background_color = FL_BLACK;
 
 	// Debug window.
-	int debug_win_update_speed = 5.0;
+	int32_t debug_win_update_speed = 5.0;
 	bool show_error_as_popup = true;
 
 	// Diologs for creating new map and stuff like that.
-	int diolog_width = 300;
-	int diolog_height = 150;
+	int32_t diolog_width = 300;
+	int32_t diolog_height = 150;
 
-	int input_height = 25;
+	int32_t input_height = 25;
 
 	// View window.
-	int view_border_size = 50;
-	int view_overscan = 2; // Drawing stuff outside of window.
+	int32_t view_border_size = 50;
+	int32_t view_overscan = 2; // Drawing stuff outside of window.
 	
 	// Map searching.
-	int map_search_overscan = 1;
+	int32_t map_search_overscan = 1;
 	
 	// Tab menu.
-	int tab_menu_thickness = 200;
-	int tab_menu_tab_size = 20;
+	int32_t tab_menu_thickness = 200;
+	int32_t tab_menu_tab_size = 20;
 	MENU_SIDE tab_menu_locat = MENU_BOTTOM;
 	bool tab_menu_default_hidden = false;
 
 	// Chat box.
-	int chat_box_input_height = 30;
+	int32_t chat_box_input_height = 30;
 
 	// Play info.
-	int player_info_output_height = 20;
+	int32_t player_info_output_height = 20;
 
 	// Npc map.
-	int npc_map_overscan = 2;
+	int32_t npc_map_overscan = 2;
 };
 
 struct WeaponImages {
@@ -238,6 +246,9 @@ struct MainData {
 
 	// TILE_SIZE * scale.
 	int scale_tile_size;
+
+	// Settings editor of course.
+	class SettingsEditor * settings_editor = NULL;
 
 	// Maps.
 	class Map * map = NULL;

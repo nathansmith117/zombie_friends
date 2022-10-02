@@ -4,6 +4,7 @@
 #include "map.h"
 #include "image_loader.h"
 #include "loader_file_handling.h"
+#include "settings_editor.h"
 
 namespace gameTools {
 	std::vector<Fl_PNG_Image*> scale_images(std::vector<Fl_PNG_Image*> imgs, int s) {
@@ -360,13 +361,26 @@ namespace gameTools {
 		return -1;
 	}
 
+	const GameFileTypeData FILE_TYPE_DATA[FILE_TYPE_DATA_SIZE] = {
+		{"mp", GAME_MAP},
+		{"cms", GAME_COMMAND_SCRIPT},
+		{"il", GAME_IMAGE_LOADER},
+		{"set", GAME_SETTINGS}
+	};
+
 	GAME_DATA_TYPE file_ext_to_datatype(const char * file_ext) {
-		if (strncmp(file_ext, "mp", NAME_MAX) == 0) // Map.
-			return GAME_MAP;
-		else if (strncmp(file_ext, "cms", NAME_MAX) == 0) // command script.
-			return GAME_COMMAND_SCRIPT;
-		else if (strncmp(file_ext, "il", NAME_MAX) == 0) // Image loader.
-			return GAME_IMAGE_LOADER;
+		int i;
+		GameFileTypeData curr_file_type;
+
+		if (file_ext == NULL)
+			return GAME_NONE;
+
+		for (i = 0; i < FILE_TYPE_DATA_SIZE; i++) {
+			curr_file_type = FILE_TYPE_DATA[i];
+
+			if (strncmp(curr_file_type.file_ext, file_ext, NAME_MAX - 1) == 0)
+				return curr_file_type.type;
+		}
 
 		return GAME_NONE;
 	}
@@ -395,6 +409,8 @@ namespace gameTools {
 				return mdata->chat_box->run_script(file_path);
 			case GAME_IMAGE_LOADER:
 				return load_images_from_loader_file(mdata, file_path, image_folder);
+			case GAME_SETTINGS:
+				return mdata->settings_editor->load(file_path, NAME_MAX);
 			default:
 				return -1;
 		}
