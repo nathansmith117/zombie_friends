@@ -72,6 +72,13 @@ void CommonTool::stop_using() {
 	last_count = 0;
 }
 
+void scale_tool_images(MainData * mdata) {
+	int scale = mdata->settings.scale;
+
+	mdata->scaled_images.weapons.sword = gameTools::scale_images(mdata->images.weapons.sword, scale);
+	mdata->scaled_images.weapons.submachine_gun = gameTools::scale_images(mdata->images.weapons.submachine_gun, scale);
+}
+
 CommonTool * get_tool_from_type(TOOL_TYPE type, MainData * mdata, Fl_Widget * item_holder) {
 	switch(type) {
 		case TOOL_SWORD:

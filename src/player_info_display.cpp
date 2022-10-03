@@ -6,7 +6,10 @@ void ToolDisplay::main_init(MainData * md, int X, int Y, int max_tool_count) {
 	mdata = md;
 	this->max_tool_count = max_tool_count;
 
-	// Set size.
+	set_width_and_height();
+}
+
+void ToolDisplay::set_width_and_height() {
 	size(
 		mdata->scale_tile_size * max_tool_count,
 		mdata->scale_tile_size
@@ -72,46 +75,61 @@ void PlayerInfoDisplay::main_init(MainData * md, int X, int Y, int W, int H) {
 	mdata = md;
 
 	// Tool display.
-	tool_display = new ToolDisplay(
-		mdata, 
-		X + mdata->scale_tile_size, 
-		Y + (mdata->scale_tile_size / 2), 
-		(W - (mdata->scale_tile_size * 2)) / mdata->scale_tile_size
+	tool_display = new ToolDisplay(mdata, 0, 0, 0);
+
+	// Coin output.
+	coin_output = new Fl_Output(0, 0, 0, 0, "Coins");
+
+	// Heath output.
+	heath_output = new Fl_Output(0, 0, 0, 0, "Heath");
+
+	// Fuel output.
+	fuel_output = new Fl_Output(0, 0, 0, 0, "Fuel/Ammo");
+
+	reset_size();
+	update();
+}
+
+void PlayerInfoDisplay::reset_size() {
+	int output_w, output_y, output_x;
+
+	// Tool display.
+	tool_display->position(
+		x() + mdata->scale_tile_size,
+		y() + (mdata->scale_tile_size / 2)
 	);
 
-	int output_w, output_y, output_x;
+	tool_display->set_max_tool_count((w() - (mdata->scale_tile_size * 2)) / mdata->scale_tile_size);
+	tool_display->set_width_and_height();
+
+	// Output size.
 	output_w = w() / 10;
 	output_x = output_w;
 	output_y = tool_display->y() + tool_display->h() + 2;
 
 	// Coin output.
-	coin_output = new Fl_Output(
+	coin_output->resize(
 		output_x,
 		output_y,
 		output_w,
-		mdata->settings.player_info_output_height,
-		"Coins"
+		mdata->settings.player_info_output_height
 	);
 
-	// Heath output.
-	heath_output = new Fl_Output(
+	// Health output.
+	heath_output->resize(
 		output_x + (coin_output->w() * 2),
 		output_y,
 		output_w,
-		mdata->settings.player_info_output_height,
-		"Heath"
+		mdata->settings.player_info_output_height
 	);
 
 	// Fuel output.
-	fuel_output = new Fl_Output(
+	fuel_output->resize(
 		heath_output->x() + (heath_output->w() * 2),
 		output_y,
 		output_w,
-		mdata->settings.player_info_output_height,
-		"Fuel/Ammo"
+		mdata->settings.player_info_output_height
 	);
-
-	update();
 }
 
 int PlayerInfoDisplay::handle(int event) {

@@ -14,6 +14,8 @@ class ToolDisplay : public Fl_Widget {
 		virtual void draw();
 		int handle(int event);
 
+		void set_width_and_height();
+
 		int get_max_tool_count() { return max_tool_count; }
 		void set_max_tool_count(int max_tool_count) { this->max_tool_count = max_tool_count; }
 	private:
@@ -28,6 +30,8 @@ class PlayerInfoDisplay : public Fl_Group {
 		PlayerInfoDisplay(MainData * md, int X, int Y, int W, int H) : Fl_Group(X, Y, W, H) {
 			main_init(md, X, Y, W, H);
 		}
+
+		void reset_size();
 
 		int handle(int event);
 		void update();

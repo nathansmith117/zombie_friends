@@ -22,4 +22,6 @@ class Sword : public Weapon {
 		void refresh_images();
 	protected:
 		void main_init(MainData * md, Fl_Widget * item_holder);
+
+		float sword_speed;
 };

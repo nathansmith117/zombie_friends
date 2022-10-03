@@ -2,9 +2,11 @@
 #include "weapon.h"
 #include "chat_box.h"
 #include "map.h"
+#include "npc_map.h"
 #include "image_loader.h"
 #include "loader_file_handling.h"
 #include "settings_editor.h"
+#include "player.h"
 
 namespace gameTools {
 	std::vector<Fl_PNG_Image*> scale_images(std::vector<Fl_PNG_Image*> imgs, int s) {
@@ -43,11 +45,27 @@ namespace gameTools {
 	}
 
 	void scale_all(MainData * mdata) {
-		mdata->scaled_images.player = scale_images(mdata->images.player, mdata->settings.scale);
-		mdata->scaled_images.weapons.sword = scale_images(mdata->images.weapons.sword, mdata->settings.scale);
-		mdata->scaled_images.basic_world = scale_images(mdata->images.basic_world, mdata->settings.scale);
+		int scale = mdata->settings.scale;
+		mdata->scale_tile_size = scale * TILE_SIZE;
 
-		mdata->scale_tile_size = mdata->settings.scale * TILE_SIZE;
+		// Player.
+		mdata->scaled_images.player = scale_images(mdata->images.player, scale);
+
+		// World.
+		mdata->scaled_images.basic_world = scale_images(mdata->images.basic_world, scale);
+		mdata->scaled_images.curr_world = scale_images(mdata->images.curr_world, scale);
+		mdata->scaled_images.addon_images = scale_images(mdata->images.addon_images, scale);
+
+		// Tools/weapons.
+		scale_tool_images(mdata);
+
+		// Player.
+		if (mdata->player != NULL)
+			mdata->player->refresh_images();
+
+		// Npcs.
+		if (mdata->map != NULL)
+			mdata->map->get_npc_map()->scale_npc_images();
 	}
 
 	bool test_collision(Fl_Widget * obj1, Fl_Widget * obj2) {

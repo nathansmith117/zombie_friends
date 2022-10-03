@@ -200,11 +200,6 @@ void add_editor_menu_items(MainData * mdata, Fl_Menu_Bar * menu) {
 	menu->add("&File/Settings", 0, (Fl_Callback*)settings_cb, (void*)mdata);
 	menu->add("&File/Exit", FL_ALT + FL_F + 4, (Fl_Callback*)exit_cb, (void*)mdata);
 
-	// Edit.
-	menu->add("&Edit/Copy", FL_CTRL + 'c', 0, (void*)mdata);
-	menu->add("&Edit/Paste", FL_CTRL + 'v', 0, (void*)mdata, FL_MENU_DIVIDER);
-	menu->add("&Edit/Settings", 0, 0, (void*)mdata);
-
 	// View.
 	menu->add("&View/Fullscreen", FL_F + 11, (Fl_Callback*)fullscreen_cb, (void*)mdata, FL_MENU_DIVIDER | FL_MENU_TOGGLE);
 	menu->add("&View/Zoom in", FL_CTRL + '+', 0, (void*)mdata);

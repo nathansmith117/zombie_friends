@@ -379,6 +379,39 @@ bool NpcMap::is_in_use(Npc * the_npc) {
 	return false;
 }
 
+void NpcMap::scale_npc_images() {
+	int x, y;
+	int scale = mdata->settings.scale;
+	Npc * curr_npc = NULL;
+
+	mdata->scaled_images.npc.evil_puppy = gameTools::scale_images(mdata->images.npc.evil_puppy, scale);
+
+	// Refresh images.
+	if (map == NULL)
+		return;
+
+	// Map.
+	for (y = 0; y < height; y++)
+		for (x = 0; x < width; x++) {
+			curr_npc = npc(x, y);
+
+			if (curr_npc == NULL)
+				continue;
+
+			curr_npc->refresh_images();
+			curr_npc->keep_position();
+			curr_npc->move_tool_to_location();
+		}
+
+	// Npcs in use.
+	for (auto n : npcs_in_use)
+		if (n != NULL) {
+			n->refresh_images();
+			n->keep_position();
+			n->move_tool_to_location();
+		}
+}
+
 Npc * get_npc_from_type(MainData * mdata, NpcMap * npc_map, NPC_TYPE type) {
 	switch (type) {
 		case NPC_TYPE_NONE:

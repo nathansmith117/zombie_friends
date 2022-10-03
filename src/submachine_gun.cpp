@@ -20,9 +20,12 @@ void SubmachineGun::main_init(MainData * md, Fl_Widget * item_holder) {
 	needs_fuel = true;
 	fuel = 30;
 
+	// Other settings.
+	submachine_gun_speed = 0.0001;
+
 	bullet_start_locations = {
-		{22, 3},
-		{3, 3}
+		{16, 2},
+		{0, 2}
 	};
 
 	// Location data.
@@ -42,8 +45,7 @@ void SubmachineGun::update() {
 	last_count++;
 
 	// Slow stuff down.
-	if (last_count < (int)roundf(mdata->settings.update_fps 
-				* mdata->settings.weapons.submachine_gun_speed))
+	if (last_count < (int)roundf(mdata->settings.update_fps * submachine_gun_speed))
 		return;
 	else
 		last_count = 0;
@@ -91,6 +93,7 @@ void SubmachineGun::update() {
 		// Character/npc.
 		if ((bullet_hit_data[i].type & HIT_CHARACTER) == HIT_CHARACTER) {
 			bullet_hit_data[i].hit_handled = true;
+			remove_bullet(bullet_hit_data[i].bullet_id);
 			mdata->map->get_npc_map()->delete_npc_in_use((Npc*)bullet_hit_data[i].things_hit.character);
 		}
 	}

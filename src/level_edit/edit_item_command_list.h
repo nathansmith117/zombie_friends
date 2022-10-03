@@ -10,6 +10,8 @@ class EditItemCommandList : public Fl_Group {
 			main_init(md, X, Y, W, H);
 		}
 
+		void reset_size();
+
 		int reset_command_list();
 		int save_command_list();
 	private:

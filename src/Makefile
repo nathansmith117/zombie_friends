@@ -86,7 +86,7 @@ astar_pathfinder.o: astar_pathfinder.cpp astar_pathfinder.h game_tools.cpp game_
 	character.cpp character.h npc.cpp npc.h npc_map.cpp npc_map.h $(DEH)
 loader_file_handling.o: loader_file_handling.cpp loader_file_handling.h image_loader.cpp image_loader.h game_tools.cpp game_tools.h $(DEH)
 progress_bar.o: progress_bar.cpp progress_bar.h $(DEH)
-settings_editor.o: settings_editor.cpp settings_editor.h game_tools.cpp game_tools.h player.cpp player.h $(DEH)
+settings_editor.o: settings_editor.cpp settings_editor.h game_tools.cpp game_tools.h player.cpp player.h tab_menu.cpp tab_menu.h $(DEH)
 
 clean:
 	rm *.o

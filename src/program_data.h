@@ -23,10 +23,12 @@
 #include <FL/Fl_Menu_Window.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Choice.H>
+#include <FL/Fl_Counter.H>
 #include <FL/Fl_Group.H>
 #include <FL/fl_ask.H>
 #include <FL/Fl_Float_Input.H>
 #include <FL/Fl_Progress.H>
+#include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Check_Button.H>
 #include <FL/names.h>
 #include <FL/x.H>
@@ -85,6 +87,8 @@
 #define PSLASH "/"
 #endif
 
+#define MAX_SCALE 20
+
 // Tab menu and stuff like that.
 enum MENU_SIDES {
 	MENU_RIGHT,
@@ -126,11 +130,6 @@ struct EditorSettings {
 	int32_t start_height = 10;
 };
 
-struct WeaponSettings {
-	float sword_speed = 0.08;
-	float submachine_gun_speed = 0.0001;
-};
-
 struct ProgressBarSettings {
 	int32_t width = 200;
 	int32_t height = 100;
@@ -148,13 +147,12 @@ struct Settings {
 	float draw_fps = 60.0;
 
 	// Player speed.
-	float player_speed = 3.75; // Tiles per second.
+	float player_speed = 7.5; // Tiles per second.
 	float player_update_speed = 0.1;
 
 	// Scale for sprites.
 	int32_t scale = 2;
 
-	WeaponSettings weapons;
 	MenuSettings menu;
 	EditorSettings editor;
 	ProgressBarSettings progress_bar;
@@ -174,7 +172,6 @@ struct Settings {
 	int32_t input_height = 25;
 
 	// View window.
-	int32_t view_border_size = 50;
 	int32_t view_overscan = 2; // Drawing stuff outside of window.
 	
 	// Map searching.

@@ -1,5 +1,6 @@
 #include "settings_editor.h"
 #include "player.h"
+#include "tab_menu.h"
 
 void SettingsEditor::main_init(MainData * md) {
 	mdata = md;
@@ -172,6 +173,7 @@ int SettingsEditor::load(const char * file_path, size_t n) {
 	set_file_path(file_path, n);
 	mdata->settings = new_settings;
 	reload_settings();
+	apply_changes();
 
 	printf("Settings loaded from %s\n", file_path);
 
@@ -290,16 +292,187 @@ void SettingsEditor::add_settings_widgets() {
 	);
 
 	player_update_speed_input->type(FL_FLOAT_INPUT);
+
+	// Video.
+	video_box = new Fl_Box(
+		(w() / 2) - (box_w / 2),
+		player_update_speed_input->y() + spacing_size,
+		box_w,
+		box_h,
+		"Video"
+	);
+
+	video_box->box(FL_ROUNDED_BOX);
+	video_box->labeltype(FL_SHADOW_LABEL);
+
+	// Scale.
+	scale_input = new Fl_Counter(
+		input_x,
+		video_box->y() + (video_box->h() * 1.5),
+		input_width,
+		input_height,
+		"Scale"
+	);
+
+	scale_input->minimum(1.0);
+	scale_input->maximum(MAX_SCALE);
+	scale_input->step(1.0);
+	scale_input->type(FL_SIMPLE_COUNTER);
+
+	// Background color.
+	background_color_input = new Fl_Input(
+		input_x,
+		scale_input->y() + (scale_input->h() * 2),
+		input_width,
+		input_height,
+		"BG color"
+	);
+
+	background_color_input->type(FL_INT_INPUT);
+
+	// View overscan.
+	view_overscan_input = new Fl_Input(
+		input_x,
+		background_color_input->y() + background_color_input->h(),
+		input_width,
+		input_height,
+		"View overscan"
+	);
+
+	view_overscan_input->type(FL_INT_INPUT);
+
+	// Diolog size.
+	diolog_width_input = new Fl_Input(
+		input_x,
+		view_overscan_input->y() + view_overscan_input->h(),
+		input_width,
+		input_height,
+		"Diolog width"
+	);
+
+	diolog_height_input = new Fl_Input(
+		input_x,
+		diolog_width_input->y() + diolog_width_input->h(),
+		input_width,
+		input_height,
+		"Diolog height"
+	);
+
+	diolog_width_input->type(FL_INT_INPUT);
+	diolog_height_input->type(FL_INT_INPUT);
+
+	// Input height.
+	input_height_input = new Fl_Input(
+		input_x,
+		diolog_height_input->y() + diolog_height_input->h(),
+		input_width,
+		input_height,
+		"Input height"
+	);
+
+	input_height_input->type(FL_INT_INPUT);
+
+	// Tab menu.
+	tab_menu_box = new Fl_Box(
+		(w() / 2) - (box_w / 2),
+		input_height_input->y() + spacing_size,
+		box_w,
+		box_h,
+		"Tab menu"
+	);
+
+	tab_menu_box->box(FL_ROUNDED_BOX);
+	tab_menu_box->labeltype(FL_SHADOW_LABEL);
+
+	// Tab menu thickness.
+	tab_menu_thickness_input = new Fl_Input(
+		input_x,
+		tab_menu_box->y() + (tab_menu_box->h() * 1.5),
+		input_width,
+		input_height,
+		"Thickness"
+	);
+
+	tab_menu_thickness_input->type(FL_INT_INPUT);
+
+	// Tab menu tab size.
+	tab_menu_tab_size_input = new Fl_Input(
+		input_x,
+		tab_menu_thickness_input->y() + tab_menu_thickness_input->h(),
+		input_width,
+		input_height,
+		"Tab size"
+	);
+
+	tab_menu_tab_size_input->type(FL_INT_INPUT);
+
+	// Tab menu location.
+	tab_menu_locat_input = new Fl_Choice(
+		input_x,
+		tab_menu_tab_size_input->y() + tab_menu_tab_size_input->h(),
+		input_width,
+		input_height,
+		"Location"
+	);
+
+	// Use 'MENU_SIDES' for order.
+	tab_menu_locat_input->add("Right");
+	tab_menu_locat_input->add("Left");
+	tab_menu_locat_input->add("Top");
+	tab_menu_locat_input->add("Bottom");
+	tab_menu_locat_input->add("Fill");
+	tab_menu_locat_input->add("Hidden");
+
+	// Tab menu default hidden.
+	tab_menu_default_hidden_input = new Fl_Check_Button(
+		input_x,
+		tab_menu_locat_input->y() + tab_menu_locat_input->h(),
+		input_width,
+		input_height,
+		"Default hidden"
+	);
 }
 
 void SettingsEditor::apply_changes() {
+	char buf[NAME_MAX];
+	int int_value;
+
+	TabMenu * tab_menu = (TabMenu*)mdata->tab_menu;
 
 	// Speed.
 	mdata->settings.update_fps = strtof(update_fps_input->value(), NULL);
 	mdata->settings.draw_fps = strtof(draw_fps_input->value(), NULL);
 	mdata->settings.player_speed = strtof(player_speed_input->value(), NULL);
-	mdata->player->set_speed(mdata->settings.player_speed);
 	mdata->settings.player_update_speed = strtof(player_update_speed_input->value(), NULL);
+
+	if (mdata->player != NULL)
+		mdata->player->set_speed(mdata->settings.player_speed);
+
+	// Video.
+	mdata->settings.scale = (int)scale_input->value();
+	mdata->settings.background_color = gameTools::valuestr_to_int(background_color_input);
+	mdata->settings.view_overscan = gameTools::valuestr_to_int(view_overscan_input);
+	mdata->settings.diolog_width = gameTools::valuestr_to_int(diolog_width_input);
+	mdata->settings.diolog_height = gameTools::valuestr_to_int(diolog_height_input);
+	mdata->settings.input_height = gameTools::valuestr_to_int(input_height_input);
+
+	gameTools::scale_all(mdata);
+
+	// Tab menu.
+	mdata->settings.tab_menu_thickness = gameTools::valuestr_to_int(tab_menu_thickness_input);
+	mdata->settings.tab_menu_tab_size = gameTools::valuestr_to_int(tab_menu_tab_size_input);
+	mdata->settings.tab_menu_locat = (MENU_SIDE)tab_menu_locat_input->value();
+	mdata->settings.tab_menu_default_hidden = (bool)tab_menu_default_hidden_input->value();
+
+	if (tab_menu != NULL) {
+		tab_menu->menu_side(mdata->settings.tab_menu_locat);
+
+		if (mdata->settings.tab_menu_default_hidden)
+			tab_menu->menu_side(MENU_HIDDEN);
+	}
+
+
+	mdata->win->redraw();
 }
 
 void SettingsEditor::reload_settings() {
@@ -310,6 +483,34 @@ void SettingsEditor::reload_settings() {
 	draw_fps_input->value(gcvt(mdata->settings.draw_fps, FLT_DIG, buf));
 	player_speed_input->value(gcvt(mdata->settings.player_speed, FLT_DIG, buf));
 	player_update_speed_input->value(gcvt(mdata->settings.player_update_speed, FLT_DIG, buf));
+
+	// Video.
+	scale_input->value(mdata->settings.scale);
+
+	snprintf(buf, NAME_MAX, "0x%x", mdata->settings.background_color);
+	background_color_input->value(buf);
+
+	snprintf(buf, NAME_MAX, "%d", mdata->settings.view_overscan);
+	view_overscan_input->value(buf);
+
+	snprintf(buf, NAME_MAX, "%d", mdata->settings.diolog_width);
+	diolog_width_input->value(buf);
+
+	snprintf(buf, NAME_MAX, "%d", mdata->settings.diolog_height);
+	diolog_height_input->value(buf);
+
+	snprintf(buf, NAME_MAX, "%d", mdata->settings.input_height);
+	input_height_input->value(buf);
+
+	// Tab menu.
+	snprintf(buf, NAME_MAX, "%d", mdata->settings.tab_menu_thickness);
+	tab_menu_thickness_input->value(buf);
+
+	snprintf(buf, NAME_MAX, "%d", mdata->settings.tab_menu_tab_size);
+	tab_menu_tab_size_input->value(buf);
+
+	tab_menu_locat_input->value(mdata->settings.tab_menu_locat);
+	tab_menu_default_hidden_input->value(mdata->settings.tab_menu_default_hidden);
 }
 
 // Callbacks.

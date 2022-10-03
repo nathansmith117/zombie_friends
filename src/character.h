@@ -112,6 +112,8 @@ class Character : public Fl_Widget {
 		int get_current_tool_local() { return current_tool; }
 		void set_current_tool_local(int current_tool);
 
+		void move_tool_to_location();
+
 		CommonTool * get_tool_at(int pos);
 		CommonTool * get_current_tool();
 

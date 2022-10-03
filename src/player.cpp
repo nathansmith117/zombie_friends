@@ -41,6 +41,7 @@ void Player::refresh_images() {
 	images(gameTools::copy_image_list(mdata->scaled_images.player));
 	refresh_tool_images();
 	center();
+	move_tool_to_location();
 }
 
 void Player::update() {

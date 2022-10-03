@@ -260,14 +260,21 @@ int Character::insert_tool(CommonTool * tl, int pos) {
 
 void Character::set_current_tool_local(int current_tool) {
 	this->current_tool = current_tool;
+	move_tool_to_location();
+}
 
-	// Direction.
+void Character::move_tool_to_location() {
+	CommonTool * curr_tool = get_current_tool();
+
+	if (curr_tool == NULL)
+		return;
+
 	if (facing_right())
-		tools[current_tool]->set_right();
+		curr_tool->set_right();
 	else
-		tools[current_tool]->set_left();
+		curr_tool->set_left();
 
-	tools[current_tool]->move_to_location();
+	curr_tool->move_to_location();
 }
 
 CommonTool * Character::get_tool_at(int pos) {
@@ -460,7 +467,7 @@ void Character::handle_collision(Character * character) {
 }
 
 float Character::get_scaled_speed() {
-	return (float)speed * mdata->settings.scale / mdata->settings.update_fps;
+	return (float)speed / mdata->settings.update_fps;
 }
 
 void Character::update_world_position() {

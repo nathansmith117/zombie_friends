@@ -5,6 +5,7 @@ void Sword::main_init(MainData * md, Fl_Widget * item_holder) {
 	mdata = md;
 
 	type = TOOL_SWORD;
+	sword_speed = 0.08;
 
 	refresh_images();
 
@@ -28,8 +29,7 @@ void Sword::update() {
 	last_count++;
 
 	// Slow stuff down.
-	if (last_count < (int)roundf(mdata->settings.update_fps 
-				* mdata->settings.weapons.sword_speed))
+	if (last_count < (int)roundf(mdata->settings.update_fps * sword_speed))
 		return;
 	else
 		last_count = 0;

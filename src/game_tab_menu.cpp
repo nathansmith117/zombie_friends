@@ -119,13 +119,16 @@ void GameTabMenu::reset_items_size() {
 		);
 
 	// Chat box.
-	if (mdata->chat_box != NULL)
+	if (mdata->chat_box != NULL) {
 		mdata->chat_box->resize(
 			tab_x, 
 			tab_y, 
 			tab_w, 
 			tab_h
 		);
+
+		((ChatBox*)mdata->chat_box)->reset_size();
+	}
 
 	// Player info tab.
 	if (player_info_tab != NULL)
@@ -137,11 +140,14 @@ void GameTabMenu::reset_items_size() {
 		);
 
 	// Player info display.
-	if (mdata->player_info_display != NULL)
+	if (mdata->player_info_display != NULL) {
 		mdata->player_info_display->resize(
 			tab_x, 
 			tab_y, 
 			tab_w, 
 			tab_h
 		);
+
+		((PlayerInfoDisplay*)mdata->player_info_display)->reset_size();
+	}
 }

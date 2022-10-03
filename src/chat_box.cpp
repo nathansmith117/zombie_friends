@@ -8,12 +8,7 @@ void ChatBox::main_init(MainData * md, int X, int Y, int W, int H) {
 	// Init widgets.
 	
 	// Text display and buffer.
-	text_display = new Fl_Text_Display(
-		X,
-		Y,
-		W,
-		H - mdata->settings.chat_box_input_height
-	);
+	text_display = new Fl_Text_Display(0, 0, 0, 0);
 
 	text_buffer = new Fl_Text_Buffer();
 	text_display->buffer(text_buffer);
@@ -21,24 +16,14 @@ void ChatBox::main_init(MainData * md, int X, int Y, int W, int H) {
 	// Input on button.
 	int iob_width = mdata->settings.chat_box_input_height * 2;
 
-	input_on_button = new Fl_Check_Button(
-		X + (W - iob_width),
-		Y + (H - mdata->settings.chat_box_input_height),
-		iob_width,
-		mdata->settings.chat_box_input_height
-	);
+	input_on_button = new Fl_Check_Button(0, 0, 0, 0);
 
 	input_on_button->label("On");
 	input_on_button->shortcut(FL_CTRL + 't');
 	input_on_button->value(0);
 
 	// Input line.
-	input_line = new Fl_Input(
-		X,
-		Y + (H - mdata->settings.chat_box_input_height),
-		W - iob_width,
-		mdata->settings.chat_box_input_height
-	);
+	input_line = new Fl_Input(0, 0, 0, 0);
 
 	input_line->textsize(mdata->settings.chat_box_input_height - 8);
 	input_line->callback(input_line_cb, (void*)this);
@@ -48,7 +33,45 @@ void ChatBox::main_init(MainData * md, int X, int Y, int W, int H) {
 	// Set callback when input line is not null.
 	input_on_button->callback(input_on_button_cb, (void*)input_line);
 
+	reset_size();
+
 	end();
+}
+
+void ChatBox::reset_size() {
+	// Input on button.
+	int iob_width = mdata->settings.chat_box_input_height * 2;
+	int input_y = h() - mdata->settings.chat_box_input_height;
+
+	// If at top.
+	if (mdata->settings.tab_menu_locat == MENU_TOP)
+		input_y -= mdata->top_menu->h();
+
+	// Text display.
+	text_display->resize(
+		x(),
+		y(),
+		w(),
+		input_y
+	);
+
+	input_y = y() + text_display->h();
+
+	// Input one button.
+	input_on_button->resize(
+		x() + (w() - iob_width),
+		input_y,
+		iob_width,
+		mdata->settings.chat_box_input_height
+	);
+
+	// Input line.
+	input_line->resize(
+		x(),
+		input_y,
+		w() - iob_width,
+		mdata->settings.chat_box_input_height
+	);
 }
 
 int ChatBox::handle(int event) {

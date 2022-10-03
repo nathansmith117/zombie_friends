@@ -49,6 +49,22 @@ class SettingsEditor : public Fl_Menu_Window {
 		Fl_Input * player_speed_input = NULL;
 		Fl_Input * player_update_speed_input = NULL;
 
+		// Video.
+		Fl_Box * video_box = NULL;
+		Fl_Counter * scale_input = NULL;
+		Fl_Input * background_color_input = NULL;
+		Fl_Input * view_overscan_input = NULL;
+		Fl_Input * diolog_width_input = NULL;
+		Fl_Input * diolog_height_input = NULL;
+		Fl_Input * input_height_input = NULL;
+
+		// Tab menu.
+		Fl_Box * tab_menu_box = NULL;
+		Fl_Input * tab_menu_thickness_input = NULL;
+		Fl_Input * tab_menu_tab_size_input = NULL;
+		Fl_Choice * tab_menu_locat_input = NULL;
+		Fl_Check_Button * tab_menu_default_hidden_input = NULL;
+
 		// Call backs.
 		static void apply_cb(Fl_Widget * w, void * d);
 		static void reload_cb(Fl_Widget * w, void * d);

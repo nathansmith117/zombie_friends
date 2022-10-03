@@ -290,13 +290,16 @@ void EditTabMenu::reset_items_size() {
 	}
 
 	// Chat box tab.
-	if (chat_box_tab != NULL)
+	if (chat_box_tab != NULL) {
 		chat_box_tab->resize(
 			tab_x, 
 			tab_y, 
 			tab_w, 
 			tab_h
 		);
+
+		((ChatBox*)mdata->chat_box)->reset_size();
+	}
 
 	// Chat box.
 	if (mdata->chat_box != NULL)
@@ -341,13 +344,16 @@ void EditTabMenu::reset_items_size() {
 		);
 
 	// Item command list.
-	if (item_command_list != NULL)
+	if (item_command_list != NULL) {
 		item_command_list->resize(
 			tab_x, 
 			tab_y, 
 			tab_w, 
 			tab_h
 		);
+
+		item_command_list->reset_size();
+	}
 }
 
 void EditTabMenu::scrollbar_cb(Fl_Widget * w, void * d) {

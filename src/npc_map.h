@@ -57,6 +57,8 @@ class NpcMap {
 		void delete_npc_in_use(Npc * unused_npc);
 
 		bool is_in_use(Npc * the_npc);
+
+		void scale_npc_images();
 	private:
 		MainData * mdata;
 		int width, height;

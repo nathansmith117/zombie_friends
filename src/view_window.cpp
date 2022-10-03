@@ -103,15 +103,15 @@ void ViewWindow::resize_callback() {
 			player_item->move_to_location();
 	}
 
-	// Debug window.
-	if (mdata->debug_win != NULL)
-		mdata->debug_win->scroll_to_bottom();
-
 	// Tab menu.
 	tab_menu = (TabMenu*)mdata->tab_menu;
 
 	if (tab_menu != NULL)
 		tab_menu->menu_side(tab_menu->menu_side());
+
+	// Debug window.
+	if (mdata->debug_win != NULL)
+		mdata->debug_win->scroll_to_bottom();
 
 	// Chat box.
 	if (mdata->chat_box != NULL)
@@ -119,4 +119,6 @@ void ViewWindow::resize_callback() {
 
 	old_w = w();
 	old_h = h();
+
+	mdata->win->redraw();
 }

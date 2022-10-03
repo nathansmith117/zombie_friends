@@ -28,6 +28,8 @@ class ChatBox : public Fl_Group {
 
 		int handle(int event);
 
+		void reset_size();
+
 		void printline(const char * msg);
 
 		// n is the size of both name and msg.

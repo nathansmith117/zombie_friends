@@ -172,4 +172,5 @@ bool EvilPuppy::facing_left() {
 void EvilPuppy::refresh_images() {
 	images(gameTools::copy_image_list(mdata->scaled_images.npc.evil_puppy));
 	refresh_tool_images();
+	move_tool_to_location();
 }

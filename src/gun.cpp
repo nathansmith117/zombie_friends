@@ -246,8 +246,8 @@ int Gun::add_bullet() {
 		return -1;
 
 	// Set position.
-	new_bullet.x = x() + bullet_start_locations[frame].x;
-	new_bullet.y = y() + bullet_start_locations[frame].y;
+	new_bullet.x = x() + (bullet_start_locations[frame].x * mdata->settings.scale);
+	new_bullet.y = y() + (bullet_start_locations[frame].y * mdata->settings.scale);
 
 	new_bullet.start_x = new_bullet.x;
 	new_bullet.start_y = new_bullet.y;

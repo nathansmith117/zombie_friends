@@ -19,4 +19,6 @@ class SubmachineGun : public Gun {
 		void refresh_images();
 	protected:
 		void main_init(MainData * md, Fl_Widget * item_holder);
+
+		float submachine_gun_speed;
 };
