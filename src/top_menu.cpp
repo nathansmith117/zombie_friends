@@ -200,6 +200,26 @@ void tab_menu_cb(Fl_Widget * w, void * d) {
 	tab_menu->menu_side(button->value() ? mdata->settings.tab_menu_locat : MENU_HIDDEN);
 }
 
+void zoom_in_cb(Fl_Widget * w, void * d) {
+	MainData * mdata = (MainData*)d;
+
+	if (mdata->settings.scale >= MAX_SCALE)
+		return;
+
+	mdata->settings.scale++;
+	gameTools::scale_all(mdata);
+}
+
+void zoom_out_cb(Fl_Widget * w, void * d) {
+	MainData * mdata = (MainData*)d;
+
+	if (mdata->settings.scale <= 1)
+		return;
+
+	mdata->settings.scale--;
+	gameTools::scale_all(mdata);
+}
+
 void add_menu_items(Fl_Menu_Bar * menu, MainData * mdata) {
 	int menu_flag;
 
@@ -211,7 +231,9 @@ void add_menu_items(Fl_Menu_Bar * menu, MainData * mdata) {
 	menu->add("&File/Exit", FL_ALT + FL_F + 4, (Fl_Callback*)exit_cb, (void*)mdata);
 
 	// View.
-	menu->add("&View/Fullscreen", FL_F + 11, (Fl_Callback*)fullscreen_cb, (void*)mdata, FL_MENU_TOGGLE);
+	menu->add("&View/Fullscreen", FL_F + 11, (Fl_Callback*)fullscreen_cb, (void*)mdata, FL_MENU_TOGGLE | FL_MENU_DIVIDER);
+	menu->add("&View/Zoom in", FL_CTRL + '=', (Fl_Callback*)zoom_in_cb, (void*)mdata);
+	menu->add("&View/Zoom out", FL_CTRL + '-', (Fl_Callback*)zoom_out_cb, (void*)mdata, FL_MENU_DIVIDER);
 
 	// Make null objects inactive.
 	menu->add("&View/View window", 0, (Fl_Callback*)view_window_cb, (void*)mdata, 

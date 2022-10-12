@@ -11,10 +11,10 @@ void SubmachineGun::main_init(MainData * md, Fl_Widget * item_holder) {
 	refresh_images();
 
 	// Bullet settings.
-	bullet_w = 3;
-	bullet_h = 2;
+	bullet_w = 2;
+	bullet_h = 1;
 	bullet_color = FL_YELLOW;
-	bullet_speed = 900;
+	bullet_speed = 450;
 	bullets_per_second = 4;
 	max_bullets = BULLET_MAX_NONE;
 	needs_fuel = true;

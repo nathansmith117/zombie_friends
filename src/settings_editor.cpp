@@ -8,10 +8,6 @@ void SettingsEditor::main_init(MainData * md) {
 	int i;
 
 	memset(file_path, 0, NAME_MAX);
-
-	//mdata->settings.background_color = FL_WHITE;
-	//dump("settings.set", NAME_MAX);
-	//load("settings.set", NAME_MAX);
 	
 	// Set size and position.
 	resize(
@@ -431,6 +427,40 @@ void SettingsEditor::add_settings_widgets() {
 		input_height,
 		"Default hidden"
 	);
+
+	// Settings editor.
+	settings_editor_box = new Fl_Box(
+		(w() / 2) - (box_w / 2),
+		tab_menu_default_hidden_input->y() + spacing_size,
+		box_w,
+		box_h,
+		"Settings editor"
+	);
+
+	settings_editor_box->box(FL_ROUNDED_BOX);
+	settings_editor_box->labeltype(FL_SHADOW_LABEL);
+
+	// Settings editor width.
+	settings_editor_width_input = new Fl_Input(
+		input_x,
+		settings_editor_box->y() + (settings_editor_box->h() * 1.5),
+		input_width,
+		input_height,
+		"Width"
+	);
+
+	settings_editor_width_input->type(FL_INT_INPUT);
+
+	// Settings editor height.
+	settings_editor_height_input = new Fl_Input(
+		input_x,
+		settings_editor_width_input->y() + settings_editor_width_input->h(),
+		input_width,
+		input_height,
+		"Height"
+	);
+
+	settings_editor_height_input->type(FL_INT_INPUT);
 }
 
 void SettingsEditor::apply_changes() {
@@ -471,7 +501,21 @@ void SettingsEditor::apply_changes() {
 			tab_menu->menu_side(MENU_HIDDEN);
 	}
 
+	// Settings editor.
+	mdata->settings.settings_editor.width = gameTools::valuestr_to_int(settings_editor_width_input);
+	mdata->settings.settings_editor.height = gameTools::valuestr_to_int(settings_editor_height_input);
+	
+	size(
+		mdata->settings.settings_editor.width,
+		mdata->settings.settings_editor.height
+	);
 
+	scroll->size(
+		mdata->settings.settings_editor.width,
+		mdata->settings.settings_editor.height
+	);
+
+	redraw();
 	mdata->win->redraw();
 }
 
@@ -511,6 +555,13 @@ void SettingsEditor::reload_settings() {
 
 	tab_menu_locat_input->value(mdata->settings.tab_menu_locat);
 	tab_menu_default_hidden_input->value(mdata->settings.tab_menu_default_hidden);
+
+	// Settings editor.
+	snprintf(buf, NAME_MAX, "%d", mdata->settings.settings_editor.width);
+	settings_editor_width_input->value(buf);
+
+	snprintf(buf, NAME_MAX, "%d", mdata->settings.settings_editor.height);
+	settings_editor_height_input->value(buf);
 }
 
 // Callbacks.

@@ -202,8 +202,8 @@ void add_editor_menu_items(MainData * mdata, Fl_Menu_Bar * menu) {
 
 	// View.
 	menu->add("&View/Fullscreen", FL_F + 11, (Fl_Callback*)fullscreen_cb, (void*)mdata, FL_MENU_DIVIDER | FL_MENU_TOGGLE);
-	menu->add("&View/Zoom in", FL_CTRL + '+', 0, (void*)mdata);
-	menu->add("&View/Zoom out", FL_CTRL + '-', 0, (void*)mdata, FL_MENU_DIVIDER);
+	menu->add("&View/Zoom in", FL_CTRL + '=', (Fl_Callback*)zoom_in_cb, (void*)mdata);
+	menu->add("&View/Zoom out", FL_CTRL + '-', (Fl_Callback*)zoom_out_cb, (void*)mdata, FL_MENU_DIVIDER);
 
 	// Set flags for tab menu item.
 	menu_flag = FL_MENU_TOGGLE;

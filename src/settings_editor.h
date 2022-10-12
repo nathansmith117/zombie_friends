@@ -65,6 +65,11 @@ class SettingsEditor : public Fl_Menu_Window {
 		Fl_Choice * tab_menu_locat_input = NULL;
 		Fl_Check_Button * tab_menu_default_hidden_input = NULL;
 
+		// Settings editor.
+		Fl_Box * settings_editor_box = NULL;
+		Fl_Input * settings_editor_width_input = NULL;
+		Fl_Input * settings_editor_height_input = NULL;
+
 		// Call backs.
 		static void apply_cb(Fl_Widget * w, void * d);
 		static void reload_cb(Fl_Widget * w, void * d);

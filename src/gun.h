@@ -65,6 +65,9 @@ class Gun : public Weapon {
 		int remove_bullet(int num);
 
 		bool bullet_out_of_view(Bullet b);
+
+		int bullet_width() { return bullet_w * mdata->settings.scale; }
+		int bullet_height() { return bullet_h * mdata->settings.scale; }
 	protected:
 		std::vector<Bullet> bullets;
 		std::vector<gameTools::Coord> bullet_start_locations;

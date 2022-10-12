@@ -107,19 +107,19 @@ int main(int argc, char ** argv) {
 
 	// Top menu.
 	mdata.top_menu = new Fl_Menu_Bar(
-		mdata.settings.menu.x, 
-		mdata.settings.menu.y, 
-		(mdata.settings.menu.w == -1) ? mdata.win->w() : mdata.settings.menu.w,
-		mdata.settings.menu.h
+		0,
+		0,
+		mdata.win->w(),
+		mdata.settings.menu.height
 	);
 
 	// View window.
 	mdata.view_win = new ViewWindow(
 		&mdata, 
 		0, 
-		mdata.settings.menu.h, 
+		mdata.settings.menu.height, 
 		mdata.win->w(), 
-		mdata.win->h() - mdata.settings.menu.h, 
+		mdata.win->h() - mdata.settings.menu.height, 
 		"Game"
 	);
 

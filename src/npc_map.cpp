@@ -295,6 +295,11 @@ void NpcMap::put_npc_to_use(int x, int y) {
 	if (curr_npc == NULL)
 		return;
 
+	// Refresh images and stuff.
+	curr_npc->refresh_images();
+	curr_npc->keep_position();
+	curr_npc->move_tool_to_location();
+
 	// Add to 'npcs_in_use'.
 	curr_npc->set_being_updated(true);
 	npcs_in_use.push_back(curr_npc);
@@ -391,6 +396,7 @@ void NpcMap::scale_npc_images() {
 		return;
 
 	// Map.
+	/*
 	for (y = 0; y < height; y++)
 		for (x = 0; x < width; x++) {
 			curr_npc = npc(x, y);
@@ -402,6 +408,7 @@ void NpcMap::scale_npc_images() {
 			curr_npc->keep_position();
 			curr_npc->move_tool_to_location();
 		}
+	*/
 
 	// Npcs in use.
 	for (auto n : npcs_in_use)

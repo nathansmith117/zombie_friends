@@ -4,6 +4,10 @@
 #include "npc_map.h"
 
 void Gun::draw() {
+	int draw_w, draw_h;
+
+	draw_w = bullet_width();
+	draw_h = bullet_height();
 
 	// Draw gun image
 	Fl_PNG_Image * current_img;
@@ -20,7 +24,7 @@ void Gun::draw() {
 
 	for (auto b : bullets)
 		if (!b.removed)
-			fl_rectf(b.x, b.y, bullet_w, bullet_h, bullet_color);
+			fl_rectf(b.x, b.y, draw_w, draw_h, bullet_color);
 }
 
 void Gun::update_bullets() {
@@ -58,6 +62,11 @@ void Gun::update_and_test_bullet(int bullet_id) {
 	BulletHitData new_hit_data;
 	Bullet curr_bullet;
 
+	int b_width, b_height;
+
+	b_width = bullet_width();
+	b_height = bullet_height();
+
 	Player * player = (Player*)mdata->player;
 
 	bool obj_collided;
@@ -85,7 +94,7 @@ void Gun::update_and_test_bullet(int bullet_id) {
 		return;
 
 	// Update position.
-	curr_bullet.x += ((bullet_speed / mdata->settings.update_fps) * curr_bullet.dir);
+	curr_bullet.x += bullet_speed * mdata->settings.scale / mdata->settings.update_fps * curr_bullet.dir;
 
 	// Keep bullet speed looking the same with map scrolling.
 	if (player != NULL) {
@@ -138,8 +147,8 @@ void Gun::update_and_test_bullet(int bullet_id) {
 		obj_collided = gameTools::did_collide(
 			curr_bullet.x,
 			curr_bullet.y,
-			bullet_w,
-			bullet_h,
+			b_width,
+			b_height,
 			(tile_x * mdata->scale_tile_size) + offset_x,
 			(tile_y * mdata->scale_tile_size) + offset_y,
 			item_image->w(),
@@ -167,8 +176,8 @@ void Gun::update_and_test_bullet(int bullet_id) {
 		obj_collided = gameTools::did_collide(
 			curr_bullet.x,
 			curr_bullet.y,
-			bullet_w,
-			bullet_h,
+			b_width,
+			b_height,
 			n->x(),
 			n->y(),
 			n->get_width(),
@@ -188,8 +197,8 @@ void Gun::update_and_test_bullet(int bullet_id) {
 	obj_collided = gameTools::did_collide(
 		curr_bullet.x,
 		curr_bullet.y,
-		bullet_w,
-		bullet_h,
+		b_width,
+		b_height,
 		player->x(),
 		player->y(),
 		player->get_width(),

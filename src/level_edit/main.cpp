@@ -78,17 +78,20 @@ int main(int argc, char ** argv) {
 	mdata.win = new EditWindow(&mdata, Fl::w() / 2, Fl::h() / 2, "Level editor");
 
 	// Top Menu.
-	mdata.top_menu = new Fl_Menu_Bar(mdata.settings.menu.x, mdata.settings.menu.y, 
-			(mdata.settings.menu.w == -1) ? mdata.win->w() : mdata.settings.menu.w,
-			mdata.settings.menu.h);
+	mdata.top_menu = new Fl_Menu_Bar(
+		0,
+		0,
+		mdata.win->w(),
+		mdata.settings.menu.height
+	);
 
 	// View window.
 	mdata.view_win = new ViewWindow(
 		&mdata, 
-		mdata.settings.editor.side_menu_width, 
-		mdata.settings.menu.h, 
-		mdata.win->w() - mdata.settings.editor.side_menu_width, 
-		mdata.win->h() - mdata.settings.menu.h, 
+		0, 
+		mdata.settings.menu.height, 
+		mdata.win->w(), 
+		mdata.win->h() - mdata.settings.menu.height, 
 		"Map viewer"
 	);
 

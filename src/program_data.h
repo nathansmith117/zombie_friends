@@ -102,16 +102,10 @@ enum MENU_SIDES {
 typedef uint8_t MENU_SIDE;
 
 struct MenuSettings {
-	int32_t x = 0;
-	int32_t y = 0;
-	int32_t w = -1; // -1 for window width.
-	int32_t h = 20;
+	int32_t height = 20;
 };
 
 struct EditorSettings {
-	int32_t side_menu_width = 300;
-	int32_t tab_size = 20;
-
 	// Scroll.
 	int32_t scrollbar_thickness = 20;
 	int32_t scrollbar_output_width = 100;
