@@ -33,14 +33,7 @@ void EvilPuppy::main_init(MainData * md) {
 	speed = mdata->settings.player_speed / 2.0;
 
 	// Points.
-	points = {
-		{5, 5},
-		{5, 10},
-		{10, 10},
-		{10, 5}
-	};
-
-	following_type = POINT_FOLLOWING_BACK_AND_FORTH;
+	load_follow_data_from_file("test_route.nfd");
 }
 
 void EvilPuppy::update() {

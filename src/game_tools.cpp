@@ -219,6 +219,7 @@ namespace gameTools {
 		int neg = 1; // -1 for negative and 1 for whole.
 		size_t str_len; // String length.
 		int end_at = 0; // Where loop should end.
+		bool looks_like_hex = false;
 		
 		bool hex_mode = false;
 
@@ -238,7 +239,11 @@ namespace gameTools {
 		}
 
 		// Hex mode.
-		if ((str[0] == '0' && str[1] == 'x') || force_hex) {
+		if (n >= 2)
+			if (str[0] == '0' && str[1] == 'x')
+				looks_like_hex = true;
+
+		if (looks_like_hex || force_hex) {
 			hex_mode = true;
 			neg = 1;
 			end_at = 0;
@@ -383,7 +388,8 @@ namespace gameTools {
 		{"mp", GAME_MAP},
 		{"cms", GAME_COMMAND_SCRIPT},
 		{"il", GAME_IMAGE_LOADER},
-		{"set", GAME_SETTINGS}
+		{"set", GAME_SETTINGS},
+		{"nfd", GAME_NPC_FOLLOW_DATA}
 	};
 
 	GAME_DATA_TYPE file_ext_to_datatype(const char * file_ext) {
@@ -429,6 +435,8 @@ namespace gameTools {
 				return load_images_from_loader_file(mdata, file_path, image_folder);
 			case GAME_SETTINGS:
 				return mdata->settings_editor->load(file_path, NAME_MAX);
+			case GAME_NPC_FOLLOW_DATA:
+				return 0;
 			default:
 				return -1;
 		}
@@ -560,5 +568,55 @@ namespace gameTools {
 
 		delete [] output_buf;
 		return 0;
+	}
+
+	long int read_line_from_str(const char * str, size_t n, char * output_buf, size_t output_buf_size, int start_at) {
+		long int i, j;
+		long int res = 0;
+		char * line_buf = NULL;
+
+		// Check stuff.
+		if (str == NULL || output_buf == NULL)
+			return -1;
+		if (n <= 0 || output_buf_size <= 0)
+			return -1;
+		if (start_at >= n || start_at < 0)
+			return -1;
+
+		// Create 'line_buf'.
+		line_buf = new char[output_buf_size];
+
+		if (line_buf == NULL)
+			return -1;
+
+		memset(line_buf, 0, output_buf_size);
+
+		// Get line.
+		j = 0;
+
+		for (i = start_at; i < n; i++) {
+			if (j >= output_buf_size) { // To big.
+				res = -1;
+				goto clean_mem;
+			} else if (str[i] == '\n') { // At '\n'.
+				line_buf[j] = '\0';
+				break;
+			}
+
+			line_buf[j] = str[i];
+			j++;
+		}
+
+		// Set 'res' and 'output_buf'.
+		res = i + 1;
+		memset(output_buf, 0, output_buf_size);
+		strncat(output_buf, line_buf, output_buf_size);
+
+clean_mem:
+
+		if (line_buf != NULL)
+			delete [] line_buf;
+
+		return res;
 	}
 }

@@ -148,7 +148,8 @@ namespace gameTools {
 		GAME_MAP,
 		GAME_COMMAND_SCRIPT,
 		GAME_IMAGE_LOADER,
-		GAME_SETTINGS
+		GAME_SETTINGS,
+		GAME_NPC_FOLLOW_DATA
 	};
 
 	typedef unsigned char GAME_DATA_TYPE;
@@ -158,7 +159,7 @@ namespace gameTools {
 		GAME_DATA_TYPE type;
 	};
 
-	const size_t FILE_TYPE_DATA_SIZE = 4;
+	const size_t FILE_TYPE_DATA_SIZE = 5;
 	extern const GameFileTypeData FILE_TYPE_DATA[FILE_TYPE_DATA_SIZE];
 
 	int get_file_ext(const char * file_name, char * file_ext, size_t file_ext_size);
@@ -177,4 +178,7 @@ namespace gameTools {
 
 	// NAME_MAX for 'split_by'.
 	int str_array_to_str(const char ** str_array, int width, int height, const char * split_by, char * str_output, size_t str_output_size, int start_at=0);
+
+	// Returns -1 if error or the position of the '\n'.
+	long int read_line_from_str(const char * str, size_t n, char * output_buf, size_t output_buf_size, int start_at=0);
 }

@@ -12,6 +12,9 @@
 #include "tile.h"
 #include "astar_pathfinder.h"
 
+
+#define FOLLOW_DATA_FILE_HEADER "NPC_FOLLOWING_DATA"
+
 enum NPC_TYPES {
 	NPC_TYPE_NONE = -1,
 	NPC_TYPE_EVIL_PUPPY = 0
@@ -76,6 +79,8 @@ class Npc : public Character {
 		bool at_end_point();
 
 		bool follow_points(); // Returns is at end.
+
+		int load_follow_data_from_file(const char * file_path);
 	protected:
 		class NpcMap * npc_map;
 
