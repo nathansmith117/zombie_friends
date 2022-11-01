@@ -9,9 +9,11 @@
 #include "edit_commands.h"
 #include "edit_item_creater.h"
 #include "edit_item_command_list.h"
+#include "edit_npc_creater.h"
 
 #define TILE_CREATER_TAB_LABEL "Tile creater"
 #define ITEM_CREATER_TAB_LABEL "Item creater"
+#define NPC_CREATER_TAB_LABEL "Npc creater"
 
 class EditTabMenu : public TabMenu {
 	public:
@@ -28,6 +30,7 @@ class EditTabMenu : public TabMenu {
 		EditTileCreater * tile_creater = NULL;
 		EditItemCreater * item_creater = NULL;
 		EditItemCommandList * item_command_list = NULL;
+		EditNpcCreater * npc_creater = NULL;
 	protected:
 		MainData * mdata;
 		MENU_SIDE menu_locat;
@@ -43,4 +46,5 @@ class EditTabMenu : public TabMenu {
 		Fl_Group * tile_creater_tab = NULL;
 		Fl_Group * item_creater_tab = NULL;
 		Fl_Group * item_command_list_tab = NULL;
+		Fl_Group * npc_creater_tab = NULL;
 };

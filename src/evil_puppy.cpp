@@ -28,12 +28,12 @@ void EvilPuppy::main_init(MainData * md) {
 	pathfinder_settings.try_after_path_failed = false;
 
 	path_finder->set_settings(pathfinder_settings);
-	//path_finder->start_thread();
+	path_finder->start_thread();
 
 	speed = mdata->settings.player_speed / 2.0;
 
 	// Points.
-	load_follow_data_from_file("test_route.nfd");
+	//load_follow_data_from_file("test_route.nfd");
 }
 
 void EvilPuppy::update() {
@@ -47,7 +47,7 @@ void EvilPuppy::update() {
 
 	path_finder->set_target(mdata->player);
 
-	follow_points();
+	//follow_points();
 
 	update_world_position();
 

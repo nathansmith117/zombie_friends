@@ -7,7 +7,7 @@ LDFLAGS = $(GAME_LDFLAGS) $(shell $(FLCON) --use-images --ldstaticflags) -static
 TARGET = level_edit
 DEH = ../*.cpp ../*.h
 OBJS = main.o editWindow.o edit_menu.o edit_tab_menu.o edit_tile_creater.o edit_commands.o edit_item_creater.o \
-       edit_item_command_list.o
+       edit_item_command_list.o edit_npc_creater.o
 
 %.o: %.cpp
 	@echo compiling $<
@@ -22,15 +22,17 @@ debug:
 
 # Objects.
 main.o: *.cpp *.h ../*.h ../*.cpp $(DEH)
-editWindow.o: editWindow.cpp editWindow.h edit_tab_menu.cpp edit_tab_menu.h edit_tile_creater.cpp edit_tile_creater.h edit_menu.h edit_menu.cpp $(DEH)
+editWindow.o: editWindow.cpp editWindow.h edit_tab_menu.cpp edit_tab_menu.h edit_tile_creater.cpp edit_tile_creater.h \
+	edit_menu.cpp edit_menu.h edit_npc_creater.cpp edit_npc_creater.h $(DEH)
 edit_menu.o: edit_menu.cpp edit_menu.h $(DEH)
 edit_tab_menu.o: edit_tab_menu.cpp edit_tab_menu.h edit_tile_creater.cpp edit_tile_creater.h edit_commands.cpp edit_commands.h \
 	edit_item_creater.cpp edit_item_creater.h  \
-	edit_item_command_list.cpp edit_item_command_list.h $(DEH)
+	edit_item_command_list.cpp edit_item_command_list.h edit_npc_creater.cpp edit_npc_creater.h $(DEH)
 edit_tile_creater.o: edit_tile_creater.cpp edit_tile_creater.h $(DEH)
 edit_commands.o: edit_commands.cpp edit_commands.h edit_tile_creater.cpp edit_tile_creater.h edit_tab_menu.cpp edit_tab_menu.h $(DEH)
 edit_item_creater.o: edit_item_creater.cpp edit_item_creater.h $(DEH)
 edit_item_command_list.o: edit_item_command_list.cpp edit_item_command_list.h $(DEH)
+edit_npc_creater.o: edit_npc_creater.cpp edit_npc_creater.h $(DEH)
 
 clean:
 	rm *.o

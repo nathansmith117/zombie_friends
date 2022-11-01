@@ -4,6 +4,7 @@
 #include "edit_menu.h"
 #include "edit_tab_menu.h"
 #include "edit_tile_creater.h"
+#include "edit_npc_creater.h"
 
 void EditWindow::main_init(int W, int H, MainData * md) {
 	mdata = md;
@@ -144,6 +145,7 @@ void EditWindow::handle_push() {
 	Fl_Widget * current_tab = tab_menu->value();
 	EditTileCreater * tile_creater = tab_menu->tile_creater;
 	EditItemCreater * item_creater = tab_menu->item_creater;
+	EditNpcCreater * npc_creater = tab_menu->npc_creater;
 
 	switch (Fl::event_button()) {
 		case FL_RIGHT_MOUSE:
@@ -162,6 +164,8 @@ void EditWindow::handle_push() {
 				mdata->map->item(item_creater->item(), tile_x, tile_y);
 			else if (strncmp(TILE_CREATER_TAB_LABEL, current_tab->label(), sizeof(TILE_CREATER_TAB_LABEL)) == 0)
 				mdata->map->tile(tile_creater->tile(), tile_x, tile_y);
+			else if (strncmp(NPC_CREATER_TAB_LABEL, current_tab->label(), sizeof(NPC_CREATER_TAB_LABEL)) == 0)
+				npc_creater->apply_npc(tile_x, tile_y);
 
 			break;
 		default:

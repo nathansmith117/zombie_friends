@@ -30,6 +30,7 @@
 #include <FL/Fl_Progress.H>
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Check_Button.H>
+#include <FL/Fl_Table_Row.H>
 #include <FL/names.h>
 #include <FL/x.H>
 

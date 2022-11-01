@@ -191,6 +191,26 @@ void EditTabMenu::add_items() {
 
 	item_command_list_tab->end();
 
+	// Npc Creater tab.
+	npc_creater_tab = new Fl_Group(
+		tab_x, 
+		tab_y, 
+		tab_w, 
+		tab_h,
+		NPC_CREATER_TAB_LABEL
+	);
+
+	npc_creater = new EditNpcCreater(
+		mdata,
+		tab_x, 
+		tab_y, 
+		tab_w, 
+		tab_h
+	);
+
+	npc_creater_tab->end();
+
+	// If Hidden.
 	if (mdata->settings.tab_menu_default_hidden)
 		menu_side(MENU_HIDDEN);
 	else
@@ -354,6 +374,24 @@ void EditTabMenu::reset_items_size() {
 
 		item_command_list->reset_size();
 	}
+
+	// Npc creater tab.
+	if (npc_creater_tab != NULL)
+		npc_creater_tab->resize(
+			tab_x, 
+			tab_y, 
+			tab_w, 
+			tab_h
+		);
+
+	// Npc creater.
+	if (npc_creater != NULL)
+		npc_creater->resize(
+			tab_x, 
+			tab_y, 
+			tab_w, 
+			tab_h
+		);
 }
 
 void EditTabMenu::scrollbar_cb(Fl_Widget * w, void * d) {
