@@ -55,6 +55,7 @@ class NpcMap {
 
 		void delete_npc_in_use(int location);
 		void delete_npc_in_use(Npc * unused_npc);
+		void delete_npc_in_use(int x, int y);
 
 		bool is_in_use(Npc * the_npc);
 
@@ -70,3 +71,4 @@ class NpcMap {
 };
 
 Npc * get_npc_from_type(MainData * mdata, NpcMap * npc_map, NPC_TYPE type);
+Npc * create_npc_from_data(MainData * mdata, NpcMap * npc_map, NpcData npc_data);

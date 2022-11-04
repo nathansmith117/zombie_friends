@@ -146,28 +146,10 @@ int NpcMap::npc(Npc * new_npc) {
 }
 
 int NpcMap::npc(NpcData npc_data) {
-	int i;
-
-	Npc * new_npc = get_npc_from_type(mdata, this, npc_data.type);
-	CommonTool * new_tool = NULL;
+	Npc * new_npc = create_npc_from_data(mdata, this, npc_data);
 
 	if (new_npc == NULL)
 		return -1;
-
-	// Coins and health.
-	new_npc->set_coins(npc_data.coins);
-	new_npc->set_heath(npc_data.health);
-
-	// Add tools.
-	for (i = 0; i < NPC_DATA_TOOLS_SIZE; i++) {
-		new_tool = get_tool_from_type(npc_data.tools[i], mdata, new_npc);
-
-		if (new_tool == NULL)
-			continue;
-
-		new_tool->set_fuel(npc_data.fuel[i]);
-		new_npc->add_tool(new_tool);
-	}
 
 	return npc(new_npc, npc_data.x, npc_data.y);
 }
@@ -180,6 +162,24 @@ Npc * NpcMap::npc(int x, int y) {
 }
 
 int NpcMap::remove(int x, int y) {
+	int i;
+	int item_to_remove = -1; // -1 for none.
+	std::vector<NpcData> * npc_data = mdata->map->get_npc_data();
+
+	// Remove npc from npc mdata.
+	/*
+	for (i = 0; i < npc_data->size(); i++)
+		if (npc_data->at(i).x == x && npc_data->at(i).y == y) {
+			item_to_remove = i;
+			break;
+		}
+
+	npc_data->erase(npc_data->begin() + item_to_remove);
+	*/
+
+	// Delete from 'npcs_in_use'.
+	delete_npc_in_use(x, y);
+
 	return npc(NULL, x, y);
 }
 
@@ -371,6 +371,26 @@ void NpcMap::delete_npc_in_use(Npc * unused_npc) {
 	}
 }
 
+void NpcMap::delete_npc_in_use(int x, int y) {
+	int i;
+	Npc * curr_npc = NULL;
+
+	if (npcs_in_use.empty())
+		return;
+
+	for (i = 0; i < npcs_in_use.size(); i++) {
+		curr_npc = npcs_in_use[i];
+
+		if (curr_npc == NULL)
+			continue;
+
+		if (curr_npc->wx_rounded() == x && curr_npc->wy_rounded() == y) {
+			delete_npc_in_use(i);
+			break;
+		}
+	}
+}
+
 bool NpcMap::is_in_use(Npc * the_npc) {
 	if (the_npc == NULL)
 		return false;
@@ -428,4 +448,31 @@ Npc * get_npc_from_type(MainData * mdata, NpcMap * npc_map, NPC_TYPE type) {
 		default:
 			return NULL;
 	}
+}
+
+Npc * create_npc_from_data(MainData * mdata, NpcMap * npc_map, NpcData npc_data) {
+	int i;
+
+	Npc * new_npc = get_npc_from_type(mdata, npc_map, npc_data.type);
+	CommonTool * new_tool = NULL;
+
+	if (new_npc == NULL)
+		return NULL;
+
+	// Coins and health.
+	new_npc->set_coins(npc_data.coins);
+	new_npc->set_heath(npc_data.health);
+
+	// Add tools.
+	for (i = 0; i < NPC_DATA_TOOLS_SIZE; i++) {
+		new_tool = get_tool_from_type(npc_data.tools[i], mdata, new_npc);
+
+		if (new_tool == NULL)
+			continue;
+
+		new_tool->set_fuel(npc_data.fuel[i]);
+		new_npc->add_tool(new_tool);
+	}
+
+	return new_npc;
 }

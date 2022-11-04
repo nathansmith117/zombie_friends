@@ -31,7 +31,10 @@ class EditNpcCreater : public Fl_Group {
 			main_init(md, X, Y, W, H);
 		}
 
+		~EditNpcCreater();
+
 		void apply_npc(int x, int y);
+		void reset_npc_preview();
 
 		NpcData npc() { return current_npc; }
 		void npc(NpcData current_npc) { this->current_npc = current_npc; }
@@ -39,6 +42,8 @@ class EditNpcCreater : public Fl_Group {
 		MainData * mdata;
 		Map * map = NULL;
 		NpcMap * npc_map = NULL;
+
+		Npc * npc_preview = NULL;
 
 		NpcData current_npc;
 

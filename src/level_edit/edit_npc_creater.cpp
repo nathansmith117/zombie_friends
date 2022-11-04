@@ -1,4 +1,5 @@
 #include "edit_npc_creater.h"
+#include "npc.h"
 
 void EditNpcToolEditor::main_init(int X, int Y, int W, int H) {
 	int row, col;
@@ -168,11 +169,24 @@ void EditNpcCreater::main_init(MainData * md, int X, int Y, int W, int H) {
 	);
 
 	end();
+
+	reset_npc_preview();
+}
+
+EditNpcCreater::~EditNpcCreater() {
+	if (npc_preview != NULL)
+		delete npc_preview;
 }
 
 void EditNpcCreater::apply_npc(int x, int y) {
 	current_npc.x = x;
 	current_npc.y = y;
+
+	// Remove npcs.
+	if (current_npc.type == NPC_TYPE_NONE) {
+		npc_map->remove(x, y);
+		return;
+	}
 
 	// Add npc to map.
 	if (npc_map->npc(current_npc) == -1) {
@@ -182,6 +196,34 @@ void EditNpcCreater::apply_npc(int x, int y) {
 
 	// Add to npc data for dumping to file.
 	map->get_npc_data()->push_back(current_npc);
+}
+
+void EditNpcCreater::reset_npc_preview() {
+	CommonTool * tool = NULL;
+
+	if (npc_preview != NULL)
+		delete npc_preview;
+
+	// Create npc for npc preview.
+	npc_preview = create_npc_from_data(mdata, npc_map, current_npc);
+
+	if (npc_preview == NULL)
+		return;
+
+	// Set position.
+	npc_preview->position(x(), y());
+
+	// Handle direction and tool.
+	npc_preview->facing_right();
+	tool = npc_preview->get_current_tool();
+
+	if (tool != NULL) {
+		tool->move_to_location();
+		tool->set_right();
+	}
+
+	// Add as a widget.
+	add(npc_preview);
 }
 
 // Callbacks.
@@ -209,4 +251,9 @@ void EditNpcCreater::enter_button_cb(Fl_Widget * w, void * d) {
 
 	// Get tools and fuel.
 	npc_creater->tools_and_fuel_input->set_to_npc_data(current_npc);
+
+	// Npc preview.
+	npc_creater->reset_npc_preview();
+
+	mdata->win->redraw();
 }
