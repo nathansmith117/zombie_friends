@@ -155,6 +155,8 @@ void EditWindow::handle_push() {
 				item_creater->item(mdata->map->item(tile_x, tile_y));
 			else if (strncmp(TILE_CREATER_TAB_LABEL, current_tab->label(), sizeof(TILE_CREATER_TAB_LABEL)) == 0)
 				tile_creater->tile(mdata->map->tile(tile_x, tile_y));
+			else if (strncmp(NPC_CREATER_TAB_LABEL, current_tab->label(), sizeof(NPC_CREATER_TAB_LABEL)) == 0)
+				npc_creater->get_npc_from(tile_x, tile_y);
 
 			break;
 		case FL_LEFT_MOUSE:

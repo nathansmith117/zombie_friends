@@ -5,6 +5,13 @@ NpcData get_clear_npc_data() {
 	int i;
 	NpcData npc_data;
 
+	npc_data.type = NPC_TYPE_NONE;
+	npc_data.x = 0;
+	npc_data.y = 0;
+	npc_data.health = 0;
+	npc_data.coins = 0;
+
+	// Tools and fuel.
 	for (i = 0; i < NPC_DATA_TOOLS_SIZE; i++) {
 		npc_data.tools[i] = -1;
 		npc_data.fuel[i] = 0;
@@ -163,19 +170,14 @@ Npc * NpcMap::npc(int x, int y) {
 
 int NpcMap::remove(int x, int y) {
 	int i;
-	int item_to_remove = -1; // -1 for none.
 	std::vector<NpcData> * npc_data = mdata->map->get_npc_data();
 
 	// Remove npc from npc mdata.
-	/*
 	for (i = 0; i < npc_data->size(); i++)
 		if (npc_data->at(i).x == x && npc_data->at(i).y == y) {
-			item_to_remove = i;
+			npc_data->erase(npc_data->begin() + i);
 			break;
 		}
-
-	npc_data->erase(npc_data->begin() + item_to_remove);
-	*/
 
 	// Delete from 'npcs_in_use'.
 	delete_npc_in_use(x, y);

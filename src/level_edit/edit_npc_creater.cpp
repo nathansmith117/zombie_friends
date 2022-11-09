@@ -170,7 +170,8 @@ void EditNpcCreater::main_init(MainData * md, int X, int Y, int W, int H) {
 
 	end();
 
-	reset_npc_preview();
+	// Set default current npc.
+	npc(get_clear_npc_data());
 }
 
 EditNpcCreater::~EditNpcCreater() {
@@ -201,14 +202,17 @@ void EditNpcCreater::apply_npc(int x, int y) {
 void EditNpcCreater::reset_npc_preview() {
 	CommonTool * tool = NULL;
 
+	// Delete old npc preview.
 	if (npc_preview != NULL)
 		delete npc_preview;
 
 	// Create npc for npc preview.
 	npc_preview = create_npc_from_data(mdata, npc_map, current_npc);
 
-	if (npc_preview == NULL)
+	if (npc_preview == NULL) {
+		mdata->win->redraw();
 		return;
+	}
 
 	// Set position.
 	npc_preview->position(x(), y());
@@ -224,6 +228,46 @@ void EditNpcCreater::reset_npc_preview() {
 
 	// Add as a widget.
 	add(npc_preview);
+	mdata->win->redraw();
+}
+
+void EditNpcCreater::npc(NpcData current_npc) {
+	char buf[NAME_MAX];
+
+	this->current_npc = current_npc;
+	reset_npc_preview();
+
+	// Type input.
+	memset(buf, 0, NAME_MAX);
+	snprintf(buf, NAME_MAX, "%d", current_npc.type);
+	type_input->value(buf);
+
+	// Health input.
+	memset(buf, 0, NAME_MAX);
+	snprintf(buf, NAME_MAX, "%d", current_npc.health);
+	health_input->value(buf);
+
+	// Coins input.
+	memset(buf, 0, NAME_MAX);
+	snprintf(buf, NAME_MAX, "%d", current_npc.coins);
+	coins_input->value(buf);
+
+	// Tools and fuel input.
+	tools_and_fuel_input->get_from_npc_data(current_npc);
+}
+
+void EditNpcCreater::get_npc_from(int x, int y) {
+	std::vector<NpcData> npc_data = *map->get_npc_data();
+
+	// Find npc.
+	for (auto n : npc_data)
+		if (n.x == x && n.y == y) {
+			npc(n);
+			return;
+		}
+
+	// No npc found.
+	npc(get_clear_npc_data());
 }
 
 // Callbacks.
@@ -254,6 +298,4 @@ void EditNpcCreater::enter_button_cb(Fl_Widget * w, void * d) {
 
 	// Npc preview.
 	npc_creater->reset_npc_preview();
-
-	mdata->win->redraw();
 }
