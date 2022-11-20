@@ -6,6 +6,14 @@
 #include "sword.h"
 #include "submachine_gun.h"
 
+CommonTool::~CommonTool() {
+	for (auto i : image_frames)
+		if (i != NULL)
+			delete i;
+
+	image_frames.clear();
+}
+
 void CommonTool::main_init(MainData * md, Fl_Widget * item_holder) {
 	mdata = md;
 

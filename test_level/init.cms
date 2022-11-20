@@ -1,9 +1,9 @@
 $message Hi there
-$image_list image_list2.il
+$image_list test_image_list.il
 $map test_map.mp
 
 say $message
 load $image_list sl
 load $map sl
 
-say Image_list: $image_list Map: $map
+popup Image_list: $image_list Map: $map

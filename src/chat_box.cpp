@@ -35,6 +35,17 @@ void ChatBox::main_init(MainData * md, int X, int Y, int W, int H) {
 
 	reset_size();
 
+	// Add main directory global.
+	VariableData main_dir_global;
+
+	memset(main_dir_global.name, 0, NAME_MAX);
+	memset(main_dir_global.value, 0, NAME_MAX);
+
+	strncat(main_dir_global.name, "MAIN_DIR", NAME_MAX - 1);
+	strncat(main_dir_global.value, mdata->MAIN_DIR, NAME_MAX - 1);
+
+	add_or_set_global_var(main_dir_global);
+
 	end();
 }
 

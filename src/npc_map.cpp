@@ -10,6 +10,9 @@ NpcData get_clear_npc_data() {
 	npc_data.y = 0;
 	npc_data.health = 0;
 	npc_data.coins = 0;
+	npc_data.data_follow_type = NPC_DATA_FOLLOW_NONE;
+	
+	memset(npc_data.follow_data_file, 0, NPC_FOLLOW_DATA_PATH_SIZE);
 
 	// Tools and fuel.
 	for (i = 0; i < NPC_DATA_TOOLS_SIZE; i++) {
@@ -474,6 +477,24 @@ Npc * create_npc_from_data(MainData * mdata, NpcMap * npc_map, NpcData npc_data)
 
 		new_tool->set_fuel(npc_data.fuel[i]);
 		new_npc->add_tool(new_tool);
+	}
+
+	// Follow stuff.
+	switch (npc_data.data_follow_type) {
+		case NPC_DATA_FOLLOW_FILE:
+			new_npc->set_should_follow_player(false);
+
+			if (npc_data.follow_data_file[0] != '\0')
+				new_npc->load_follow_data_from_file((char*)npc_data.follow_data_file, true);
+
+			break;
+		case NPC_DATA_FOLLOW_PLAYER:
+			new_npc->set_should_follow_player(true);
+			break;
+		case NPC_DATA_FOLLOW_NONE:
+			break;
+		default:
+			break;
 	}
 
 	return new_npc;

@@ -145,11 +145,36 @@ void EditNpcCreater::main_init(MainData * md, int X, int Y, int W, int H) {
 	coins_input->callback(coins_input_cb);
 
 	// Next row.
+	
+	// Data follow type input.
+	data_follow_type_input = new Fl_Input(
+		wx,
+		coins_input->y() + coins_input->h(),
+		ww,
+		wh,
+		"Follow type"
+	);
+
+	data_follow_type_input->type(FL_INT_INPUT);
+	data_follow_type_input->callback(data_follow_type_input_cb);
+	
+	// Follow data file input.
+	follow_data_file_input = new Fl_Input(
+		data_follow_type_input->x() + (ww * 2),
+		data_follow_type_input->y(),
+		ww * 2,
+		wh,
+		"Follow file"
+	);
+
+	follow_data_file_input->callback(follow_data_file_input_cb);
+
+	// Next row.
 
 	// Enter button.
 	enter_button = new Fl_Button(
 		wx,
-		coins_input->y() + (coins_input->h() * 2),
+		follow_data_file_input->y() + (follow_data_file_input->h() * 1.5),
 		ww,
 		wh * 2,
 		"Enter"
@@ -252,6 +277,16 @@ void EditNpcCreater::npc(NpcData current_npc) {
 	snprintf(buf, NAME_MAX, "%d", current_npc.coins);
 	coins_input->value(buf);
 
+	// Data follow type input.
+	memset(buf, 0, NAME_MAX);
+	snprintf(buf, NAME_MAX, "%d", current_npc.data_follow_type);
+	data_follow_type_input->value(buf);
+
+	// Follow data file input.
+	memset(buf, 0, NAME_MAX);
+	snprintf(buf, NAME_MAX, "%s", current_npc.follow_data_file);
+	follow_data_file_input->value(buf);
+
 	// Tools and fuel input.
 	tools_and_fuel_input->get_from_npc_data(current_npc);
 }
@@ -280,7 +315,10 @@ void EditNpcCreater::health_input_cb(Fl_Widget * w, void * d) {
 void EditNpcCreater::coins_input_cb(Fl_Widget * w, void * d) {
 }
 
-void EditNpcCreater::tools_and_fuel_cb(Fl_Widget * w, void * d) {
+void EditNpcCreater::data_follow_type_input_cb(Fl_Widget * w, void * d) {
+}
+
+void EditNpcCreater::follow_data_file_input_cb(Fl_Widget * w, void * d) {
 }
 
 void EditNpcCreater::enter_button_cb(Fl_Widget * w, void * d) {
@@ -288,14 +326,30 @@ void EditNpcCreater::enter_button_cb(Fl_Widget * w, void * d) {
 	MainData * mdata = npc_creater->mdata;
 	NpcData * current_npc = &npc_creater->current_npc;
 
-	// Get type, health, and coins.
+	// Most items.
 	current_npc->type = (NPC_TYPE)gameTools::valuestr_to_int(npc_creater->type_input);
 	current_npc->health = gameTools::valuestr_to_int(npc_creater->health_input);
 	current_npc->coins = gameTools::valuestr_to_int(npc_creater->coins_input);
+	current_npc->data_follow_type = gameTools::valuestr_to_int(npc_creater->data_follow_type_input);
+
+	// Follow data file.
+	memset(current_npc->follow_data_file, 0, NPC_FOLLOW_DATA_PATH_SIZE);
+
+	// White space as file name would make debuging hard.
+	if (npc_creater->follow_data_file_input->value()[0] != ' ')
+		strncat(
+			(char*)current_npc->follow_data_file, 
+			npc_creater->follow_data_file_input->value(), 
+			NPC_FOLLOW_DATA_PATH_SIZE - 1
+		);
+	
 
 	// Get tools and fuel.
 	npc_creater->tools_and_fuel_input->set_to_npc_data(current_npc);
 
 	// Npc preview.
 	npc_creater->reset_npc_preview();
+}
+
+void EditNpcCreater::tools_and_fuel_cb(Fl_Widget * w, void * d) {
 }

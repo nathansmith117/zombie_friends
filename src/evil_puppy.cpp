@@ -45,12 +45,12 @@ void EvilPuppy::update() {
 
 	last_call_count++;
 
-	path_finder->set_target(mdata->player);
-
-	//follow_points();
+	if (should_follow_player)
+		path_finder->set_target(mdata->player);
+	else
+		follow_points();
 
 	update_world_position();
-
 	keep_position();
 
 	// Slow stuff down.

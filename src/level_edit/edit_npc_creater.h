@@ -52,6 +52,8 @@ class EditNpcCreater : public Fl_Group {
 		Fl_Input * type_input = NULL;
 		Fl_Input * health_input = NULL;
 		Fl_Input * coins_input = NULL;
+		Fl_Input * data_follow_type_input = NULL;
+		Fl_Input * follow_data_file_input = NULL;
 		Fl_Button * enter_button = NULL;
 		EditNpcToolEditor * tools_and_fuel_input = NULL;
 
@@ -61,6 +63,8 @@ class EditNpcCreater : public Fl_Group {
 		static void type_input_cb(Fl_Widget * w, void * d);
 		static void health_input_cb(Fl_Widget * w, void * d);
 		static void coins_input_cb(Fl_Widget * w, void * d);
-		static void tools_and_fuel_cb(Fl_Widget * w, void * d);
+		static void data_follow_type_input_cb(Fl_Widget * w, void * d);
+		static void follow_data_file_input_cb(Fl_Widget * w, void * d);
 		static void enter_button_cb(Fl_Widget * w, void * d);
+		static void tools_and_fuel_cb(Fl_Widget * w, void * d);
 };

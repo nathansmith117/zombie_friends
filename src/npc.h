@@ -5,13 +5,11 @@
 #include "character.h"
 #include "weapon.h"
 #include "gun.h"
-
 #include "map.h"
 #include "common_tool.h"
 #include "common_item.h"
 #include "tile.h"
 #include "astar_pathfinder.h"
-
 
 #define FOLLOW_DATA_FILE_HEADER "NPC_FOLLOWING_DATA"
 
@@ -50,6 +48,8 @@ class Npc : public Character {
 			current_point = 0;
 			following_type = POINT_FOLLOWING_STOP_AT_END;
 			following_direction = FOLLOW_FORWARDS;
+
+			should_follow_player = false;
 		}
 
 		bool get_always_updated() { return always_updated; }
@@ -80,7 +80,10 @@ class Npc : public Character {
 
 		bool follow_points(); // Returns is at end.
 
-		int load_follow_data_from_file(const char * file_path);
+		int load_follow_data_from_file(const char * file_name, bool from_script_location=false);
+
+		bool get_should_follow_player() { return should_follow_player; }
+		void set_should_follow_player(bool should_follow_player) { this->should_follow_player = should_follow_player; }
 	protected:
 		class NpcMap * npc_map;
 
@@ -98,4 +101,6 @@ class Npc : public Character {
 
 		// Update npc even when not shown in view window,
 		bool always_updated;
+
+		bool should_follow_player;
 };

@@ -66,7 +66,7 @@ int Map::create_map(int width, int height) {
 	// Fill tile map with null tiles.
 	Tile::TileObject null_tile;
 	null_tile.id = Tile::NULL_TILE;
-	null_tile.type = Tile::NONE;
+	null_tile.type = 0;
 	null_tile.load_type = Tile::BASIC;
 
 	fill_with(null_tile);

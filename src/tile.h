@@ -18,14 +18,14 @@ namespace Tile {
 	};
 
 	enum TILE_TYPES {
-		TYPE_NO_WALKTHROUGH = 0x1 << 0
+		TYPE_NO_WALKTHROUGH = 0x1
 	};
 
 	typedef int8_t tile_id;
 
-	struct  TileObject {
+	struct TileObject {
 		tile_id id = NONE;
-		tile_id type = NONE;
+		tile_id type = 0;
 		tile_id load_type = NONE;
 	};
 

@@ -1,7 +1,9 @@
 #include "npc.h"
 #include "character.h"
+#include "program_data.h"
 #include "tile.h"
 #include "npc_map.h"
+#include "chat_box.h"
 
 int switch_following_direction(int dir) {
 	return dir * -1;
@@ -124,10 +126,15 @@ bool Npc::follow_points() {
 	return false;
 }
 
-int Npc::load_follow_data_from_file(const char * file_path) {
+
+int Npc::load_follow_data_from_file(const char * file_name, bool from_script_location) {
 	long int i, j;
 	int res = 0;
 	FILE * fp = NULL;
+
+	bool use_script_location;
+
+	char file_path[NAME_MAX];
 
 	size_t file_buf_size;
 	char * file_buf = NULL;
@@ -148,8 +155,30 @@ int Npc::load_follow_data_from_file(const char * file_path) {
 
 	bool getting_x = true;
 
-	if (file_path == NULL)
+	if (file_name == NULL)
 		return -1;
+
+	// Should use script location.
+	use_script_location = false;
+
+	if (from_script_location && mdata->chat_box != NULL)
+		if (mdata->chat_box->get_script_location()[0] != '\0')
+			use_script_location = true;
+
+	// Get file path.
+	memset(file_path, 0, NAME_MAX);
+
+	if (use_script_location)
+		snprintf(
+			file_path,
+			NAME_MAX,
+			"%s%s",
+			mdata->chat_box->get_script_location(),
+			file_name
+		);
+
+	else
+		strncat(file_path, file_name, NAME_MAX - 1);
 
 	// Open file.
 	fp = fopen(file_path, "r");

@@ -77,7 +77,8 @@ gun.o: weapon.cpp weapon.h game_tools.cpp game_tools.h character.cpp character.h
 npc.o: npc.cpp npc.h character.cpp character.h weapon.cpp weapon.h gun.cpp gun.h \
 	game_tools.cpp game_tools.h map.cpp map.h common_tool.cpp common_tool.h \
 	common_item.cpp common_item.h tile.cpp tile.h npc_map.cpp npc_map.h \
-	astar_pathfinder.cpp astar_pathfinder.h npc_map.cpp npc_map.h $(DEH)
+	astar_pathfinder.cpp astar_pathfinder.h npc_map.cpp npc_map.h \
+	chat_box.cpp chat_box.h $(DEH)
 evil_puppy.o: evil_puppy.cpp evil_puppy.h npc.cpp npc.h game_tools.cpp game_tools.h npc_map.cpp npc_map.h \
 	player.cpp player.h astar_pathfinder.cpp astar_pathfinder.h $(DEH)
 npc_map.o: npc_map.cpp npc_map.h npc.cpp npc.h game_tools.cpp game_tools.h \

@@ -5,6 +5,15 @@
 #include "game_tools.h"
 
 #define NPC_DATA_TOOLS_SIZE 5
+#define NPC_FOLLOW_DATA_PATH_SIZE 255
+
+enum NPC_DATA_FOLLOW_TYPES {
+	NPC_DATA_FOLLOW_NONE = -1,
+	NPC_DATA_FOLLOW_FILE,
+	NPC_DATA_FOLLOW_PLAYER
+};
+
+typedef int8_t NPC_DATA_FOLLOW_TYPE;
 
 struct NpcData {
 	NPC_TYPE type;
@@ -16,6 +25,12 @@ struct NpcData {
 	// Tools that npc will start with.
 	int8_t tools[NPC_DATA_TOOLS_SIZE];
 	int8_t fuel[NPC_DATA_TOOLS_SIZE];
+
+	// Follow stuff.
+	NPC_DATA_FOLLOW_TYPE data_follow_type; // Follow player or load from file or none.
+	
+	// Only if 'data_follow_type' is file.
+	int8_t follow_data_file[NPC_FOLLOW_DATA_PATH_SIZE];
 };
 
 NpcData get_clear_npc_data();

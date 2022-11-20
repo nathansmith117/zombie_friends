@@ -19,6 +19,8 @@ class CommonTool : public Fl_Widget {
 			main_init(md, item_holder);
 		}
 
+		~CommonTool();
+
 		std::vector<Fl_PNG_Image*> images() { return image_frames; }
 		void images(std::vector<Fl_PNG_Image*> image_frames);
 

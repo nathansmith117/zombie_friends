@@ -83,6 +83,9 @@ int if_command(COM_CB_ARGS);
 // default output is 'chatbox'.
 int list_commands_command(COM_CB_ARGS);
 
+
+#define SCRIPT_LOCATION_GLOBAL "SCRIPT_LOCATION"
+
 // Show the script location.
 // show_script_locat [output]
 // default output is chat box.

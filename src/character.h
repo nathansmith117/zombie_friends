@@ -40,6 +40,8 @@ class Character : public Fl_Widget {
 			speed = 0.0;
 		}
 
+		~Character();
+
 		virtual void draw();
 		virtual void update() = 0;
 		virtual void handle_hit_data() = 0;

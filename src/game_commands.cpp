@@ -510,6 +510,8 @@ int show_script_locat_command(COM_CB_ARGS) {
 	PRINT_TYPE print_type;
 	char output_buf[NAME_MAX];
 
+	VariableData script_location;
+
 	// Get print type.
 	if (arg_count <= 1) {
 		print_type = PRINT_CHATBOX;
@@ -538,6 +540,15 @@ skip_getting_print_type:
 		fputs("Error printing data\n", stderr);
 		return -1;
 	}
+
+	// Set global variable.
+	memset(script_location.name, 0, NAME_MAX);
+	memset(script_location.value, 0, NAME_MAX);
+
+	strncat(script_location.name, SCRIPT_LOCATION_GLOBAL, NAME_MAX - 1);
+	strncat(script_location.value, chat_box->get_script_location(), NAME_MAX - 1);
+
+	chat_box->add_or_set_global_var(script_location);
 
 	return 0;
 }
@@ -643,6 +654,7 @@ void add_main_commands(MainData * mdata, ChatBox * chat_box) {
 		{"say", say_command, NULL, false},
 		{"exit", exit_command, NULL},
 		{"load", load_command, NULL},
+		{"silent_load", load_command, NULL, false},
 		{"do_nothing", do_nothing_command, NULL, false},
 		{"popup", popup_command, NULL, false},
 		{"print", print_command, NULL, false},

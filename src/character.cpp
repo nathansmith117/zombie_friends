@@ -18,6 +18,23 @@ void Character::draw() {
 	tl->draw();
 }
 
+Character::~Character() {
+
+	// Tools.
+	for (auto t : tools)
+		if (t != NULL)
+			delete t;
+
+	tools.clear();
+
+	// Images.
+	for (auto i : character_images)
+		if (i != NULL)
+			delete i;
+
+	character_images.clear();
+}
+
 void Character::images(std::vector<Fl_PNG_Image*> character_images) {
 	gameTools::delete_image_list(&this->character_images);
 
