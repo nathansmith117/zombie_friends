@@ -88,6 +88,10 @@ void ViewWindow::resize_callback() {
 	CommonTool * player_item = NULL;
 	TabMenu * tab_menu = NULL;
 
+	// Top menu.
+	if (mdata->top_menu != NULL)
+		mdata->top_menu->size(mdata->win->w(), mdata->settings.menu.height);
+
 	player = (Player*)mdata->player;
 
 	// Player.

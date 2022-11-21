@@ -10,11 +10,7 @@ class DebugWindow : public Fl_Text_Display {
             main_init(md, X, Y, W, H);
         }
 
-		static void update_cb(void * d);
-
-        void main_init(MainData * md, int X, int Y, int W, int H);
         void update();
-
 		void scroll_to_bottom();
     private:
         MainData * mdata;
@@ -24,6 +20,10 @@ class DebugWindow : public Fl_Text_Display {
 
 		Fl_Text_Buffer * text_buffer = NULL;
 		bool do_init;
+
+        void main_init(MainData * md, int X, int Y, int W, int H);
+
+		static void update_cb(void * d);
 
 		void buffer_init(size_t new_stdout_size, size_t new_stderr_size);
 		void update_stream(size_t new_size, size_t * old_size, FILE * fp);

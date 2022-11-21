@@ -51,9 +51,9 @@ void EditTileCreater::main_init(MainData * md, Map * map, int X, int Y, int W, i
 	load_type_choice->callback(load_type_choice_cb, (void*)this);
 
 	enter_button = new Fl_Button(
-		X + (W / 3),
+		X + (W / 4),
 		load_type_choice->y() + (load_type_choice->h() * 2),
-		W / 4,
+		mdata->settings.editor.input_thinkness * 4,
 		mdata->settings.editor.input_thinkness * 2,
 		"Enter"
 	);

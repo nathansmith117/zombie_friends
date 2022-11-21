@@ -17,6 +17,8 @@ class EditNpcToolEditor : public Fl_Group {
 
 		~EditNpcToolEditor();
 
+		void reset_size();
+
 		int set_to_npc_data(NpcData * npc_data);
 		int get_from_npc_data(NpcData npc_data);
 	private:
@@ -32,6 +34,8 @@ class EditNpcCreater : public Fl_Group {
 		}
 
 		~EditNpcCreater();
+
+		void reset_size();
 
 		void apply_npc(int x, int y);
 		void reset_npc_preview();

@@ -13,22 +13,14 @@ void EditNpcToolEditor::main_init(int X, int Y, int W, int H) {
 		return;
 	}
 
-	int input_w = W / NPC_TOOL_EDITOR_COLS;
-	int input_h = H / NPC_TOOL_EDITOR_ROWS;
-
 	// Create the widgets in 'inputs'.
 	for (row = 0; row < NPC_TOOL_EDITOR_ROWS; row++)
 		for (col = 0; col < NPC_TOOL_EDITOR_COLS; col++) {
-			inputs[row][col] = new Fl_Input(
-				X + (input_w * col),
-				Y + (input_h * row),
-				input_w,
-				input_h
-			);
-
+			inputs[row][col] = new Fl_Input(0, 0, 0, 0);
 			inputs[row][col]->type(FL_INT_INPUT);
 		}
 
+	reset_size();
 	end();
 }
 
@@ -45,6 +37,24 @@ EditNpcToolEditor::~EditNpcToolEditor() {
 				delete inputs[row][col];
 
 	gameTools::delete_2d_array<Fl_Input*>(inputs, NPC_TOOL_EDITOR_COLS, NPC_TOOL_EDITOR_ROWS);
+}
+
+void EditNpcToolEditor::reset_size() {
+	int row, col;
+	int input_w = w() / NPC_TOOL_EDITOR_COLS;
+	int input_h = h() / NPC_TOOL_EDITOR_ROWS;
+
+	if (inputs == NULL)
+		return;
+
+	for (row = 0; row < NPC_TOOL_EDITOR_ROWS; row++)
+		for (col = 0; col < NPC_TOOL_EDITOR_COLS; col++)
+			inputs[row][col]->resize(
+				x() + (input_w * col),
+				y() + (input_h * row),
+				input_w,
+				input_h
+			);
 }
 
 int EditNpcToolEditor::set_to_npc_data(NpcData * npc_data) {
@@ -175,7 +185,7 @@ void EditNpcCreater::main_init(MainData * md, int X, int Y, int W, int H) {
 	enter_button = new Fl_Button(
 		wx,
 		follow_data_file_input->y() + (follow_data_file_input->h() * 1.5),
-		ww,
+		ww / 2,
 		wh * 2,
 		"Enter"
 	);
@@ -184,19 +194,39 @@ void EditNpcCreater::main_init(MainData * md, int X, int Y, int W, int H) {
 
 	// Tools and fuel input.
 	int tools_and_fuel_input_height = mdata->settings.editor.input_thinkness * NPC_TOOL_EDITOR_ROWS;
-	int tools_and_fuel_input_y = (H + Y) - tools_and_fuel_input_height;
 
 	tools_and_fuel_input = new EditNpcToolEditor(
-		X,
-		tools_and_fuel_input_y,
+		0,
+		0,
 		W,
 		tools_and_fuel_input_height
 	);
 
+	reset_size();
 	end();
 
 	// Set default current npc.
 	npc(get_clear_npc_data());
+}
+
+void EditNpcCreater::reset_size() {
+
+	// Tools and fuel input.
+	int tools_and_fuel_input_height = mdata->settings.editor.input_thinkness * NPC_TOOL_EDITOR_ROWS;
+	int tools_and_fuel_input_y = (h() + y()) - tools_and_fuel_input_height;
+
+	// If at top.
+	if (mdata->settings.tab_menu_locat == MENU_TOP)
+		tools_and_fuel_input_y -= mdata->top_menu->h();
+
+	tools_and_fuel_input->resize(
+		x(),
+		tools_and_fuel_input_y,
+		w(),
+		tools_and_fuel_input_height
+	);
+
+	tools_and_fuel_input->reset_size();
 }
 
 EditNpcCreater::~EditNpcCreater() {

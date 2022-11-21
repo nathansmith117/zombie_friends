@@ -385,13 +385,16 @@ void EditTabMenu::reset_items_size() {
 		);
 
 	// Npc creater.
-	if (npc_creater != NULL)
+	if (npc_creater != NULL) {
 		npc_creater->resize(
 			tab_x, 
 			tab_y, 
 			tab_w, 
 			tab_h
 		);
+
+		npc_creater->reset_size();
+	}
 }
 
 void EditTabMenu::scrollbar_cb(Fl_Widget * w, void * d) {

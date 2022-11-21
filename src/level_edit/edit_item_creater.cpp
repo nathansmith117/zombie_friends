@@ -130,7 +130,7 @@ void EditItemCreater::main_init(MainData * md, Map * map, int X, int Y, int W, i
 	enter_button = new Fl_Button(
 		wx,
 		command_choice->y() + wh + 10,
-		ww,
+		ww / 2,
 		wh * 2,
 		"Enter"
 	);
