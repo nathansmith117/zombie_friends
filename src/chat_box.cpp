@@ -1,4 +1,5 @@
 #include "chat_box.h"
+#include "game_commands.h"
 
 void ChatBox::main_init(MainData * md, int X, int Y, int W, int H) {
 	mdata = md;
@@ -19,7 +20,6 @@ void ChatBox::main_init(MainData * md, int X, int Y, int W, int H) {
 	input_on_button = new Fl_Check_Button(0, 0, 0, 0);
 
 	input_on_button->label("On");
-	input_on_button->shortcut(FL_CTRL + 't');
 	input_on_button->value(0);
 
 	// Input line.
@@ -45,6 +45,9 @@ void ChatBox::main_init(MainData * md, int X, int Y, int W, int H) {
 	strncat(main_dir_global.value, mdata->MAIN_DIR, NAME_MAX - 1);
 
 	add_or_set_global_var(main_dir_global);
+
+	// Add script location.
+	add_or_set_global_var({SCRIPT_LOCATION_GLOBAL, "\0"});
 
 	end();
 }

@@ -7,4 +7,5 @@ load $image_list sl
 load $map sl
 load test_settings.set sl
 
-popup Image_list: $image_list Map: $map
+get_script_locat
+popup $SCRIPT_LOCATION

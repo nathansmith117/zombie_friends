@@ -91,6 +91,9 @@ int list_commands_command(COM_CB_ARGS);
 // default output is chat box.
 int show_script_locat_command(COM_CB_ARGS);
 
+// Update script location global.
+int get_script_locat_command(COM_CB_ARGS);
+
 // Game only commands.
 int change_heath_by_command(COM_CB_ARGS);
 int set_heath_command(COM_CB_ARGS);

@@ -63,7 +63,7 @@ character.o: character.cpp character.h weapon.cpp weapon.h common_item.cpp commo
 tab_menu.o: tab_menu.cpp tab_menu.h $(DEH)
 game_tab_menu.o: game_tab_menu.cpp game_tab_menu.h tab_menu.cpp tab_menu.h debug_window.cpp debug_window.h \
 	chat_box.cpp chat_box.h game_commands.cpp game_commands.h player_info_display.cpp player_info_display.h $(DEH)
-chat_box.o: chat_box.cpp chat_box.h game_tools.cpp game_tools.h $(DEH)
+chat_box.o: chat_box.cpp chat_box.h game_tools.cpp game_tools.h game_commands.cpp game_commands.h $(DEH)
 game_commands.o: game_commands.cpp game_commands.h chat_box.cpp chat_box.h game_tools.cpp game_tools.h \
 	map.cpp map.h view_window.cpp view_window.h player.cpp player.h $(DEH)
 common_item.o: common_item.cpp common_item.h game_tools.cpp game_tools.h map.cpp map.h $(DEH)

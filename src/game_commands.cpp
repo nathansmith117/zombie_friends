@@ -508,9 +508,11 @@ skip_getting_print_type:
 
 int show_script_locat_command(COM_CB_ARGS) {
 	PRINT_TYPE print_type;
+	VariableData script_location;
 	char output_buf[NAME_MAX];
 
-	VariableData script_location;
+	// Clear script location global.
+	chat_box->add_or_set_global_var({SCRIPT_LOCATION_GLOBAL, "\0"});
 
 	// Get print type.
 	if (arg_count <= 1) {
@@ -550,6 +552,19 @@ skip_getting_print_type:
 
 	chat_box->add_or_set_global_var(script_location);
 
+	return 0;
+}
+
+int get_script_locat_command(COM_CB_ARGS) {
+	VariableData script_location;
+
+	memset(script_location.name, 0, NAME_MAX);
+	memset(script_location.value, 0, NAME_MAX);
+
+	strncat(script_location.name, SCRIPT_LOCATION_GLOBAL, NAME_MAX - 1);
+	strncat(script_location.value, chat_box->get_script_location(), NAME_MAX - 1);
+
+	chat_box->add_or_set_global_var(script_location);
 	return 0;
 }
 
@@ -664,7 +679,8 @@ void add_main_commands(MainData * mdata, ChatBox * chat_box) {
 		{"show_globals", show_globals_command, NULL},
 		{"if", if_command, NULL, false},
 		{"list_commands", list_commands_command, NULL},
-		{"show_script_locat", show_script_locat_command, NULL}
+		{"show_script_locat", show_script_locat_command, NULL},
+		{"get_script_locat", get_script_locat_command, NULL, false}
 	};
 
 	chat_box->add_command_list(command_list, sizeof(command_list) / sizeof(ChatCommand));
