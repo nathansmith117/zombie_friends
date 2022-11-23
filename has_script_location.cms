@@ -1,0 +1,2 @@
+get_script_locat
+if_empty $SCRIPT_LOCATION popup Is empty

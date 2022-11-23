@@ -30,7 +30,7 @@ void GameTabMenu::add_items() {
 		tab_x, 
 		tab_y, 
 		tab_w, 
-		tab_h
+		tab_h - ((mdata->settings.tab_menu_locat == MENU_TOP) ? mdata->top_menu->h() : 0)
 	);
 
 	debug_win_tab->end();
@@ -106,7 +106,7 @@ void GameTabMenu::reset_items_size() {
 			tab_x, 
 			tab_y, 
 			tab_w, 
-			tab_h
+			tab_h - ((mdata->settings.tab_menu_locat == MENU_TOP) ? mdata->top_menu->h() : 0)
 		);
 
 	// Chat box tab.

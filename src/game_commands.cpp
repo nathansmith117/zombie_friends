@@ -325,7 +325,7 @@ int run_sequence_command(COM_CB_ARGS) {
 			return -1;
 		}
 
-		if (chat_box->run_command(c.c_str()) == -1) {
+		if (chat_box->run_command(c.c_str(), variable_list) == -1) {
 			fprintf(stderr, "Error running '%s'\n", c.c_str());
 			return -1;
 		}
@@ -462,7 +462,7 @@ int if_command(COM_CB_ARGS) {
 
 	// Run command if case is true.
 	if (case_true)
-		return chat_box->run_command(command_str);
+		return chat_box->run_command(command_str, variable_list);
 
 	return 0;
 }
@@ -566,6 +566,54 @@ int get_script_locat_command(COM_CB_ARGS) {
 
 	chat_box->add_or_set_global_var(script_location);
 	return 0;
+}
+
+int if_is_command(COM_CB_ARGS) {
+	char command_str[NAME_MAX];
+	IS_THING_TYPE thing_type;
+
+	if (arg_count < 5) {
+		fputs("More arguments required\n", stderr);
+		return -1;
+	}
+
+	// Get the wacky "is thing type" or waz ever you want to call it.
+	if (strncmp(IS_EMPTY_ARG, args[2], NAME_MAX) == 0)
+		thing_type = IS_EMPTY;
+	else if (strncmp(IS_NOT_EMPTY_ARG, args[2], NAME_MAX) == 0)
+		thing_type = IS_NOT_EMPTY;
+	else {
+		fprintf(stderr, "Unknown thing I am having a hard time naming '%s'\n", args[2]);
+		return -1;
+	}
+
+	// Check stuff now!!!!
+	switch (thing_type) {
+		case IS_EMPTY:
+			if (args[1][0] != '\0')
+				return 0;
+
+			break;
+		case IS_NOT_EMPTY:
+			if (args[1][0] == '\0')
+				return 0;
+
+			break;
+		default: // Something have gone terrable wrong.
+			fprintf(stderr, "You have bad luck.  Tell the stupid dev of this game to stop eating his ice cream and burned pop corn and look in %s:%d for fucking heavens sake!!!!!\n", __FILE__, __LINE__);
+			return -1;
+	}
+
+	memset(command_str, 0, NAME_MAX);
+
+	// Get command.
+	// Skip other arguments.
+	if (gameTools::str_array_to_str(args, NAME_MAX, arg_count, " ", command_str, NAME_MAX, 3) == -1) {
+		fputs("Error getting command\n", stderr);
+		return -1;
+	}
+
+	return chat_box->run_command(command_str, variable_list);
 }
 
 int change_heath_by_command(COM_CB_ARGS) {

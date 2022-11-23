@@ -94,6 +94,21 @@ int show_script_locat_command(COM_CB_ARGS);
 // Update script location global.
 int get_script_locat_command(COM_CB_ARGS);
 
+// This code looks like something your crazy english teacher would make.
+enum IS_THINGS {
+	IS_EMPTY,
+	IS_NOT_EMPTY
+};
+
+typedef uint8_t IS_THING_TYPE;
+
+#define IS_EMPTY_ARG "empty"
+#define IS_NOT_EMPTY_ARG "not_empty"
+
+// Run command if value is thing.
+// value thing command arg...
+int if_is_command(COM_CB_ARGS);
+
 // Game only commands.
 int change_heath_by_command(COM_CB_ARGS);
 int set_heath_command(COM_CB_ARGS);
