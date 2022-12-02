@@ -16,11 +16,6 @@ class ViewWindow : public Fl_Double_Window {
 
 		int handle(int event);
 
-		static void update_cb(void * d);
-		static void draw_cb(void * d);
-
-		void real_update_cb();
-
 		bool is_inlayed() { return inlayed; }
 		void is_inlayed(bool inlayed) { this->inlayed = inlayed; }
 	private:
@@ -29,6 +24,12 @@ class ViewWindow : public Fl_Double_Window {
 		// Handling window resize.
 		int old_w, old_h;
 		void resize_callback();
+
+		// Callbacks.
+		static void update_cb(void * d);
+		static void draw_cb(void * d);
+
+		void real_update_cb();
 
 		bool inlayed;
 };

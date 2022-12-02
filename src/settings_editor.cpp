@@ -368,10 +368,22 @@ void SettingsEditor::add_settings_widgets() {
 
 	input_height_input->type(FL_INT_INPUT);
 
+	// Scheme input.
+	scheme_input = new Fl_Choice(
+		input_x,
+		input_height_input->y() + input_height_input->h(),
+		input_width,
+		input_height,
+		"Scheme"
+	);
+
+	for (auto s : SCHEMES)
+		scheme_input->add(s);
+
 	// Tab menu.
 	tab_menu_box = new Fl_Box(
 		(w() / 2) - (box_w / 2),
-		input_height_input->y() + spacing_size,
+		scheme_input->y() + spacing_size,
 		box_w,
 		box_h,
 		"Tab menu"
@@ -485,7 +497,12 @@ void SettingsEditor::apply_changes() {
 	mdata->settings.diolog_width = gameTools::valuestr_to_int(diolog_width_input);
 	mdata->settings.diolog_height = gameTools::valuestr_to_int(diolog_height_input);
 	mdata->settings.input_height = gameTools::valuestr_to_int(input_height_input);
+	mdata->settings.scheme_id = scheme_input->value();
 
+	// Apply scheme.
+	if (mdata->settings.scheme_id >= 0 && mdata->settings.scheme_id < SCHEMES_SIZE)
+		Fl::scheme(SCHEMES[mdata->settings.scheme_id]);
+	
 	gameTools::scale_all(mdata);
 
 	// Tab menu.
@@ -545,6 +562,8 @@ void SettingsEditor::reload_settings() {
 
 	snprintf(buf, NAME_MAX, "%d", mdata->settings.input_height);
 	input_height_input->value(buf);
+
+	scheme_input->value(mdata->settings.scheme_id);
 
 	// Tab menu.
 	snprintf(buf, NAME_MAX, "%d", mdata->settings.tab_menu_thickness);

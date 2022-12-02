@@ -7,8 +7,7 @@
 
 void exit_cb(Fl_Widget * w, void * d) {
 	MainData * mdata = (MainData*)d;
-	mdata->win->hide();
-	exit(0);
+	mdata->should_close = true;
 }
 
 void settings_cb(Fl_Widget * w, void * d) {

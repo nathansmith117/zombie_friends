@@ -8,6 +8,8 @@ zombie.
 # Compiling Unix/Linux
 Needs fltk to compile.  Tested with fltk 1.3.8.  Other versions many not work correctly.
 
+Make sure to compile fltk with ./configure CFLAGS="-fPIC" CXXFLAGS="-fPIC"
+
 Just typing "make" in the command line will work most of the
 time.  Tested with gcc/g++ compiler others many not work.
 

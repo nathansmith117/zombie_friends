@@ -107,4 +107,5 @@ int AppWindow::handle(int event) {
 void AppWindow::window_closing() {
 	puts("\nClosing window.");
 	delete mdata->map;
+	mdata->state = GAME_STOPPED;
 }

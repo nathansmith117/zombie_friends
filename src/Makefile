@@ -1,6 +1,6 @@
 FLCON = fltk-config
 COMPILER = $(shell $(FLCON) --cxx)
-CFLAGS = $(shell $(FLCON) --use-images --cxxflags)
+CFLAGS = $(shell $(FLCON) --use-images --cxxflags) -fPIC
 LDFLAGS = $(shell $(FLCON) --use-images --ldstaticflags) \
 	  -static-libstdc++ -static-libgcc
 
@@ -11,12 +11,14 @@ OBJS = main.o appWindow.o player.o image_loader.o game_tools.o weapon.o \
        character.o tab_menu.o game_tab_menu.o chat_box.o game_commands.o \
        common_item.o common_tool.o player_info_display.o \
        submachine_gun.o gun.o npc.o evil_puppy.o npc_map.o astar_pathfinder.o \
-       loader_file_handling.o progress_bar.o settings_editor.o
+       loader_file_handling.o progress_bar.o settings_editor.o startup.o \
+       dll_loader.o
 GAME_TOOLS = image_loader.o game_tools.o weapon.o map.o tile.o player.o \
 	     debug_window.o view_window.o top_menu.o character.o tab_menu.o \
 	     chat_box.o game_commands.o common_item.o common_tool.o \
 	     player_info_display.o npc.o npc_map.o astar_pathfinder.o \
-	     loader_file_handling.o progress_bar.o settings_editor.o
+	     loader_file_handling.o progress_bar.o settings_editor.o \
+	     startup.o dll_loader.o
 WEAPONS = weapon.o sword.o submachine_gun.o gun.o
 NPCS = npc.o evil_puppy.o astar_pathfinder.o npc_map.o
 LIB_DIR = ../lib/
@@ -37,10 +39,15 @@ editor:
 	@make -C level_edit
 debug:
 	$(COMPILER) $(CFLAGS) -c *.cpp -g
-	$(COMPILER) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS) -g
+	$(COMPILER) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	ar rcs -o $(LIB_DIR)libgametools.a $(GAME_TOOLS)
+	ar rcs $(LIB_DIR)libweapons.a $(WEAPONS)
+	ar rcs $(LIB_DIR)libnpcs.a $(NPCS)
 
 # Objects.
 main.o: *.cpp *.h
+startup.o: startup.cpp startup.h tile.cpp tile.h $(DEH)
+zombie_friends.o: *.cpp *.h
 appWindow.o: appWindow.cpp appWindow.h map.cpp map.h debug_window.cpp debug_window.h view_window.cpp view_window.h \
 	  player_info_display.cpp player_info_display.h $(DEH)
 player.o: player.cpp player.h game_tools.cpp game_tools.h weapon.cpp weapon.h map.cpp map.h character.cpp character.h \
@@ -88,6 +95,7 @@ astar_pathfinder.o: astar_pathfinder.cpp astar_pathfinder.h game_tools.cpp game_
 loader_file_handling.o: loader_file_handling.cpp loader_file_handling.h image_loader.cpp image_loader.h game_tools.cpp game_tools.h $(DEH)
 progress_bar.o: progress_bar.cpp progress_bar.h $(DEH)
 settings_editor.o: settings_editor.cpp settings_editor.h game_tools.cpp game_tools.h player.cpp player.h tab_menu.cpp tab_menu.h $(DEH)
+dll_loader.o: dll_loader.cpp dll_loader.h # Only one without $(DEH)
 
 clean:
 	rm *.o

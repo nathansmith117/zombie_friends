@@ -9,9 +9,9 @@ class AppWindow : public Fl_Double_Window {
 			main_init(md, W, H);
 		}
 
-		void main_init(MainData * md, int W, int H);
 		int handle(int event);
 	private:
 		MainData * mdata;
 		void window_closing();
+		void main_init(MainData * md, int W, int H);
 };

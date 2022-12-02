@@ -57,6 +57,7 @@ class SettingsEditor : public Fl_Menu_Window {
 		Fl_Input * diolog_width_input = NULL;
 		Fl_Input * diolog_height_input = NULL;
 		Fl_Input * input_height_input = NULL;
+		Fl_Choice * scheme_input = NULL;
 
 		// Tab menu.
 		Fl_Box * tab_menu_box = NULL;

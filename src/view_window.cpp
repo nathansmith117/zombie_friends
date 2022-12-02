@@ -62,7 +62,15 @@ void ViewWindow::draw_cb(void * d) {
 }
 
 void ViewWindow::real_update_cb() {
+	mdata->state = GAME_RUNNING;
 	NpcMap * npc_map;
+
+	// Should close.
+	if (mdata->should_close) {
+		mdata->win->hide();
+		hide();
+		return;
+	}
 
 	// Resizing window.
 	if (old_w != w() || old_h != h())

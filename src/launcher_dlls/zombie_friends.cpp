@@ -1,11 +1,13 @@
+#include "dll_format.h"
+
 #include "common_tool.h"
-#include "program_data.h"
 #include "appWindow.h"
 #include "image_loader.h"
 #include "player.h"
 #include "map.h"
 #include "game_tools.h"
 #include "debug_window.h"
+#include "program_data.h"
 #include "view_window.h"
 #include "tile.h"
 #include "top_menu.h"
@@ -17,7 +19,26 @@
 #include "settings_editor.h"
 #include "startup.h"
 
-void load_first_images(MainData * mdata) {
+MainData mdata;
+
+void close_game() {
+	mdata.should_close = true;
+}
+
+void wait_for_game_to_close() {
+	while (mdata.state != GAME_STOPPED)
+		std::this_thread::sleep_for(std::chrono::microseconds(1));
+}
+
+const char * get_game_version() {
+	return GAME_VERSION;
+}
+
+const char * get_release_date() {
+	return GAME_RELEASE_DATE;
+}
+
+void init_images(MainData * mdata) {
 	// Get image data directory.
 	char img_data_name[] = "image_list.il";
 	char img_data_path[NAME_MAX + sizeof(img_data_name)];
@@ -45,17 +66,16 @@ void load_first_images(MainData * mdata) {
 	gameTools::load_file(mdata, img_data_path);
 }
 
-int main(int argc, char ** argv) {
+int run_game(GameArgs args) {
 	fl_register_images();
-	MainData mdata;
 
-	mdata.argc = argc;
-	mdata.argv = argv;
+	mdata.argc = args.argc;
+	mdata.argv = args.argv;
 
 	// First init.
 	startup(&mdata, true);
 
-	load_first_images(&mdata);
+	init_images(&mdata);
 
 	// Create map.
 	const char map_file_name[] = "map_data.mp";
@@ -112,7 +132,7 @@ int main(int argc, char ** argv) {
 #endif
 
 	Fl::visual(FL_DOUBLE | FL_INDEX);
-	mdata.win->show(argc, argv);
+	mdata.win->show(args.argc, args.argv);
 
 	mdata.win->begin();
 	Fl::visual(FL_DOUBLE | FL_INDEX);

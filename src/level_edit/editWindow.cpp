@@ -98,6 +98,8 @@ void EditWindow::window_closing() {
 
 	if (mdata->edit_menu_diologs != NULL)
 		delete_editor_diologs(mdata->edit_menu_diologs);
+
+	mdata->state = GAME_STOPPED;
 }
 
 void EditWindow::handle_push() {

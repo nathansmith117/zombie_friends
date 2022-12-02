@@ -64,6 +64,7 @@
 #define NAME_MAX MAX_PATH
 #else
 #include <unistd.h>
+#include <dlfcn.h>
 #endif
 
 // Current game version. Use string.
@@ -105,6 +106,34 @@ typedef uint8_t MENU_SIDE;
 struct MenuSettings {
 	int32_t height = 20;
 };
+
+// Schemes.
+const char SCHEMES[][NAME_MAX] = {
+	"none",
+	"plastic",
+	"gtk+",
+	"gleam"
+};
+
+#define SCHEMES_SIZE sizeof(SCHEMES) / NAME_MAX
+
+enum SCHEME_IDS {
+	SCHEME_OTHER = -1,
+	SCHEME_NONE,
+	SCHEME_PLASTIC,
+	SCHEME_GTK_PLUS,
+	SCHEME_GLEAM
+};
+
+typedef int8_t SCHEME_ID;
+
+enum GAME_STATES {
+	GAME_NOT_STARTED,
+	GAME_RUNNING,
+	GAME_STOPPED
+};
+
+typedef unsigned int GAME_STATE;
 
 struct EditorSettings {
 	// Scroll.
@@ -186,6 +215,9 @@ struct Settings {
 
 	// Npc map.
 	int32_t npc_map_overscan = 2;
+
+	// Scheme.
+	SCHEME_ID scheme_id = SCHEME_NONE;
 };
 
 struct WeaponImages {
@@ -219,6 +251,10 @@ struct MainData {
 	class DebugWindow * debug_win = NULL;
 	class ChatBox * chat_box = NULL;
 
+	// Flags.
+	bool should_close = false; // Make sure to close game when set.
+	GAME_STATE state = GAME_NOT_STARTED; // Make sure at corrected times.
+
 	// Menu (For editor if not added to game later).
 	Fl_Menu_Bar * top_menu = NULL;
 
@@ -235,6 +271,9 @@ struct MainData {
 
 	// For menu diologs.
 	struct EditMenuDiologs * edit_menu_diologs = NULL;
+
+	// For game launcher only.
+	class Launcher * launcher = NULL;
 
 	// TILE_SIZE * scale.
 	int scale_tile_size;
@@ -254,6 +293,9 @@ struct MainData {
 	// Images.
 	GameImages images;
 	GameImages scaled_images;
+
+	int argc = 0;
+	char ** argv = NULL;
 
 	// Username and main dir.
 	char MAIN_DIR[MAIN_DIR_SIZE];

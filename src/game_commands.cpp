@@ -66,7 +66,7 @@ int say_command(COM_CB_ARGS) {
 }
 
 int exit_command(COM_CB_ARGS) {
-	exit(0);
+	mdata->should_close = true;
 	return 0;
 }
 
