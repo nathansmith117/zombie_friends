@@ -3,6 +3,7 @@
 
 void launcher_open_cb(Fl_Widget * w, void * d) {
 	MainData * mdata = (MainData*)d;
+	char command_path[NAME_MAX];
 
 	// File browser stuff, take a look here https://www.fltk.org/doc-1.3/classFl__Native__File__Chooser.html
 	Fl_Native_File_Chooser * file_browser = new Fl_Native_File_Chooser(Fl_Native_File_Chooser::BROWSE_FILE);
@@ -21,21 +22,29 @@ void launcher_open_cb(Fl_Widget * w, void * d) {
 			break;
 	}
 
+	// Create command.
+	memset(command_path, 0, NAME_MAX);
+	snprintf(command_path, NAME_MAX, "%scmd_launcher", mdata->MAIN_DIR);
 
-	// Load and run game.
-	if (mdata->launcher->load(file_browser->filename()) == -1)
-		return;
+	const char * argv[] = {
+		command_path,
+		file_browser->filename(),
+		NULL
+	};
 
-	mdata->launcher->run({mdata->argc, mdata->argv}, true);
+	// Run command.
+	execv(command_path, (char*const*)argv);
+
+	// Error.
+	char error_buf[NAME_MAX];
+	memset(error_buf, 0, NAME_MAX);
+	strerror_r(errno, error_buf, NAME_MAX);
+
+	fputs(error_buf, stderr);
 }
 
 void launcher_close_game_cb(Fl_Widget * w, void * d) {
 	MainData * mdata = (MainData*)d;
-
-	if (mdata->launcher == NULL)
-		return;
-
-	mdata->launcher->close();
 }
 
 void add_launcher_menu_items(Fl_Menu_Bar * menu, MainData * mdata) {

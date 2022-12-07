@@ -16,12 +16,25 @@ class Launcher {
 		bool is_loaded() { return game_handle != NULL; }
 
 		int run(GameArgs args, bool threaded_mode=false);
+		bool run_has_failed() { return run_failed; }
 
-		int wait_for_game_to_close();
+		void wait_for_game_to_close();
+		void wait_for_game_to_start();
+
+		void * get_item(int item_id, void * return_on_error=NULL, bool print_errors=true);
+
+		// It is more usefull then you would think.
+		static int int_nothing(...) { return -1; }
+		static void void_nothing(...) {}
+		static char * char_pointer_nothing(...) { return NULL; }
 	protected:
 		char dll_path[NAME_MAX];
 		DllLoader::HANDLE game_handle = NULL;
-		RUN_GAME_CB run_game_cb = NULL;
+
+		ADDR_LIST_SIZE address_list_size;
+		ADDR_LIST address_list = NULL;
+
+		bool run_failed = false;
 
 		// Threaded mode.
 		std::thread * run_thread = NULL;

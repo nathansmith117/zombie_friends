@@ -13,7 +13,7 @@ void LauncherWindow::main_init(MainData * md, int W, int H) {
 int LauncherWindow::handle(int event) {
 	switch (event) {
 		case FL_HIDE:
-			window_closing();
+			closing_window();
 			return 1;
 		case FL_FOCUS:
 		case FL_UNFOCUS:
@@ -40,6 +40,7 @@ void LauncherWindow::update_cb(void * d) {
 }
 
 void LauncherWindow::real_update_cb() {
+	mdata->state = GAME_RUNNING;
 
 	// Resize.
 	if (old_w != w() || old_h != h())
@@ -58,9 +59,6 @@ void LauncherWindow::resize_callback() {
 	redraw();
 }
 
-void LauncherWindow::window_closing() {
-	if (mdata->launcher != NULL)
-		delete mdata->launcher;
-
+void LauncherWindow::closing_window() {
 	mdata->state = GAME_STOPPED;
 }

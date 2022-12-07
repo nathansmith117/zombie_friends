@@ -25,9 +25,24 @@ void close_game() {
 	mdata.should_close = true;
 }
 
-void wait_for_game_to_close() {
-	while (mdata.state != GAME_STOPPED)
+void wait_for_game_to_close(bool * give_up) {
+	while (mdata.state != GAME_STOPPED) {
 		std::this_thread::sleep_for(std::chrono::microseconds(1));
+
+		if (give_up != NULL)
+			if (*give_up)
+				break;
+	}
+}
+
+void wait_for_game_to_start(bool * give_up) {
+	while (mdata.state == GAME_NOT_STARTED) {
+		std::this_thread::sleep_for(std::chrono::microseconds(1));
+
+		if (give_up != NULL)
+			if (*give_up)
+				break;
+	}
 }
 
 const char * get_game_version() {
@@ -141,3 +156,14 @@ int run_game(GameArgs args) {
 
 	return Fl::run();
 }
+
+void * ADDRESS_LIST[] = {
+	(void*)close_game,
+	(void*)wait_for_game_to_close,
+	(void*)wait_for_game_to_start,
+	(void*)get_game_version,
+	(void*)get_release_date,
+	(void*)run_game
+};
+
+ADDR_LIST_SIZE ADDRESS_LIST_SIZE = sizeof(ADDRESS_LIST) / sizeof(void*);

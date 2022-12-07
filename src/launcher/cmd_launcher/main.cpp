@@ -96,7 +96,7 @@ int main(int argc, char ** argv) {
 			args_width = argv_item_size;
 	}
 
-	args_width += 2; // More space for null bye.
+	args_width += 2; // More space for null byte.
 
 	// Create arguments.
 	game_args = new GameArgs;
@@ -118,11 +118,10 @@ int main(int argc, char ** argv) {
 	game_args->argv = args;
 
 	// Run.
-	launcher->run(*game_args, true);
-	launcher->wait_for_game_to_close();
-	restore_streams();
+	launcher->run(*game_args, false);
 
 end:
+	restore_streams();
 	clean_memory();
 	return res;
 }

@@ -13,7 +13,7 @@ class LauncherWindow : public Fl_Double_Window {
 		MainData * mdata;
 		void main_init(MainData * md, int W, int H);
 
-		void window_closing();
+		void closing_window();
 
 		// Handling window resize.
 		int old_w, old_h;

@@ -274,6 +274,7 @@ struct MainData {
 
 	// For game launcher only.
 	class Launcher * launcher = NULL;
+	std::vector<std::thread> launched_threads;
 
 	// TILE_SIZE * scale.
 	int scale_tile_size;

@@ -1,4 +1,5 @@
 #include "launcher.h"
+#include "game_tools.h"
 
 Launcher::Launcher() {
 	memset(dll_path, 0, NAME_MAX);
@@ -10,6 +11,7 @@ Launcher::~Launcher() {
 
 int Launcher::load(const char * file_path) {
 	int i;
+	void * temp = NULL;
 
 	close();
 
@@ -26,15 +28,36 @@ int Launcher::load(const char * file_path) {
 		return -1;
 	}
 
-	// Get run function.
-	run_game_cb = (RUN_GAME_CB)DllLoader::get_address(game_handle, "run_game");
+	// Get address list size.
+	temp = DllLoader::get_address(game_handle, "ADDRESS_LIST_SIZE");
 
-	if (run_game_cb == NULL) {
-		fprintf(stderr, "Error loading 'run_game' from %s\n", file_path);
+	if (temp == NULL) {
+		fprintf(stderr, "Error loading 'ADDRESS_LIST_SIZE' from %s\n", file_path);
 		DllLoader::close(game_handle);
 		game_handle = NULL;
 		return -1;
 	}
+
+	address_list_size = *((ADDR_LIST_SIZE*)temp);
+
+	if (address_list_size <= 0) {
+		fputs("Address list size needs to be larger then 0\n", stderr);
+		DllLoader::close(game_handle);
+		game_handle = NULL;
+		return -1;
+	}
+
+	// Get address list.
+	temp = DllLoader::get_address(game_handle, "ADDRESS_LIST");
+
+	if (temp == NULL) {
+		fprintf(stderr, "Error loading 'ADDRESS_LIST' from %s\n", file_path);
+		DllLoader::close(game_handle);
+		game_handle = NULL;
+		return -1;
+	}
+
+	address_list = (ADDR_LIST)temp;
 
 	memset(dll_path, 0, NAME_MAX);
 	strncat(dll_path, file_path, NAME_MAX - 1);
@@ -55,61 +78,59 @@ void Launcher::close() {
 
 	DllLoader::close(game_handle);
 	game_handle = NULL;
-	run_game_cb = NULL;
+	address_list = NULL;
+	run_failed = false;
 
 	fprintf(stderr, "Finished closing %s\n", dll_path);
 	memset(dll_path, 0, NAME_MAX);
 }
 
 int Launcher::run(GameArgs args, bool threaded_mode) {
+	int res;
+	RUN_GAME_CB run_game_cb = NULL;
+
+	run_failed = false;
+
 	if (!is_loaded()) {
 		fputs("No game is loaded\n", stderr);
 		return -1;
 	}
 
+	// Threaded mode time!!!!
 	if (threaded_mode) {
 		run_thread = new std::thread(run_cb, args, this);
 		return 0;
 	}
 
-	return run_game_cb(args);
+	res = ((RUN_GAME_CB)get_item(RUN_GAME, (void*)int_nothing))(args);
+
+	if (res == -1)
+		run_failed = true;
+
+	return res;
 }
 
 void Launcher::stop_thread() {
 	if (run_thread == NULL || !is_loaded())
 		return;
 
-	// Get close callback.
-	CLOSE_GAME_CB close_game_cb = (CLOSE_GAME_CB)DllLoader::get_address(game_handle, "close_game");
-
-	if (close_game_cb == NULL) {
-		fprintf(stderr, "Error loading 'close_game' from %s\n", dll_path);
-		return;
-	}
-
-	close_game_cb();
+	// Call close.
+	((CLOSE_GAME_CB)get_item(CLOSE_GAME, (char*)void_nothing))();
 
 	run_thread->join();
 	delete run_thread;
 	run_thread = NULL;
 }
 
-int Launcher::wait_for_game_to_close() {
-	WAIT_FOR_GAME_TO_CLOSE_CB wait_for_game_to_close_cb;
+void Launcher::wait_for_game_to_close() {
+	((WAIT_FOR_GAME_TO_CLOSE_CB)get_item(WAIT_FOR_GAME_TO_CLOSE, (void*)void_nothing))(&run_failed);
+}
 
-	if (!is_loaded())
-		return -1;
+void Launcher::wait_for_game_to_start() {
+	if (run_failed)
+		return;
 
-	// Load callback.
-	wait_for_game_to_close_cb = (WAIT_FOR_GAME_TO_CLOSE_CB)DllLoader::get_address(game_handle, "wait_for_game_to_close");
-
-	if (wait_for_game_to_close_cb == NULL) {
-		fprintf(stderr, "Error loading 'wait_for_game_to_close' from %s\n", dll_path);
-		return -1;
-	}
-
-	wait_for_game_to_close_cb();
-	return 0;
+	((WAIT_FOR_GAME_TO_START_CB)get_item(WAIT_FOR_GAME_TO_START, (void*)void_nothing))(&run_failed);
 }
 
 void Launcher::run_cb(GameArgs args, Launcher * launcher) {
@@ -117,4 +138,43 @@ void Launcher::run_cb(GameArgs args, Launcher * launcher) {
 		return;
 
 	launcher->run(args, false);
+}
+
+void * Launcher::get_item(int item_id, void * return_on_error, bool print_errors) {
+	void * item_address = NULL;
+
+	// Check size and address list.
+	if (!is_loaded()) {
+		if (print_errors)
+			fputs("Handle is not loaded\n", stderr);
+
+		return return_on_error;
+	} else if (address_list == NULL) {
+		if (print_errors)
+			fputs("Address list is null\n", stderr);
+
+		return return_on_error;
+	} else if (address_list_size <= 0 || item_id >= address_list_size) {
+		if (print_errors)
+			fputs("Address list is to small\n", stderr);
+
+		return return_on_error;
+	} else if (item_id < 0) {
+		if (print_errors)
+			fputs("Item id for address list can not be less then zero\n", stderr);
+
+		return return_on_error;
+	}
+
+	item_address = address_list[item_id];
+
+	// Item address is null.
+	if (item_address == NULL) {
+		if (print_errors)
+			fprintf(stderr, "Item %d is null\n", item_id);
+
+		return return_on_error;
+	}
+
+	return item_address;
 }
