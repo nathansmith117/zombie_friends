@@ -2,6 +2,7 @@
 #include "launcher.h"
 
 void launcher_open_cb(Fl_Widget * w, void * d) {
+	int i;
 	MainData * mdata = (MainData*)d;
 	char command_path[NAME_MAX];
 
@@ -31,6 +32,22 @@ void launcher_open_cb(Fl_Widget * w, void * d) {
 		file_browser->filename(),
 		NULL
 	};
+
+	size_t argv_size = sizeof(argv) / sizeof(char*);
+
+	// Print command with c array style format.
+	printf("Running command: {");
+
+	for (i = 0; i < argv_size; i++) {
+		if (argv[i] == NULL)
+			continue;
+		else if (i == argv_size - 2) // At last item minus the null one.
+			printf("\"%s\"", argv[i]);
+		else
+			printf("\"%s\", ", argv[i]);
+	}
+
+	puts("}");
 
 	// Run command.
 	execv(command_path, (char*const*)argv);

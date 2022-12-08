@@ -272,10 +272,6 @@ struct MainData {
 	// For menu diologs.
 	struct EditMenuDiologs * edit_menu_diologs = NULL;
 
-	// For game launcher only.
-	class Launcher * launcher = NULL;
-	std::vector<std::thread> launched_threads;
-
 	// TILE_SIZE * scale.
 	int scale_tile_size;
 
