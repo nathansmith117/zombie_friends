@@ -1,7 +1,6 @@
 #include "game_commands.h"
 #include "game_tools.h"
 #include "player.h"
-#include <linux/limits.h>
 
 PRINT_TYPE get_print_type_from_str(const char * str) {
 	if (str == NULL)
@@ -714,21 +713,21 @@ int change_coin_count_by_command(COM_CB_ARGS) {
 
 void add_main_commands(MainData * mdata, ChatBox * chat_box) {
 	ChatCommand command_list[] = {
-		{"say", say_command, NULL, false},
-		{"exit", exit_command, NULL},
-		{"load", load_command, NULL},
-		{"silent_load", load_command, NULL, false},
-		{"do_nothing", do_nothing_command, NULL, false},
-		{"popup", popup_command, NULL, false},
-		{"print", print_command, NULL, false},
-		{"run_sequence", run_sequence_command, NULL, false},
-		{"set", set_command, NULL},
-		{"silent_set", set_command, NULL, false},
-		{"show_globals", show_globals_command, NULL},
-		{"if", if_command, NULL, false},
-		{"list_commands", list_commands_command, NULL},
-		{"show_script_locat", show_script_locat_command, NULL},
-		{"get_script_locat", get_script_locat_command, NULL, false}
+		ChatCommand("say", say_command, NULL, false),
+		ChatCommand("exit", exit_command, NULL),
+		ChatCommand("load", load_command, NULL),
+		ChatCommand("silent_load", load_command, NULL, false),
+		ChatCommand("do_nothing", do_nothing_command, NULL, false),
+		ChatCommand("popup", popup_command, NULL, false),
+		ChatCommand("print", print_command, NULL, false),
+		ChatCommand("run_sequence", run_sequence_command, NULL, false),
+		ChatCommand("set", set_command, NULL),
+		ChatCommand("silent_set", set_command, NULL, false),
+		ChatCommand("show_globals", show_globals_command, NULL),
+		ChatCommand("if", if_command, NULL, false),
+		ChatCommand("list_commands", list_commands_command, NULL),
+		ChatCommand("show_script_locat", show_script_locat_command, NULL),
+		ChatCommand("get_script_locat", get_script_locat_command, NULL, false)
 	};
 
 	chat_box->add_command_list(command_list, sizeof(command_list) / sizeof(ChatCommand));
@@ -736,17 +735,17 @@ void add_main_commands(MainData * mdata, ChatBox * chat_box) {
 
 void add_game_only_commands(MainData * mdata, ChatBox * chat_box)  {
 	ChatCommand command_list[] = {
-		{"change_heath_by", change_heath_by_command, NULL},
-		{"silent_change_heath_by", change_heath_by_command, NULL, false},
+		ChatCommand("change_heath_by", change_heath_by_command, NULL),
+		ChatCommand("silent_change_heath_by", change_heath_by_command, NULL, false),
 
-		{"set_heath", set_heath_command, NULL},
-		{"silent_set_heath", set_heath_command, NULL, false},
+		ChatCommand("set_heath", set_heath_command, NULL),
+		ChatCommand("silent_set_heath", set_heath_command, NULL, false),
 
-		{"change_coin_count_by", change_coin_count_by_command, NULL},
-		{"silent_change_coin_count_by", change_coin_count_by_command, NULL, false},
+		ChatCommand("change_coin_count_by", change_coin_count_by_command, NULL),
+		ChatCommand("silent_change_coin_count_by", change_coin_count_by_command, NULL, false),
 
-		{"set_coin_count", set_coin_count_command, NULL},
-		{"silent_set_coint_count", set_coin_count_command, NULL, false}
+		ChatCommand("set_coin_count", set_coin_count_command, NULL),
+		ChatCommand("silent_set_coint_count", set_coin_count_command, NULL, false)
 	};
 
 	chat_box->add_command_list(command_list, sizeof(command_list) / sizeof(ChatCommand));

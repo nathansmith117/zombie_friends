@@ -298,14 +298,14 @@ int Npc::load_follow_data_from_file(const char * file_name, bool from_script_loc
 
 		// X buf to int.
 		if (gameTools::str_to_int(x_buf, NAME_MAX, &curr_x) == -1) {
-			fputs("Error getting x\n", stderr);
+			fprintf(stderr, "Error getting x from %s\n", file_name);
 			res = -1;
 			goto clean_mem;
 		}
 
 		// Y buf to int.
 		if (gameTools::str_to_int(y_buf, NAME_MAX, &curr_y) == -1) {
-			fputs("Error getting y\n", stderr);
+			fprintf(stderr, "Error getting y from %s\n", file_name);
 			res = -1;
 			goto clean_mem;
 		}

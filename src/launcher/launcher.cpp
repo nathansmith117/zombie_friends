@@ -11,7 +11,7 @@ Launcher::~Launcher() {
 
 int Launcher::load(const char * file_path) {
 	int i;
-	void * temp = NULL;
+	DllLoader::ADDRESS temp = NULL;
 
 	close();
 
@@ -24,7 +24,7 @@ int Launcher::load(const char * file_path) {
 	game_handle = DllLoader::load(file_path);
 
 	if (game_handle == NULL) {
-		fprintf(stderr, "%s\n", dlerror());
+		fprintf(stderr, "Error loading %s\n", file_path);
 		return -1;
 	}
 
@@ -87,8 +87,6 @@ void Launcher::close() {
 
 int Launcher::run(GameArgs args, bool threaded_mode) {
 	int res;
-	RUN_GAME_CB run_game_cb = NULL;
-
 	run_failed = false;
 
 	if (!is_loaded()) {
@@ -108,6 +106,22 @@ int Launcher::run(GameArgs args, bool threaded_mode) {
 		run_failed = true;
 
 	return res;
+}
+
+int Launcher::test() {
+
+	printf("%s\n", is_loaded() ? "Loaded" : "Not loaded");
+
+	if (address_list == NULL)
+		puts("Address list is null");
+
+	if (DllLoader::get_address(game_handle, "close_game") == NULL) {
+		fputs("Test failed\n", stderr);
+		return -1;
+	}
+
+	puts("Nothing wrong in testing you dummy\n");
+	return 0;
 }
 
 void Launcher::stop_thread() {

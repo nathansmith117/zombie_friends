@@ -91,8 +91,8 @@ int edit_fill_command(COM_CB_ARGS) {
 
 void add_edit_commands(MainData * mdata, ChatBox * chat_box) {
 	ChatCommand command_list[] = {
-		{"create_map", edit_create_command, NULL},
-		{"fill_map", edit_fill_command, NULL}
+		ChatCommand("create_map", edit_create_command, NULL),
+		ChatCommand("fill_map", edit_fill_command, NULL)
 	};
 
 	chat_box->add_command_list(command_list, sizeof(command_list) / sizeof(ChatCommand));

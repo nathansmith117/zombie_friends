@@ -4,19 +4,16 @@
 
 extern "C" {
 
-void close_game();
+#define SHARED_LIB __declspec(dllexport)
+
 typedef void (*CLOSE_GAME_CB)();
 
-void wait_for_game_to_close(bool * give_up);
 typedef void (*WAIT_FOR_GAME_TO_CLOSE_CB)(bool * give_up);
 
-void wait_for_game_to_start(bool * give_up);
 typedef void (*WAIT_FOR_GAME_TO_START_CB)(bool * give_up);
 
-const char * get_game_version();
 typedef const char * (*GET_GAME_VERSION_CB)();
 
-const char * get_release_date();
 typedef const char * (*GET_RELEASE_DATE_CB)();
 
 // Data for launching the game.
@@ -26,7 +23,6 @@ struct GameArgs {
 };
 
 // This is where everything starts.
-int run_game(GameArgs args);
 typedef int (*RUN_GAME_CB)(GameArgs args);
 
 // Address list stores all of the function pointers.

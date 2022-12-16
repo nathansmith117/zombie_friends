@@ -53,11 +53,13 @@ void launcher_open_cb(Fl_Widget * w, void * d) {
 	execv(command_path, (char*const*)argv);
 
 	// Error.
+	/*
 	char error_buf[NAME_MAX];
 	memset(error_buf, 0, NAME_MAX);
 	strerror_r(errno, error_buf, NAME_MAX);
 
 	fputs(error_buf, stderr);
+	*/
 }
 
 void launcher_close_game_cb(Fl_Widget * w, void * d) {

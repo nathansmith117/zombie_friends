@@ -18,6 +18,15 @@ struct ChatCommand {
 	COM_CB callback;
 	void * data = NULL;
 	bool show_command = true;
+
+	ChatCommand(const char * name, COM_CB callback, void * data=NULL, bool show_command=true) { // For stupid windows.
+		memset(this->name, 0, NAME_MAX);
+		strncat(this->name, name, NAME_MAX - 1);
+
+		this->callback = callback;
+		this->data = data;
+		this->show_command = show_command;
+	}
 };
 
 class ChatBox : public Fl_Group {

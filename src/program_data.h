@@ -82,7 +82,7 @@
 #define LOG_PATH_MAX NAME_MAX * 3
 
 #ifdef _WIN32
-#define MAIN_DIR_FORMAT "C:\\Users\\%s\\Desktop\\zombie_friends\\"
+#define MAIN_DIR_FORMAT "C:\\msys64\\home\\%s\\zombie_friends\\"
 #define PSLASH "\\"
 #else
 #define MAIN_DIR_FORMAT "/home/%s/Desktop/zombie_friends/"

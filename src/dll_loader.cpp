@@ -6,18 +6,15 @@ namespace DllLoader {
 			return NULL;
 
 #ifdef _WIN32
-		return LoadLibraryA((LPCSTR)file_path);
+		return LoadLibrary(TEXT(file_path));
 #else
 		return dlopen(file_path, RTLD_NOW | RTLD_GLOBAL);
 #endif
 	}
 
 	ADDRESS get_address(HANDLE handle, const char * symbol) {
-		if (handle == NULL || symbol == NULL)
-			return NULL;
-
 #ifdef _WIN32
-		return (ADDRESS)GetProcAddress(handle, (LPCSTR)symbol)
+		return (ADDRESS)GetProcAddress(handle, symbol);
 #else
 		return (ADDRESS)dlsym(handle, symbol);
 #endif

@@ -17,6 +17,7 @@ class Launcher {
 
 		int run(GameArgs args, bool threaded_mode=false);
 		bool run_has_failed() { return run_failed; }
+		int test();
 
 		void wait_for_game_to_close();
 		void wait_for_game_to_start();

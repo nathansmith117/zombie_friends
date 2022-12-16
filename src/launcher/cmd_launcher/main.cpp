@@ -67,8 +67,11 @@ int main(int argc, char ** argv) {
 
 	// Set signal handler.
 	signal(SIGINT, sig_handler);
+
+	/*
 	signal(SIGQUIT, sig_handler);
 	signal(SIGKILL, sig_handler);
+	*/
 
 	if (argc <= 1) {
 		fputs("No arguments given\n", stderr);
@@ -119,6 +122,7 @@ int main(int argc, char ** argv) {
 
 	// Run.
 	launcher->run(*game_args, false);
+	//launcher->test();
 
 end:
 	restore_streams();

@@ -4,9 +4,9 @@ CFLAGS = $(shell $(FLCON) --use-images --cxxflags) -fPIC
 LDFLAGS = $(shell $(FLCON) --use-images --ldstaticflags) \
 	  -static-libstdc++ -static-libgcc
 
-TARGET = ../zombie_friends
+TARGET = ../lib/libzombie_friends.a
 DEH = program_data.h
-OBJS = main.o appWindow.o player.o image_loader.o game_tools.o weapon.o \
+OBJS = appWindow.o player.o image_loader.o game_tools.o weapon.o \
        sword.o map.o tile.o debug_window.o view_window.o top_menu.o \
        character.o tab_menu.o game_tab_menu.o chat_box.o game_commands.o \
        common_item.o common_tool.o player_info_display.o \
@@ -27,8 +27,8 @@ LIB_DIR = ../lib/
 	@echo compiling $<
 	@$(COMPILER) $(CFLAGS) -c -o $@ $<
 $(TARGET): $(OBJS)
-	@echo making exe
-	@$(COMPILER) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	@echo Creating $(TARGET)
+	@ar rcs -o $(TARGET) $(OBJS)
 	@echo Creating libgametools.a
 	@ar rcs -o $(LIB_DIR)libgametools.a $(GAME_TOOLS)
 	@echo Creating libweapons.a
@@ -45,7 +45,6 @@ debug:
 	ar rcs $(LIB_DIR)libnpcs.a $(NPCS)
 
 # Objects.
-main.o: *.cpp *.h
 startup.o: startup.cpp startup.h tile.cpp tile.h $(DEH)
 zombie_friends.o: *.cpp *.h
 appWindow.o: appWindow.cpp appWindow.h map.cpp map.h debug_window.cpp debug_window.h view_window.cpp view_window.h \
