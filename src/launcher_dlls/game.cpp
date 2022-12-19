@@ -89,7 +89,8 @@ SHARED_LIB int run_game(GameArgs args) {
 	mdata.argv = args.argv;
 
 	// First init.
-	startup(&mdata, true);
+	if (startup(&mdata, true) == -1)
+		return -1;
 
 	init_images(&mdata);
 
@@ -148,7 +149,7 @@ SHARED_LIB int run_game(GameArgs args) {
 #endif
 
 	Fl::visual(FL_DOUBLE | FL_INDEX);
-	mdata.win->show(args.argc, args.argv);
+	mdata.win->show();
 
 	mdata.win->begin();
 	Fl::visual(FL_DOUBLE | FL_INDEX);

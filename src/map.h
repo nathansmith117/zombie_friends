@@ -28,7 +28,7 @@ struct ThingsHit {
 	class Character * character = NULL;
 };
 
-struct MapFileHeader {
+struct __attribute__((__packed__)) MapFileHeader {
 	uint8_t magic_number;
 	MAP_SIZE w, h;
 

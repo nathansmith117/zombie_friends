@@ -12,7 +12,31 @@
 #include "startup.h"
 
 void load_first_images(MainData * mdata) {
-	load_images_from_loader_file(mdata, "../../image_list.il");
+	// Get image data directory.
+	char img_data_name[] = "image_list.il";
+	char img_data_path[NAME_MAX + sizeof(img_data_name)];
+	snprintf(img_data_path, sizeof(img_data_path), "%s%s", mdata->MAIN_DIR, img_data_name);
+
+	// Icon.
+	std::string icon_path = std::string(mdata->MAIN_DIR) 
+		+ std::string("images") + std::string(PSLASH) + std::string("icon.png");
+
+	mdata->images.icon = new Fl_PNG_Image(icon_path.c_str());
+
+	// Check length of path.
+	if (strnlen(img_data_path, sizeof(img_data_path)) > NAME_MAX)
+		fprintf(stderr, "%s is longer than NAME_MAX", img_data_path);
+
+	// Format image path.
+	char img_folder[] = "images";
+	char image_dir[NAME_MAX + sizeof(img_folder) + 1];
+	snprintf(image_dir, sizeof(image_dir), "%s%s%s", mdata->MAIN_DIR, img_folder, PSLASH);
+
+	if (strnlen(image_dir, sizeof(image_dir)) > NAME_MAX)
+		fprintf(stderr, "%s is longer than NAME_MAX", image_dir);
+
+	//gameTools::load_images_from_loader_file(mdata, img_data_path);
+	gameTools::load_file(mdata, img_data_path);
 }
 
 int main(int argc, char ** argv) {
@@ -23,7 +47,8 @@ int main(int argc, char ** argv) {
 	mdata.argv = argv;
 
 	// First init.
-	startup(&mdata, true);
+	if (startup(&mdata, true) == -1)
+		return -1;
 
 	load_first_images(&mdata);
 
@@ -74,7 +99,7 @@ int main(int argc, char ** argv) {
 	mdata.win->resizable(mdata.win);
 
 	Fl::visual(FL_DOUBLE | FL_INDEX);
-	mdata.win->show(argc, argv);
+	mdata.win->show();
 
 	// Inlay view window in window.
 	mdata.win->begin();

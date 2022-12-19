@@ -157,6 +157,7 @@ namespace gameTools {
 	struct GameFileTypeData {
 		char file_ext[NAME_MAX];
 		GAME_DATA_TYPE type;
+		bool is_text_format;
 	};
 
 	const size_t FILE_TYPE_DATA_SIZE = 5;
@@ -165,6 +166,8 @@ namespace gameTools {
 	int get_file_ext(const char * file_name, char * file_ext, size_t file_ext_size);
 	GAME_DATA_TYPE file_ext_to_datatype(const char * file_ext); // NAME_MAX as
 																// limit.
+	GameFileTypeData get_file_type_data(const char * file_ext);
+	// Use this for loading game data in most cases.
 	int load_file(MainData * mdata, const char * file_path, const char * image_folder=NULL);
 
 	bool same_image(const Fl_PNG_Image * img1, const Fl_PNG_Image * img2);
@@ -181,4 +184,7 @@ namespace gameTools {
 
 	// Returns -1 if error or the position of the '\n'.
 	long int read_line_from_str(const char * str, size_t n, char * output_buf, size_t output_buf_size, int start_at=0);
+
+	// Dos to unix of course.
+	int dos2unix(const char * file_path);
 }

@@ -13,7 +13,7 @@ namespace CommonItem {
 		ADDON = 2
 	};
 
-	struct ItemData { // Please keep size at 64 bits.
+	struct __attribute__((__packed__)) ItemData { // Please keep size at 64 bits.
 		int8_t id = NONE;
 		int8_t type = NONE;
 		int8_t load_type = NONE;

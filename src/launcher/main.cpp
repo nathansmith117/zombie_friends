@@ -36,7 +36,7 @@ int main(int argc, char ** argv) {
 
 	mdata.win->end();
 	mdata.win->resizable(mdata.win);
-	mdata.win->show(argc, argv);
+	mdata.win->show();
 
 	return Fl::run();
 }

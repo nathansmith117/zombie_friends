@@ -1,0 +1,3 @@
+Tile object size is not correct. current: 50331648, correct 3
+Error loading C:\msys64\home\nathan\zombie_friends\map_data.mp
+Command not found

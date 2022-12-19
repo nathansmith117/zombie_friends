@@ -23,7 +23,7 @@ namespace Tile {
 
 	typedef int8_t tile_id;
 
-	struct TileObject {
+	struct __attribute__((__packed__)) TileObject {
 		tile_id id = NONE;
 		tile_id type = 0;
 		tile_id load_type = NONE;

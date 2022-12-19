@@ -385,32 +385,38 @@ namespace gameTools {
 	}
 
 	const GameFileTypeData FILE_TYPE_DATA[FILE_TYPE_DATA_SIZE] = {
-		{"mp", GAME_MAP},
-		{"cms", GAME_COMMAND_SCRIPT},
-		{"il", GAME_IMAGE_LOADER},
-		{"set", GAME_SETTINGS},
-		{"nfd", GAME_NPC_FOLLOW_DATA}
+		{"mp", GAME_MAP, false},
+		{"cms", GAME_COMMAND_SCRIPT, true},
+		{"il", GAME_IMAGE_LOADER, true},
+		{"set", GAME_SETTINGS, false},
+		{"nfd", GAME_NPC_FOLLOW_DATA, true}
 	};
 
 	GAME_DATA_TYPE file_ext_to_datatype(const char * file_ext) {
+		return get_file_type_data(file_ext).type;
+	}
+
+	GameFileTypeData get_file_type_data(const char * file_ext) {
 		int i;
 		GameFileTypeData curr_file_type;
+		GameFileTypeData none_type = {"\0", GAME_NONE};
 
 		if (file_ext == NULL)
-			return GAME_NONE;
+			return none_type;
 
 		for (i = 0; i < FILE_TYPE_DATA_SIZE; i++) {
 			curr_file_type = FILE_TYPE_DATA[i];
 
 			if (strncmp(curr_file_type.file_ext, file_ext, NAME_MAX - 1) == 0)
-				return curr_file_type.type;
+				return curr_file_type;
 		}
 
-		return GAME_NONE;
+		return none_type;
 	}
 
 	int load_file(MainData * mdata, const char * file_path, const char * image_folder) {
 		GAME_DATA_TYPE data_type;
+		GameFileTypeData file_type_data;
 		char file_ext[NAME_MAX];
 
 		if (file_path == NULL)
@@ -421,7 +427,16 @@ namespace gameTools {
 			return -1;
 
 		// Get data type.
-		data_type = file_ext_to_datatype(file_ext);
+		file_type_data = get_file_type_data(file_ext);
+		data_type = file_type_data.type;
+
+		// This game is not well made )--:
+		// All text files need to be unix format to work correctly.
+		/*
+		if (file_type_data.is_text_format)
+			if (dos2unix(file_path) == -1)
+				return -1;
+		*/
 
 		// Handle file.
 		switch (data_type) {
@@ -616,6 +631,93 @@ clean_mem:
 
 		if (line_buf != NULL)
 			delete [] line_buf;
+
+		return res;
+	}
+
+	int dos2unix(const char * file_path) {
+		long int i, j;
+		int res = 0; // Return value.
+		FILE * fp = NULL;
+
+		size_t buf_size;
+		char * buf = NULL;
+		char * buf2 = NULL;
+
+		size_t buf2_size;
+
+		if (file_path == NULL) {
+			res = -1;
+			goto clean_mem;
+		}
+
+		// Open file.
+		fp = fopen(file_path, "rb");
+
+		if (fp == NULL) {
+			res = -1;
+			goto clean_mem;
+		}
+
+		// Create buffers.
+		buf_size = get_file_size(fp);
+		buf = new char[buf_size];
+		buf2 = new char[buf_size];
+
+		if (buf == NULL || buf2 == NULL) {
+			res = -1;
+			goto clean_mem;
+		}
+
+		memset(buf, 0, buf_size);
+		memset(buf2, 0, buf_size);
+
+		// Read file.
+		if (fread(buf, sizeof(char), buf_size, fp) == -1) {
+			res = -1;
+			goto clean_mem;
+		}
+
+		// Remove '\r'.
+		j = 0;
+
+		for (i = 0; i < buf_size; i++) {
+			if (buf[i] == '\r')
+				continue;
+
+			buf2[j] = buf[i];
+			j++;
+
+			if (buf[i] == '\0')
+				break;
+		}
+
+		buf2_size = j - 1;
+
+		// Write to file.
+		fclose(fp);
+		fp = fopen(file_path, "w");
+
+		if (fp == NULL) {
+			res = -1;
+			goto clean_mem;
+		}
+
+		if (fwrite(buf2, sizeof(char), buf2_size, fp) == -1) {
+			res = -1;
+			goto clean_mem;
+		}
+
+clean_mem:
+		if (fp != NULL)
+			fclose(fp);
+		if (buf != NULL)
+			delete [] buf;
+		if (buf2 != NULL)
+			delete [] buf2;
+
+		if (res == -1)
+			fprintf(stderr, "Error converting %s to unix format\n", file_path);
 
 		return res;
 	}

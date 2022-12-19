@@ -1,0 +1,62 @@
+Starting game
+Version: Still in building
+release date: 0 0 0
+build date: Dec 16 2022
+FLTK abi version: 10300
+User: nathan
+Program Directory: C:\msys64\home\nathan\zombie_friends\
+Log file path: C:\msys64\home\nathan\zombie_friends\logs\2022-11-16-1671186052.txt
+
+Loading images.
+Loading C:\msys64\home\nathan\zombie_friends\images\player_right_1.png
+Loading C:\msys64\home\nathan\zombie_friends\images\player_right_2.png
+Loading C:\msys64\home\nathan\zombie_friends\images\player_right_3.png
+Loading C:\msys64\home\nathan\zombie_friends\images\player_left_1.png
+Loading C:\msys64\home\nathan\zombie_friends\images\player_left_2.png
+Loading C:\msys64\home\nathan\zombie_friends\images\player_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+
+Loading images.
+Loading C:\msys64\home\nathan\zombie_friends\images\sword_right_1.png
+Loading C:\msys64\home\nathan\zombie_friends\images\sword_right_2.png
+Loading C:\msys64\home\nathan\zombie_friends\images\sword_right_3.png
+Loading C:\msys64\home\nathan\zombie_friends\images\sword_left_1.png
+Loading C:\msys64\home\nathan\zombie_friends\images\sword_left_2.png
+Loading C:\msys64\home\nathan\zombie_friends\images\sword_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+
+Loading images.
+Loading C:\msys64\home\nathan\zombie_friends\images\submachine_gun_right.png
+Loading C:\msys64\home\nathan\zombie_friends\images\submachine_gun_left.png
+Finished loading 2 image(s) with 0 error(s)
+
+Loading images.
+Loading C:\msys64\home\nathan\zombie_friends\images\null.png
+Loading C:\msys64\home\nathan\zombie_friends\images\grass.png
+Loading C:\msys64\home\nathan\zombie_friends\images\dirt.png
+Loading C:\msys64\home\nathan\zombie_friends\images\gravel.png
+Loading C:\msys64\home\nathan\zombie_friends\images\heart.png
+Loading C:\msys64\home\nathan\zombie_friends\images\coin.png
+Loading C:\msys64\home\nathan\zombie_friends\images\sword_right_1.png
+Loading C:\msys64\home\nathan\zombie_friends\images\submachine_gun_right.png
+Finished loading 8 image(s) with 0 error(s)
+
+Loading images.
+Loading C:\msys64\home\nathan\zombie_friends\images\testing_image.png
+Finished loading 1 image(s) with 0 error(s)
+
+Loading images.
+Loading C:\msys64\home\nathan\zombie_friends\images\evil_puppy_right_1.png
+Loading C:\msys64\home\nathan\zombie_friends\images\evil_puppy_right_2.png
+Loading C:\msys64\home\nathan\zombie_friends\images\evil_puppy_right_3.png
+Loading C:\msys64\home\nathan\zombie_friends\images\evil_puppy_left_1.png
+Loading C:\msys64\home\nathan\zombie_friends\images\evil_puppy_left_2.png
+Loading C:\msys64\home\nathan\zombie_friends\images\evil_puppy_left_3.png
+Finished loading 6 image(s) with 0 error(s)
+New map created width: 20, height: 20
+Npc follow data loaded from test_route.nfd
+Npc follow data loaded from test_route.nfd
+Map loaded from map_data.mp
+
+Closing window.
+Map deleted

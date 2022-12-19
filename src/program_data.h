@@ -83,9 +83,11 @@
 
 #ifdef _WIN32
 #define MAIN_DIR_FORMAT "C:\\msys64\\home\\%s\\zombie_friends\\"
+#define DEFAULT_MAIN_DIR "C:\\msys64\\home\\nathan\\zombie_friends\\"
 #define PSLASH "\\"
 #else
 #define MAIN_DIR_FORMAT "/home/%s/Desktop/zombie_friends/"
+#define DEFAULT_MAIN_DIR "/home/nathan/Desktop/zombie_friends/"
 #define PSLASH "/"
 #endif
 
@@ -102,10 +104,6 @@ enum MENU_SIDES {
 };
 
 typedef uint8_t MENU_SIDE;
-
-struct MenuSettings {
-	int32_t height = 20;
-};
 
 // Schemes.
 const char SCHEMES[][NAME_MAX] = {
@@ -135,7 +133,13 @@ enum GAME_STATES {
 
 typedef unsigned int GAME_STATE;
 
-struct EditorSettings {
+typedef uint8_t CBOOL;
+
+struct __attribute__((__packed__)) MenuSettings {
+	int32_t height = 20;
+};
+
+struct __attribute__((__packed__)) EditorSettings {
 	// Scroll.
 	int32_t scrollbar_thickness = 20;
 	int32_t scrollbar_output_width = 100;
@@ -149,23 +153,23 @@ struct EditorSettings {
 	int32_t item_command_list_button_height = 30;
 
 	// Map start size.
-	bool start_with_created_map = false;
+	CBOOL start_with_created_map = false;
 	int32_t start_width = 10;
 	int32_t start_height = 10;
 };
 
-struct ProgressBarSettings {
+struct __attribute__((__packed__)) ProgressBarSettings {
 	int32_t width = 200;
 	int32_t height = 100;
 };
 
-struct SettingsEditorSettings {
+struct __attribute__((__packed__)) SettingsEditorSettings {
 	int32_t width = 480;
 	int32_t height = 600;
 };
 
 // Always use stdint for settings because the data in 'Settings' will be writen to a file.
-struct Settings {
+struct __attribute__((__packed__)) Settings {
 	// Speed.
 	float update_fps = 60.0;
 	float draw_fps = 60.0;
@@ -187,7 +191,7 @@ struct Settings {
 
 	// Debug window.
 	int32_t debug_win_update_speed = 5.0;
-	bool show_error_as_popup = true;
+	CBOOL show_error_as_popup = true;
 
 	// Diologs for creating new map and stuff like that.
 	int32_t diolog_width = 300;
@@ -205,7 +209,7 @@ struct Settings {
 	int32_t tab_menu_thickness = 200;
 	int32_t tab_menu_tab_size = 20;
 	MENU_SIDE tab_menu_locat = MENU_BOTTOM;
-	bool tab_menu_default_hidden = false;
+	CBOOL tab_menu_default_hidden = false;
 
 	// Chat box.
 	int32_t chat_box_input_height = 30;

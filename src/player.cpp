@@ -2,9 +2,7 @@
 #include "character.h"
 #include "common_item.h"
 #include "game_tools.h"
-#include "sword.h"
 #include "player_info_display.h"
-#include "submachine_gun.h"
 
 void Player::main_init(MainData * md) {
 	mdata = md;

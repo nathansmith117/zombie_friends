@@ -1,0 +1,2 @@
+x or y value in chat_box.cpp:391 got to big
+Error loading C:\msys64\home\nathan\zombie_friends\test_level\init.cms

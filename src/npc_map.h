@@ -15,7 +15,7 @@ enum NPC_DATA_FOLLOW_TYPES {
 
 typedef int8_t NPC_DATA_FOLLOW_TYPE;
 
-struct NpcData {
+struct __attribute__((__packed__)) NpcData {
 	NPC_TYPE type;
 	int16_t x, y;
 
