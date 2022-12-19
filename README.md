@@ -8,10 +8,13 @@ zombie.
 # Compiling Unix/Linux
 Needs fltk to compile.  Tested with fltk 1.3.8.  Other versions many not work correctly.
 
-Make sure to compile fltk with ./configure CFLAGS="-fPIC" CXXFLAGS="-fPIC"
+Set these flags before compiling fltk.
 
-Just typing "make" in the command line will work most of the
-time.  Tested with gcc/g++ compiler others many not work.
+export CFLAGS="-fPIC"
+
+export CXXFLAGS="-fPIC"
+
+Make sure to change FLTK_DIR in CMakeLists.txt in game main directory.
 
 # Compiling windows
-Same as unix but needs mingw and cygwin to compile.
+Same as unix but needs msys2 and mingw to compile.

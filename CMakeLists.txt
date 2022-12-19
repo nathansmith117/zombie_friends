@@ -1,12 +1,14 @@
-cmake_minimum_required(VERSION 3.25.1)
+cmake_minimum_required(VERSION 3.24.2)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(zombie_friends VERSION 1.0)
 
 # change this to your fltk build directory
-set(FLTK_DIR C:\\msys64\\home\\nathan\\fltk-1.3.8\\build)
+set(FLTK_DIR /home/nathan/Desktop/fltk-1.3.8/build)
 
+set(CMAKE_CXX_FLAGS "-fPIC")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE INTERNAL "")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

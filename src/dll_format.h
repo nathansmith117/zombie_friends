@@ -4,7 +4,11 @@
 
 extern "C" {
 
+#ifdef _WIN32
 #define SHARED_LIB __declspec(dllexport)
+#else
+#define SHARED_LIB
+#endif
 
 typedef void (*CLOSE_GAME_CB)();
 
