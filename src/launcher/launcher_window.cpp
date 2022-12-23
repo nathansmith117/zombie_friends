@@ -1,5 +1,6 @@
 #include "launcher_window.h"
 #include "launcher.h"
+#include "launcher_option_editor.h"
 
 void LauncherWindow::main_init(MainData * md, int W, int H) {
 	mdata = md;
@@ -52,6 +53,18 @@ void LauncherWindow::resize_callback() {
 	// Top menu.
 	if (mdata->top_menu != NULL)
 		mdata->top_menu->size(mdata->win->w(), mdata->settings.menu.height);
+	
+	// Launcher option editor.
+	if (mdata->launcher_option_editor != NULL) {
+		mdata->launcher_option_editor->resize(
+			0,
+			mdata->top_menu->h() + mdata->top_menu->y(),
+			mdata->win->w(),
+			mdata->win->h() - mdata->top_menu->h()
+		);
+
+		mdata->launcher_option_editor->reset_size();
+	}
 
 	old_w = w();
 	old_h = h();

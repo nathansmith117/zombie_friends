@@ -109,6 +109,15 @@ typedef uint8_t IS_THING_TYPE;
 // value thing command arg...
 int if_is_command(COM_CB_ARGS);
 
+// Forr setting and getting the player coords.
+// Command x y
+int change_coord_by_command(COM_CB_ARGS);
+int set_coord_to_command(COM_CB_ARGS);
+
+// show_coord [output]
+// default output is chat box.
+int show_coord_command(COM_CB_ARGS);
+
 // Game only commands.
 int change_heath_by_command(COM_CB_ARGS);
 int set_heath_command(COM_CB_ARGS);

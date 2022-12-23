@@ -24,6 +24,9 @@ class Launcher {
 
 		void * get_item(int item_id, void * return_on_error=NULL, bool print_errors=true);
 
+		// Uses execv to run dll file.
+		static void exec_dll(const char * command_path, const char * file_path, const char ** options, size_t options_size);
+
 		// It is more usefull then you would think.
 		static int int_nothing(...) { return -1; }
 		static void void_nothing(...) {}

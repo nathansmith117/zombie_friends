@@ -23,43 +23,10 @@ void launcher_open_cb(Fl_Widget * w, void * d) {
 			break;
 	}
 
-	// Create command.
 	memset(command_path, 0, NAME_MAX);
 	snprintf(command_path, NAME_MAX, "%scmd_launcher", mdata->MAIN_DIR);
 
-	const char * argv[] = {
-		command_path,
-		file_browser->filename(),
-		NULL
-	};
-
-	size_t argv_size = sizeof(argv) / sizeof(char*);
-
-	// Print command with c array style format.
-	printf("Running command: {");
-
-	for (i = 0; i < argv_size; i++) {
-		if (argv[i] == NULL)
-			continue;
-		else if (i == argv_size - 2) // At last item minus the null one.
-			printf("\"%s\"", argv[i]);
-		else
-			printf("\"%s\", ", argv[i]);
-	}
-
-	puts("}");
-
-	// Run command.
-	execv(command_path, (char*const*)argv);
-
-	// Error.
-	/*
-	char error_buf[NAME_MAX];
-	memset(error_buf, 0, NAME_MAX);
-	strerror_r(errno, error_buf, NAME_MAX);
-
-	fputs(error_buf, stderr);
-	*/
+	Launcher::exec_dll(command_path, file_browser->filename(), NULL, 0);
 }
 
 void launcher_close_game_cb(Fl_Widget * w, void * d) {
@@ -77,5 +44,5 @@ void add_launcher_menu_items(Fl_Menu_Bar * menu, MainData * mdata) {
 	menu->add("&File/Exit", FL_ALT + FL_F + 4, (Fl_Callback*)exit_cb, (void*)mdata);
 
 	// View.
-	menu->add("&View/Fullscreen", FL_F + 11, (Fl_Callback*)fullscreen_cb, (void*)mdata, FL_MENU_TOGGLE | FL_MENU_DIVIDER);
+	menu->add("&View/Fullscreen", FL_F + 11, (Fl_Callback*)fullscreen_cb, (void*)mdata, FL_MENU_TOGGLE);
 }

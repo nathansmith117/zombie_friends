@@ -36,6 +36,9 @@ Character::~Character() {
 }
 
 void Character::images(std::vector<Fl_PNG_Image*> character_images) {
+	if (character_images.empty())
+		return;
+
 	gameTools::delete_image_list(&this->character_images);
 
 	this->character_images = character_images;

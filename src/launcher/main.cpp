@@ -5,6 +5,7 @@
 #include "launcher.h"
 #include "settings_editor.h"
 #include "startup.h"
+#include "launcher_option_editor.h"
 
 int main(int argc, char ** argv) {
 	fl_register_images();
@@ -29,6 +30,15 @@ int main(int argc, char ** argv) {
 		0,
 		mdata.win->w(),
 		mdata.settings.menu.height
+	);
+
+	// Launcher option editor.
+	mdata.launcher_option_editor = new LauncherOptionEditor(
+		&mdata,
+		0,
+		mdata.top_menu->h() + mdata.top_menu->y(),
+		mdata.win->w(),
+		mdata.win->h() - mdata.top_menu->h()
 	);
 
 	// Add menu items after creating everything just in case something is null.

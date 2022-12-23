@@ -55,30 +55,18 @@ SHARED_LIB const char * get_release_date() {
 }
 
 void init_images(MainData * mdata) {
-	// Get image data directory.
-	char img_data_name[] = "image_list.il";
-	char img_data_path[NAME_MAX + sizeof(img_data_name)];
-	snprintf(img_data_path, sizeof(img_data_path), "%s%s", mdata->MAIN_DIR, img_data_name);
-
 	// Icon.
-	std::string icon_path = std::string(mdata->MAIN_DIR) 
-		+ std::string("images") + std::string(PSLASH) + std::string("icon.png");
+	char icon_path[NAME_MAX];
+	memset(icon_path, 0, NAME_MAX);
+	snprintf(icon_path, NAME_MAX, "%simages%sicon.png", mdata->MAIN_DIR, PSLASH);
 
-	mdata->images.icon = new Fl_PNG_Image(icon_path.c_str());
-
-	// Check length of path.
-	if (strnlen(img_data_path, sizeof(img_data_path)) > NAME_MAX)
-		fprintf(stderr, "%s is longer than NAME_MAX", img_data_path);
+	mdata->images.icon = new Fl_PNG_Image(icon_path);
 
 	// Format image path.
-	char img_folder[] = "images";
-	char image_dir[NAME_MAX + sizeof(img_folder) + 1];
-	snprintf(image_dir, sizeof(image_dir), "%s%s%s", mdata->MAIN_DIR, img_folder, PSLASH);
+	char img_data_path[NAME_MAX];
+	memset(img_data_path, 0, NAME_MAX);
+	snprintf(img_data_path, NAME_MAX, "%simage_list.il", mdata->MAIN_DIR);
 
-	if (strnlen(image_dir, sizeof(image_dir)) > NAME_MAX)
-		fprintf(stderr, "%s is longer than NAME_MAX", image_dir);
-
-	//gameTools::load_images_from_loader_file(mdata, img_data_path);
 	gameTools::load_file(mdata, img_data_path);
 }
 
@@ -92,12 +80,12 @@ SHARED_LIB int run_game(GameArgs args) {
 	if (startup(&mdata, true) == -1)
 		return -1;
 
-	init_images(&mdata);
+	//init_images(&mdata);
 
 	// Create map.
 	const char map_file_name[] = "map_data.mp";
 	mdata.map = new Map(&mdata);
-	mdata.map->load(map_file_name, NAME_MAX);
+	//mdata.map->load(map_file_name, NAME_MAX);
 
 	// Settings editor.
 	mdata.settings_editor = new SettingsEditor(&mdata);
@@ -142,10 +130,12 @@ SHARED_LIB int run_game(GameArgs args) {
 #ifdef _WIN32
 	// Stuff.
 #else
+	/*
 	if (!mdata.images.icon->fail()) {
 		mdata.win->icon(mdata.images.icon);
 		mdata.view_win->icon(mdata.images.icon);
 	}
+	*/
 #endif
 
 	Fl::visual(FL_DOUBLE | FL_INDEX);
@@ -155,6 +145,10 @@ SHARED_LIB int run_game(GameArgs args) {
 	Fl::visual(FL_DOUBLE | FL_INDEX);
 	mdata.view_win->show();
 	mdata.win->end();
+
+	// Load startup script.
+	if (mdata.startup_script[0] != '\0')
+		gameTools::load_file(&mdata, mdata.startup_script);
 
 	return Fl::run();
 }

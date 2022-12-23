@@ -291,12 +291,18 @@ struct MainData {
 	// Tool display.
 	class PlayerInfoDisplay * player_info_display = NULL;
 
+	// Launcher options.
+	class LauncherOptionEditor * launcher_option_editor = NULL;
+
 	// Images.
 	GameImages images;
 	GameImages scaled_images;
 
 	int argc = 0;
 	char ** argv = NULL;
+
+	// Startup script of course.
+	char startup_script[NAME_MAX] = "\0";
 
 	// Username and main dir.
 	char MAIN_DIR[MAIN_DIR_SIZE];

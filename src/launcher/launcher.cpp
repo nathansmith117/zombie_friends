@@ -192,3 +192,43 @@ void * Launcher::get_item(int item_id, void * return_on_error, bool print_errors
 
 	return item_address;
 }
+
+void Launcher::exec_dll(const char * command_path, const char * file_path, const char ** options, size_t options_size) {
+	int i;
+
+	// Create 'argv'.
+	size_t argv_size = options_size + 3;
+	const char * argv[options_size];
+
+	argv[0] = command_path;
+	argv[1] = file_path;
+	argv[argv_size - 1] = NULL; // Set last item to null.
+
+	// Copy items from 'options' to 'argv'.
+	if (options != NULL)
+		for (i = 2; i < argv_size - 1; i++) // Skip 'command_path', 'file_path', and last item.
+			argv[i] = options[i - 2];
+
+	// Print command with c array style format.
+	printf("Running command: {");
+
+	for (i = 0; i < argv_size; i++) {
+		if (argv[i] == NULL)
+			continue;
+		else if (i == argv_size - 2) // At last item minus the null one.
+			printf("\"%s\"", argv[i]);
+		else
+			printf("\"%s\", ", argv[i]);
+	}
+
+	puts("}");
+
+	// Run command.
+	execv(command_path, (char*const*)argv);
+
+error_and_stuff:
+
+	// Error.
+	fprintf(stderr, "Error running %s\n", command_path);
+	fl_alert("Error running %s\n", command_path);
+}

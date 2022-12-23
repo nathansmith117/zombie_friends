@@ -1,0 +1,4 @@
+/home/nathan/Desktop/zombie_friends/build/lib/libzombie_friends_dll.so
+/home/nathan/Desktop/zombie_friends/
+/home/nathan/Desktop/zombie_friends/build/bin/cmd_launcher
+/home/nathan/Desktop/zombie_friends/test_startup.cms

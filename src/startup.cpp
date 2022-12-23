@@ -2,7 +2,8 @@
 #include "tile.h"
 
 const ArgumentData ARGUMENTS[ARGUMENTS_SIZE] = {
-	{"md", set_main_directory_cb}
+	{"md", set_main_directory_cb},
+	{"ss", get_startup_script_cb}
 };
 
 ArgumentData get_data_from_argument(const char * name) {
@@ -43,9 +44,15 @@ int set_main_directory_cb(ARGUMENT_CB_ARGS) {
 	s = strnlen(mdata->MAIN_DIR, MAIN_DIR_SIZE);
 
 	// Add slash at end if not there.
-	if (mdata->MAIN_DIR[s] != PSLASH[0])
+	if (mdata->MAIN_DIR[s - 1] != PSLASH[0])
 		strncat(mdata->MAIN_DIR, PSLASH, sizeof(PSLASH));
 
+	return 0;
+}
+
+int get_startup_script_cb(ARGUMENT_CB_ARGS) {
+	memset(mdata->startup_script, 0, NAME_MAX);
+	strncat(mdata->startup_script, value, NAME_MAX - 1);
 	return 0;
 }
 

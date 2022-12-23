@@ -615,6 +615,107 @@ int if_is_command(COM_CB_ARGS) {
 	return chat_box->run_command(command_str, variable_list);
 }
 
+int change_coord_by_command(COM_CB_ARGS) {
+	int x, y;
+	Player * player = (Player*)mdata->player;
+
+	if (arg_count != 3) {
+		fputs("Two arguments required\n", stderr);
+		return -1;
+	}
+
+	// Return zero for level editor.
+	if (player == NULL)
+		return 0;
+
+	// Get x.
+	if (gameTools::str_to_int(args[1], NAME_MAX, &x) == -1) {
+		fprintf(stderr, "Error getting int value from %s\n", args[1]);
+		return -1;
+	}
+
+	// Get y.
+	if (gameTools::str_to_int(args[2], NAME_MAX, &y) == -1) {
+		fprintf(stderr, "Error getting int value from %s\n", args[1]);
+		return -1;
+	}
+
+	player->wx(player->wx() + x);
+	player->wy(player->wy() + y);
+	return 0;
+}
+
+int set_coord_to_command(COM_CB_ARGS) {
+	int x, y;
+	Player * player = (Player*)mdata->player;
+
+	if (arg_count != 3) {
+		fputs("Two arguments required\n", stderr);
+		return -1;
+	}
+
+	// Return zero for level editor.
+	if (player == NULL)
+		return 0;
+
+	// Get x.
+	if (gameTools::str_to_int(args[1], NAME_MAX, &x) == -1) {
+		fprintf(stderr, "Error getting int value from %s\n", args[1]);
+		return -1;
+	}
+
+	// Get y.
+	if (gameTools::str_to_int(args[2], NAME_MAX, &y) == -1) {
+		fprintf(stderr, "Error getting int value from %s\n", args[1]);
+		return -1;
+	}
+
+	player->wx(x);
+	player->wy(y);
+	return 0;
+}
+
+int show_coord_command(COM_CB_ARGS) {
+	Player * player = (Player*)mdata->player;
+	char print_buf[NAME_MAX];
+	PRINT_TYPE print_stream_type;
+
+	if (player == NULL) {
+		fputs("Player is null\n", stderr);
+		return -1;
+	}
+
+	// Get output stream.
+	if (arg_count >= 2)
+		print_stream_type = get_print_type_from_str(args[1]);
+	else
+		print_stream_type = PRINT_CHATBOX;
+
+	if (print_stream_type == PRINT_UNKNOWN) {
+		fputs("Error getting print type\n", stderr);
+		return -1;
+	}
+
+	// Format 'print_buf'.
+	memset(print_buf, 0, NAME_MAX);
+
+	snprintf(
+		print_buf,
+		NAME_MAX,
+		"%f %f\n",
+		player->wx(),
+		player->wy()
+	);
+
+	// Print message to stream.
+	if (print_to(print_stream_type, print_buf, chat_box) == -1) {
+		fprintf(stderr, "Error printing '%s' to '%s'\n", print_buf, args[1]);
+		return -1;
+	}
+
+	return 0;
+}
+
 int change_heath_by_command(COM_CB_ARGS) {
 	int heath_gain;
 	Player * player = (Player*)mdata->player;
@@ -727,7 +828,10 @@ void add_main_commands(MainData * mdata, ChatBox * chat_box) {
 		ChatCommand("if", if_command, NULL, false),
 		ChatCommand("list_commands", list_commands_command, NULL),
 		ChatCommand("show_script_locat", show_script_locat_command, NULL),
-		ChatCommand("get_script_locat", get_script_locat_command, NULL, false)
+		ChatCommand("get_script_locat", get_script_locat_command, NULL, false),
+		ChatCommand("set_coord", set_coord_to_command, NULL),
+		ChatCommand("change_coord_by", change_coord_by_command, NULL),
+		ChatCommand("show_coord", show_coord_command, NULL, false)
 	};
 
 	chat_box->add_command_list(command_list, sizeof(command_list) / sizeof(ChatCommand));

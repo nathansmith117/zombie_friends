@@ -1,11 +1,8 @@
-$message Hi there
 $image_list test_image_list.il
 $map test_map.mp
 
-say $message
-#silent_load $image_list sl
+silent_load $image_list sl
 silent_load $map sl
-#silent_load test_settings.set sl
+silent_load test_settings.set sl
 
-get_script_locat
-popup $SCRIPT_LOCATION
+set_coord 0 0
