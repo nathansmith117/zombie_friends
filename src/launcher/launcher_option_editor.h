@@ -3,6 +3,10 @@
 #include "program_data.h"
 #include "launcher.h"
 
+
+/*
+*/
+
 class LauncherOptionEditor : public Fl_Group {
 	public:
 		LauncherOptionEditor(MainData * md, int X, int Y, int W, int H) : Fl_Group(X, Y, W, H) {
