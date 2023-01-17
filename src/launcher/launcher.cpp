@@ -209,19 +209,19 @@ void Launcher::exec_dll(const char * command_path, const char * file_path, const
 		for (i = 2; i < argv_size - 1; i++) // Skip 'command_path', 'file_path', and last item.
 			argv[i] = options[i - 2];
 
-	// Print command with c array style format.
-	printf("Running command: {");
+	// Print command.
+	printf("Running command: ");
 
 	for (i = 0; i < argv_size; i++) {
 		if (argv[i] == NULL)
 			continue;
 		else if (i == argv_size - 2) // At last item minus the null one.
-			printf("\"%s\"", argv[i]);
+			printf("%s", argv[i]);
 		else
-			printf("\"%s\", ", argv[i]);
+			printf("%s ", argv[i]);
 	}
 
-	puts("}");
+	putchar('\n');
 
 	// Run command.
 	execv(command_path, (char*const*)argv);

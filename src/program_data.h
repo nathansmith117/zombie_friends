@@ -15,6 +15,7 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Toggle_Button.H>
 #include <FL/Fl_Native_File_Chooser.H>
+#include "FL/Fl_File_Browser.H"
 #include <FL/Fl_Shared_Image.H>
 #include <FL/Fl_Tabs.H>
 #include <FL/Fl_Output.H>
