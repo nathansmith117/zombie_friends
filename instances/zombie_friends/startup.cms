@@ -1,0 +1,3 @@
+load image_list.il sl
+load map.mp sl
+set_coord 10 10

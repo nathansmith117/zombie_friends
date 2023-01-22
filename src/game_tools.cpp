@@ -721,4 +721,28 @@ clean_mem:
 
 		return res;
 	}
+
+	bool str_starts_with(const char * str1, const char * str2, size_t str1_size) {
+		int i;
+
+		if (str1 == NULL || str2 == NULL)
+			return false;
+
+		// Same string.
+		if (strncmp(str1, str2, str1_size) == 0)
+			return true;
+
+		for (i = 0; i < str1_size; i++) {
+			if (str1[i] == '\0') // end of str1
+				break;
+			if (str2[i] == '\0') // end of str2
+				return true;
+			
+			// str1 does not start with str2.
+			if (str1[i] != str2[i])
+				return false;
+		}
+
+		return false;
+	}
 }

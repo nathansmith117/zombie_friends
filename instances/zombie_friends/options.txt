@@ -1,0 +1,4 @@
+dll $ofdzombie_friends.so
+md $ofd
+ll $dl
+ss $ofdstartup.cms

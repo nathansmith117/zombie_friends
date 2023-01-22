@@ -187,4 +187,7 @@ namespace gameTools {
 
 	// Dos to unix of course.
 	int dos2unix(const char * file_path);
+
+	// Returns true if str1 starts with str2
+	bool str_starts_with(const char * str1, const char * str2, size_t str1_size);
 }

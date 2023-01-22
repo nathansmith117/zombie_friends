@@ -34,6 +34,41 @@ struct LauncherOptionData {
 	}
 };
 
+struct LaunchOptions {
+	char launcher_dll[NAME_MAX];
+	char main_dir[NAME_MAX];
+	char launcher[NAME_MAX];
+	char startup_script[NAME_MAX];
+
+	LaunchOptions() {
+		clear();
+	}
+
+	void clear() {
+		memset(launcher_dll, 0, NAME_MAX);
+		memset(main_dir, 0, NAME_MAX);
+		memset(launcher, 0, NAME_MAX);
+		memset(startup_script, 0, NAME_MAX);
+	}
+};
+
+// A file path tag goes infront of the path and gets set to something else.
+struct FilePathTag {
+	char tag[NAME_MAX];
+	const char * value = NULL;
+
+	FilePathTag(const char * tag, const char * value) {
+		memset(this->tag, 0, NAME_MAX);
+		strncat(this->tag, tag, NAME_MAX - 1);
+
+		this->value = value;
+	}
+
+	FilePathTag() {
+		memset(this->tag, 0, NAME_MAX - 1);
+	}
+};
+
 // Launcher option file format.
 // Option value
 // Option value
@@ -51,11 +86,24 @@ class LauncherOptionEditor : public Fl_Group {
 		int load_options(const char * file_path);
 
 		void clear_option_inputs();
+
+		// Returns false if there is no option file.
+		bool get_option_filepath(char * file_path); // NAME_MAX for file_path size.
+
+		int get_launch_options(LaunchOptions * launch_options);
 	private:
 		MainData * mdata;
 		void main_init(MainData * md, int X, int Y, int W, int H);
 
 		void clear_option_input(LauncherOptionData data);
+
+		int handle_tag_in_filepath(char * file_path);
+		int replace_tag_with_value(FilePathTag tag, char * file_path);
+
+		// Location of the option file.
+		char option_file_dir[NAME_MAX] = "\0";
+
+		char default_launcher[NAME_MAX];
 
 		// For writting to options file.
 		// NAME_MAX for size.
@@ -69,11 +117,11 @@ class LauncherOptionEditor : public Fl_Group {
 
 		Fl_Native_File_Chooser * file_browser = NULL;
 
-		Fl_File_Browser * option_chooser = NULL;
-		Fl_Input * option_chooser_dir_input = NULL;
-		Fl_Button * option_chooser_dir_browser = NULL;
+		Fl_File_Browser * instance_chooser = NULL;
+		Fl_Input * instance_chooser_dir_input = NULL;
+		Fl_Button * instance_chooser_dir_browser = NULL;
 
-		Fl_Button * refresh_option_chooser = NULL;
+		Fl_Button * refresh_instance_chooser = NULL;
 
 		Fl_Input * launcher_dll_input = NULL;
 		Fl_Button * launcher_dll_browser = NULL;
@@ -94,13 +142,14 @@ class LauncherOptionEditor : public Fl_Group {
 		Fl_Button * create_new_options = NULL;
 
 		std::vector<LauncherOptionData> option_inputs;
+		std::vector<FilePathTag> file_path_tags;
 
 		// Callbacks.
 		static void file_browser_cb(Fl_Widget * w, void * d);
 		static void directory_browser_cb(Fl_Widget * w, void * d);
 		static void launch_cb(Fl_Widget * w, void * d);
-		static void option_chooser_cb(Fl_Widget * w, void * d);
+		static void instance_chooser_cb(Fl_Widget * w, void * d);
 		static void dump_options_cb(Fl_Widget * w, void * d);
-		static void refresh_option_chooser_cb(Fl_Widget * w, void * d);
+		static void refresh_instance_chooser_cb(Fl_Widget * w, void * d);
 		static void new_options_cb(Fl_Widget * w, void * d);
 };

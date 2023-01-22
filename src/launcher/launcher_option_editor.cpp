@@ -4,34 +4,38 @@
 void LauncherOptionEditor::main_init(MainData * md, int X, int Y, int W, int H) {
 	mdata = md;
 
-	char option_chooser_dir[NAME_MAX];
-	memset(option_chooser_dir, 0, NAME_MAX);
+	char instance_chooser_dir[NAME_MAX];
+	memset(instance_chooser_dir, 0, NAME_MAX);
 
-	// Option chooser.
-	option_chooser = new Fl_File_Browser(0, 0, 0, 0, "Option files");
-	option_chooser->type(FL_HOLD_BROWSER);
-	option_chooser->callback(option_chooser_cb, (void*)this);
+	// Default launcher.
+	memset(default_launcher, 0, NAME_MAX);
+	snprintf(default_launcher, NAME_MAX, "%scmd_launcher", mdata->MAIN_DIR);
 
-	snprintf(option_chooser_dir, NAME_MAX, "%slauncher_options%s", mdata->MAIN_DIR, PSLASH);
-	option_chooser->load(option_chooser_dir);
+	// Instance chooser.
+	instance_chooser = new Fl_File_Browser(0, 0, 0, 0, "Instances");
+	instance_chooser->type(FL_HOLD_BROWSER);
+	instance_chooser->callback(instance_chooser_cb, (void*)this);
 
-	if (option_chooser->text(1))
-		if (!strncmp(option_chooser->text(1), "../", sizeof("../")))
-			option_chooser->remove(1);
+	snprintf(instance_chooser_dir, NAME_MAX, "%sinstances%s", mdata->MAIN_DIR, PSLASH);
+	instance_chooser->load(instance_chooser_dir);
 
-	// Option chooser directory input.
-	option_chooser_dir_input = new Fl_Input(0, 0, 0, 0, "Option directory");
-	option_chooser_dir_input->value(option_chooser_dir);
+	if (instance_chooser->text(1))
+		if (!strncmp(instance_chooser->text(1), "../", sizeof("../")))
+			instance_chooser->remove(1);
 
-	// Option chooser directory browser.
-	option_chooser_dir_browser = new Fl_Button(0, 0, 0, 0);
-	option_chooser_dir_browser->label("@fileopen");
-	option_chooser_dir_browser->callback(directory_browser_cb, (void*)option_chooser_dir_input);
+	// Instance chooser directory input.
+	instance_chooser_dir_input = new Fl_Input(0, 0, 0, 0, "Instance folder");
+	instance_chooser_dir_input->value(instance_chooser_dir);
+
+	// Instance chooser directory browser.
+	instance_chooser_dir_browser = new Fl_Button(0, 0, 0, 0);
+	instance_chooser_dir_browser->label("@fileopen");
+	instance_chooser_dir_browser->callback(directory_browser_cb, (void*)instance_chooser_dir_input);
 
 	// Refresh option chooser.
-	refresh_option_chooser = new Fl_Button(0, 0, 0, 0);
-	refresh_option_chooser->label("@refresh");
-	refresh_option_chooser->callback(refresh_option_chooser_cb, (void*)this);
+	refresh_instance_chooser = new Fl_Button(0, 0, 0, 0);
+	refresh_instance_chooser->label("@refresh");
+	refresh_instance_chooser->callback(refresh_instance_chooser_cb, (void*)this);
 
 	// Launcher dll input.
 	launcher_dll_input = new Fl_Input(0, 0, 0, 0, "Launcher dll");
@@ -100,6 +104,15 @@ void LauncherOptionEditor::main_init(MainData * md, int X, int Y, int W, int H) 
 
 	for (auto l : launcher_option_data)
 		option_inputs.push_back(l);
+
+	// Set tags.
+	FilePathTag tags[] = {
+		FilePathTag("$ofd", option_file_dir),
+		FilePathTag("$dl", default_launcher)
+	};
+
+	for (auto t : tags)
+		file_path_tags.push_back(t);
 }
 
 void LauncherOptionEditor::reset_size() {
@@ -111,34 +124,34 @@ void LauncherOptionEditor::reset_size() {
 	int button_w = mdata->settings.input_height * 2;
 	int button_h = mdata->settings.input_height;
 
-	// Option chooser.
-	option_chooser->resize(
+	// Instance chooser.
+	instance_chooser->resize(
 		x(),
 		wy,
 		w(),
 		h() / 3
 	);
 
-	// Option chooser directory input.
-	option_chooser_dir_input->resize(
+	// Instance chooser directory input.
+	instance_chooser_dir_input->resize(
 		wx,
-		option_chooser->y() + option_chooser->h() + wh,
+		instance_chooser->y() + instance_chooser->h() + wh,
 		ww,
 		wh
 	);
 
-	// Option chooser directory browser.
-	option_chooser_dir_browser->resize(
-		option_chooser_dir_input->x() + option_chooser_dir_input->w() + 1,
-		option_chooser_dir_input->y(),
+	// Instance chooser directory browser.
+	instance_chooser_dir_browser->resize(
+		instance_chooser_dir_input->x() + instance_chooser_dir_input->w() + 1,
+		instance_chooser_dir_input->y(),
 		button_w,
 		button_h
 	);
 
 	// Refresh option chooser.
-	refresh_option_chooser->resize(
+	refresh_instance_chooser->resize(
 		wx,
-		option_chooser_dir_browser->y() + option_chooser_dir_browser->h(),
+		instance_chooser_dir_browser->y() + instance_chooser_dir_browser->h(),
 		button_w,
 		button_h
 	);
@@ -146,7 +159,7 @@ void LauncherOptionEditor::reset_size() {
 	// Launcher dll input.
 	launcher_dll_input->resize(
 		wx,
-		refresh_option_chooser->y() + refresh_option_chooser->h() + wh,
+		refresh_instance_chooser->y() + refresh_instance_chooser->h() + wh,
 		ww,
 		wh
 	);
@@ -312,17 +325,20 @@ clear_mem:
 
 void LauncherOptionEditor::launch_cb(Fl_Widget * w, void * d) {
 	LauncherOptionEditor * l = (LauncherOptionEditor*)d; // I didn't have a short name for this )--:
+	LaunchOptions launch_options;
+
+	l->get_launch_options(&launch_options);
 	
 	const char * options[] = {
 		"-md",
-		l->main_dir_input->value(),
+		launch_options.main_dir,
 		"-ss",
-		l->startup_script_input->value()
+		launch_options.startup_script
 	};
 	
 	Launcher::exec_dll(
-		l->launcher_location_input->value(),
-		l->launcher_dll_input->value(),
+		launch_options.launcher,
+		launch_options.launcher_dll,
 		options,
 		sizeof(options) / sizeof(char*)
 	);
@@ -353,6 +369,7 @@ int LauncherOptionEditor::dump_options(const char * file_path) {
 		fprintf(fp, "%s\n", line_buf);
 	}
 
+	gameTools::get_file_location(file_path, option_file_dir);
 	printf("Options written to %s\n", file_path);
 
 clean_mem:
@@ -428,6 +445,7 @@ int LauncherOptionEditor::load_options(const char * file_path) {
 			fprintf(stderr, "Error reading '%s' from %s\n", line_buf, file_path);
 	}
 
+	gameTools::get_file_location(file_path, option_file_dir);
 	printf("Finished load options from %s\n", file_path);
 
 clean_mem:
@@ -442,6 +460,104 @@ clean_mem:
 void LauncherOptionEditor::clear_option_inputs() {
 	for (auto o : option_inputs)
 		clear_option_input(o);
+}
+
+bool LauncherOptionEditor::get_option_filepath(char * file_path) {
+	bool is_dir;
+	size_t filepath_size;
+
+	if (file_path == NULL)
+		return false;
+
+	memset(file_path, 0, NAME_MAX);
+
+	// No option file.
+	if (!instance_chooser->value())
+		return false;
+
+	snprintf(file_path, NAME_MAX, "%s%s", 
+		instance_chooser_dir_input->value(),
+		instance_chooser->text(instance_chooser->value())
+	);
+
+	filepath_size = strnlen(file_path, NAME_MAX);
+
+	// Check if file is a directory.
+	is_dir = file_path[filepath_size - 1] == PSLASH[0];
+
+	if (is_dir)
+		strncat(file_path, "options.txt", sizeof("options.txt"));
+
+	return true;
+}
+
+int LauncherOptionEditor::get_launch_options(LaunchOptions * launch_options) {
+	if (launch_options == NULL)
+		return -1;
+
+	launch_options->clear();
+
+	// Copy values.
+	strncat(launch_options->launcher_dll, launcher_dll_input->value(), NAME_MAX - 1);
+	strncat(launch_options->main_dir, main_dir_input->value(), NAME_MAX - 1);
+	strncat(launch_options->launcher, launcher_location_input->value(), NAME_MAX - 1);
+	strncat(launch_options->startup_script, startup_script_input->value(), NAME_MAX - 1);
+
+	// Tags.
+	handle_tag_in_filepath(launch_options->launcher_dll);
+	handle_tag_in_filepath(launch_options->main_dir);
+	handle_tag_in_filepath(launch_options->launcher);
+	handle_tag_in_filepath(launch_options->startup_script);
+
+	return 0;
+}
+
+int LauncherOptionEditor::handle_tag_in_filepath(char * file_path) {
+	FilePathTag file_path_tag;
+	bool no_tag_found = true;
+
+	if (file_path == NULL)
+		return -1;
+
+	// Get tag.
+	for (auto t : file_path_tags)
+		if (gameTools::str_starts_with(file_path, t.tag, NAME_MAX)) {
+			file_path_tag = t;
+			no_tag_found = false;
+			break;
+		}
+
+	// No tag.
+	if (no_tag_found)
+		return 0;
+
+	return replace_tag_with_value(file_path_tag, file_path);
+}
+
+int LauncherOptionEditor::replace_tag_with_value(FilePathTag tag, char * file_path) {
+	int i;
+	char file_path_cp[NAME_MAX];
+	size_t tag_size;
+
+	memset(file_path_cp, 0, NAME_MAX);
+
+	if (file_path == NULL)
+		return -1;
+
+	// Doesn't start with the tag.
+	if (!gameTools::str_starts_with(file_path, tag.tag, NAME_MAX))
+		return -1;
+
+	tag_size = strnlen(tag.tag, NAME_MAX);
+
+	// file_path_cp will have no tag.
+	for (i = tag_size; i < NAME_MAX; i++)
+		file_path_cp[i - tag_size] = file_path[i];
+
+	// Write to file path.
+	memset(file_path, 0, NAME_MAX);
+	snprintf(file_path, NAME_MAX, "%s%s", tag.value, file_path_cp);
+	return 0;
 }
 
 void LauncherOptionEditor::clear_option_input(LauncherOptionData data) {
@@ -579,24 +695,20 @@ int LauncherOptionEditor::handle_option_and_value(const char * option_buf, const
 }
 
 void LauncherOptionEditor::refresh_options() {
-	option_chooser->load(option_chooser_dir_input->value());
+	instance_chooser->load(instance_chooser_dir_input->value());
 
-	if (option_chooser->text(1))
-		if (!strncmp(option_chooser->text(1), "../", sizeof("../")))
-			option_chooser->remove(1);
+	if (instance_chooser->text(1))
+		if (!strncmp(instance_chooser->text(1), "../", sizeof("../")))
+			instance_chooser->remove(1);
 }
 
-void LauncherOptionEditor::option_chooser_cb(Fl_Widget * w, void * d) {
+void LauncherOptionEditor::instance_chooser_cb(Fl_Widget * w, void * d) {
 	LauncherOptionEditor * l = (LauncherOptionEditor*)d;
 
-	// Get option file.
 	char option_file[NAME_MAX];
-	memset(option_file, 0, NAME_MAX);
 
-	snprintf(option_file, NAME_MAX, "%s%s", 
-		l->option_chooser_dir_input->value(),
-		l->option_chooser->text(l->option_chooser->value())
-	);
+	if (!l->get_option_filepath(option_file))
+		return;
 
 	// Load.
 	l->load_options(option_file);
@@ -604,25 +716,17 @@ void LauncherOptionEditor::option_chooser_cb(Fl_Widget * w, void * d) {
 
 void LauncherOptionEditor::dump_options_cb(Fl_Widget * w, void * d) {
 	LauncherOptionEditor * l = (LauncherOptionEditor*)d;
-	
-	// No option.
-	if (!l->option_chooser->value())
-		return;
 
-	// Get option file.
 	char option_file[NAME_MAX];
-	memset(option_file, 0, NAME_MAX);
 
-	snprintf(option_file, NAME_MAX, "%s%s", 
-		l->option_chooser_dir_input->value(),
-		l->option_chooser->text(l->option_chooser->value())
-	);
+	if (!l->get_option_filepath(option_file))
+		return;
 
 	// Dump.
 	l->dump_options(option_file);
 }
 
-void LauncherOptionEditor::refresh_option_chooser_cb(Fl_Widget * w, void * d) {
+void LauncherOptionEditor::refresh_instance_chooser_cb(Fl_Widget * w, void * d) {
 	LauncherOptionEditor * l = (LauncherOptionEditor*)d;
 	l->refresh_options();
 }
@@ -639,12 +743,12 @@ void LauncherOptionEditor::new_options_cb(Fl_Widget * w, void * d) {
 	memset(option_file, 0, NAME_MAX);
 
 	snprintf(option_file, NAME_MAX, "%s%s", 
-		l->option_chooser_dir_input->value(),
+		l->instance_chooser_dir_input->value(),
 		l->new_options->value()
 	);
 
 	// Unselect option file.
-	l->option_chooser->value(0);
+	l->instance_chooser->value(0);
 
 	// Dump.
 	l->dump_options(option_file);
