@@ -20,7 +20,10 @@ struct ImageListLoadingData {
 		this->img_list_locat = img_list_locat;
 		this->scaled_img_list_locat = scaled_img_list_locat;
 	}
+
 };
+
+std::vector<ImageListLoadingData> get_image_list_load_data(MainData * mdata);
 
 int load_and_store_image_data(
 	MainData * mdata, 
@@ -32,3 +35,5 @@ int load_and_store_image_data(
 
 // Loading stuff.
 int load_images_from_loader_file(MainData * mdata, const char * file_path, const char * image_folder=NULL);
+
+void scale_all_image_lists(MainData * mdata);

@@ -1,5 +1,6 @@
 #include "character.h"
 #include "npc_map.h"
+#include "id_to_object.h"
 
 void Character::draw() {
 	Fl_PNG_Image * current_image;

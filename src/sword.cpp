@@ -1,5 +1,6 @@
 #include "sword.h"
 #include "character.h"
+#include "id_to_object.h"
 
 void Sword::main_init(MainData * md, Fl_Widget * item_holder) {
 	mdata = md;

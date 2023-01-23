@@ -44,7 +44,7 @@ struct BulletHitData {
 class Gun : public Weapon {
 	public:
 		Gun(MainData * md, Fl_Widget * item_holder) : Weapon(md, item_holder) {
-			type = TOOL_GUN;
+			main_init(md, item_holder);
 		}
 
 		void draw();
@@ -72,6 +72,8 @@ class Gun : public Weapon {
 		std::vector<Bullet> bullets;
 		std::vector<gameTools::Coord> bullet_start_locations;
 		std::vector<BulletHitData> bullet_hit_data;
+
+		void main_init(MainData * md, Fl_Widget * item_holder);
 
 		// Bullet settings.
 		int bullet_w, bullet_h;

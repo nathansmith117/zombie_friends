@@ -2,6 +2,33 @@
 #include "character.h"
 #include "npc.h"
 
+std::vector<ImageListLoadingData> get_image_list_load_data(MainData * mdata) {
+	// This is where the data for loading images is (-------:
+	const ImageListLoadingData image_list_load_data[] = {
+		// Player.
+		ImageListLoadingData("player", &mdata->images.player, &mdata->scaled_images.player),
+
+		// Weapons.
+		ImageListLoadingData("sword", &mdata->images.weapons.sword, &mdata->scaled_images.weapons.sword),
+		ImageListLoadingData("submachine_gun", &mdata->images.weapons.submachine_gun, &mdata->scaled_images.weapons.submachine_gun),
+
+		// World.
+		ImageListLoadingData("basic_world", &mdata->images.basic_world, &mdata->scaled_images.basic_world),
+		ImageListLoadingData("current_world", &mdata->images.curr_world, &mdata->scaled_images.curr_world),
+		ImageListLoadingData("addon_images", &mdata->images.addon_images, &mdata->scaled_images.addon_images),
+
+		// Npc.
+		ImageListLoadingData("evil_puppy", &mdata->images.npc.evil_puppy, &mdata->scaled_images.npc.evil_puppy)
+	};
+
+	std::vector<ImageListLoadingData> res;
+
+	for (auto i : image_list_load_data)
+		res.push_back(i);
+
+	return res;
+}
+
 int load_and_store_image_data(
 	MainData * mdata, 
 	const char * file_path,
@@ -45,23 +72,7 @@ int load_and_store_image_data(
 int load_images_from_loader_file(MainData * mdata, const char * file_path, const char * image_folder) {
 	int i;
 
-	// This is where the data for loading images is (-------:
-	const ImageListLoadingData image_list_load_data[] = {
-		// Player.
-		ImageListLoadingData("player", &mdata->images.player, &mdata->scaled_images.player),
-
-		// Weapons.
-		ImageListLoadingData("sword", &mdata->images.weapons.sword, &mdata->scaled_images.weapons.sword),
-		ImageListLoadingData("submachine_gun", &mdata->images.weapons.submachine_gun, &mdata->scaled_images.weapons.submachine_gun),
-
-		// World.
-		ImageListLoadingData("basic_world", &mdata->images.basic_world, &mdata->scaled_images.basic_world),
-		ImageListLoadingData("current_world", &mdata->images.curr_world, &mdata->scaled_images.curr_world),
-		ImageListLoadingData("addon_images", &mdata->images.addon_images, &mdata->scaled_images.addon_images),
-
-		// Npc.
-		ImageListLoadingData("evil_puppy", &mdata->images.npc.evil_puppy, &mdata->scaled_images.npc.evil_puppy)
-	};
+	std::vector<ImageListLoadingData> image_list_load_data = get_image_list_load_data(mdata);
 
 	size_t imgs_location_size = NAME_MAX + MAIN_DIR_SIZE;
 	char imgs_location[imgs_location_size];
@@ -90,4 +101,15 @@ int load_images_from_loader_file(MainData * mdata, const char * file_path, const
 		mdata->player->refresh_images();
 
 	return 0;
+}
+
+void scale_all_image_lists(MainData * mdata) {
+	int scale = mdata->settings.scale;
+	mdata->scale_tile_size = scale * TILE_SIZE;
+
+	for (auto i : get_image_list_load_data(mdata))
+		gameTools::set_image_list(
+			i.scaled_img_list_locat, 
+			gameTools::scale_images(*i.img_list_locat, mdata->settings.scale)
+		);
 }

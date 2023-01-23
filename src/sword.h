@@ -9,7 +9,6 @@ class Sword : public Weapon {
 	public:
 		Sword(MainData * md, Fl_Widget * item_holder) : Weapon(md, item_holder) {
 			main_init(md, item_holder);
-			type = TOOL_SWORD;
 		}
 
 		void update();

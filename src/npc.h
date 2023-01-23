@@ -13,11 +13,6 @@
 
 #define FOLLOW_DATA_FILE_HEADER "NPC_FOLLOWING_DATA"
 
-enum NPC_TYPES {
-	NPC_TYPE_NONE = -1,
-	NPC_TYPE_EVIL_PUPPY = 0
-};
-
 typedef int8_t NPC_TYPE;
 
 enum POINT_FOLLOWING_MODES {
@@ -38,18 +33,7 @@ int switch_following_direction(int dir);
 class Npc : public Character {
 	public:
 		Npc(MainData * md, class NpcMap * npc_map) : Character(md) {
-			this->npc_map = npc_map;
-
-			type = NPC_TYPE_NONE;
-
-			always_updated = false;
-			being_updated = false;
-
-			current_point = 0;
-			following_type = POINT_FOLLOWING_STOP_AT_END;
-			following_direction = FOLLOW_FORWARDS;
-
-			should_follow_player = false;
+			main_init(md, npc_map);
 		}
 
 		bool get_always_updated() { return always_updated; }
@@ -86,6 +70,8 @@ class Npc : public Character {
 		void set_should_follow_player(bool should_follow_player) { this->should_follow_player = should_follow_player; }
 	protected:
 		class NpcMap * npc_map;
+
+		void main_init(MainData * md, class NpcMap * npc_map);
 
 		// Npc path.
 		std::vector<Astar::Point> points;

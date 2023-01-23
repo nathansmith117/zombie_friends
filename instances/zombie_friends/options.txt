@@ -1,4 +1,4 @@
-dll $ofdzombie_friends.so
+dll /home/nathan/Desktop/zombie_friends/build/lib/libzombie_friends_dll.so
 md $ofd
-ll $dl
+ll /home/nathan/Desktop/zombie_friends/build/bin/cmd_launcher
 ss $ofdstartup.cms

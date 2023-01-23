@@ -2,6 +2,11 @@
 #include "character.h"
 #include "player.h"
 #include "npc_map.h"
+#include "id_to_object.h"
+
+void Gun::main_init(MainData * md, Fl_Widget * item_holder) {
+	type = TOOL_GUN;
+}
 
 void Gun::draw() {
 	int draw_w, draw_h;

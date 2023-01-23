@@ -2,6 +2,7 @@
 #include "character.h"
 #include "map.h"
 #include "npc_map.h"
+#include "id_to_object.h"
 
 void SubmachineGun::main_init(MainData * md, Fl_Widget * item_holder) {
 	mdata = md;

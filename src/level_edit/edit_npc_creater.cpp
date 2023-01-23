@@ -1,5 +1,6 @@
 #include "edit_npc_creater.h"
 #include "npc.h"
+#include "id_to_object.h"
 
 void EditNpcToolEditor::main_init(int X, int Y, int W, int H) {
 	int row, col;

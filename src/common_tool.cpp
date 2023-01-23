@@ -1,5 +1,6 @@
 #include "common_tool.h"
 #include "game_tools.h"
+#include "id_to_object.h"
 
 // Tools/Weapons.
 #include "gun.h"
@@ -21,6 +22,7 @@ void CommonTool::main_init(MainData * md, Fl_Widget * item_holder) {
 
 	frame = 0;
 	is_being_used = false;
+	type = TOOL_NONE;
 }
 
 void CommonTool::draw() {
@@ -78,22 +80,4 @@ void CommonTool::stop_using() {
 	is_being_used = false;
 	action_frame = 0;
 	last_count = 0;
-}
-
-void scale_tool_images(MainData * mdata) {
-	int scale = mdata->settings.scale;
-
-	mdata->scaled_images.weapons.sword = gameTools::scale_images(mdata->images.weapons.sword, scale);
-	mdata->scaled_images.weapons.submachine_gun = gameTools::scale_images(mdata->images.weapons.submachine_gun, scale);
-}
-
-CommonTool * get_tool_from_type(TOOL_TYPE type, MainData * mdata, Fl_Widget * item_holder) {
-	switch(type) {
-		case TOOL_SWORD:
-			return new Sword(mdata, item_holder);
-		case TOOL_SUBMACHINE_GUN:
-			return new SubmachineGun(mdata, item_holder);
-		default:
-			return NULL;
-	}
 }

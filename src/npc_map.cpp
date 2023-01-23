@@ -1,5 +1,5 @@
 #include "npc_map.h"
-#include "evil_puppy.h"
+#include "id_to_object.h"
 
 NpcData get_clear_npc_data() {
 	int i;
@@ -409,12 +409,10 @@ bool NpcMap::is_in_use(Npc * the_npc) {
 	return false;
 }
 
-void NpcMap::scale_npc_images() {
+void NpcMap::refresh_npc_images() {
 	int x, y;
 	int scale = mdata->settings.scale;
 	Npc * curr_npc = NULL;
-
-	mdata->scaled_images.npc.evil_puppy = gameTools::scale_images(mdata->images.npc.evil_puppy, scale);
 
 	// Refresh images.
 	if (map == NULL)
@@ -442,17 +440,6 @@ void NpcMap::scale_npc_images() {
 			n->keep_position();
 			n->move_tool_to_location();
 		}
-}
-
-Npc * get_npc_from_type(MainData * mdata, NpcMap * npc_map, NPC_TYPE type) {
-	switch (type) {
-		case NPC_TYPE_NONE:
-			return NULL;
-		case NPC_TYPE_EVIL_PUPPY:
-			return new EvilPuppy(mdata, npc_map);
-		default:
-			return NULL;
-	}
 }
 
 Npc * create_npc_from_data(MainData * mdata, NpcMap * npc_map, NpcData npc_data) {

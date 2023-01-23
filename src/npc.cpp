@@ -4,9 +4,25 @@
 #include "tile.h"
 #include "npc_map.h"
 #include "chat_box.h"
+#include "id_to_object.h"
 
 int switch_following_direction(int dir) {
 	return dir * -1;
+}
+
+void Npc::main_init(MainData * md, class NpcMap * npc_map) {
+	this->npc_map = npc_map;
+
+	type = NPC_TYPE_NONE;
+
+	always_updated = false;
+	being_updated = false;
+
+	current_point = 0;
+	following_type = POINT_FOLLOWING_STOP_AT_END;
+	following_direction = FOLLOW_FORWARDS;
+
+	should_follow_player = false;
 }
 
 void Npc::keep_position() {
@@ -172,11 +188,11 @@ int Npc::load_follow_data_from_file(const char * file_name, bool from_script_loc
 		snprintf(
 			file_path,
 			NAME_MAX,
-			"%s%s",
+			"%sroutes%s%s",
 			mdata->chat_box->get_script_location(),
+			PSLASH,
 			file_name
 		);
-
 	else
 		strncat(file_path, file_name, NAME_MAX - 1);
 

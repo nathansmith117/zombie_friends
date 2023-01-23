@@ -1,7 +1,9 @@
 #include "weapon.h"
 #include "character.h"
+#include "id_to_object.h"
 
 void Weapon::main_init(MainData * md, Fl_Widget * item_holder) {
+	type = TOOL_WEAPON;
 }
 
 void Weapon::set_on_side() {

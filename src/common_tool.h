@@ -3,14 +3,6 @@
 #include "program_data.h"
 #include "common_item.h"
 
-enum TOOL_TYPES {
-	TOOL_NONE = -1,
-	TOOL_WEAPON,
-	TOOL_SWORD,
-	TOOL_GUN,
-	TOOL_SUBMACHINE_GUN
-};
-
 typedef int8_t TOOL_TYPE;
 
 class CommonTool : public Fl_Widget {
@@ -75,8 +67,5 @@ class CommonTool : public Fl_Widget {
 		int last_count;
 		int action_frame;
 
-		TOOL_TYPE type = TOOL_NONE;
+		TOOL_TYPE type;
 };
-
-void scale_tool_images(MainData * mdata);
-CommonTool * get_tool_from_type(TOOL_TYPE type, MainData * mdata, Fl_Widget * item_holder=NULL);

@@ -8,7 +8,6 @@ class Weapon : public CommonTool {
 	public:
 		Weapon(MainData * md, Fl_Widget * item_holder) : CommonTool(md, item_holder) {
 			main_init(md, item_holder);
-			type = TOOL_WEAPON;
 		}
 
 		void set_on_side();

@@ -45,19 +45,7 @@ namespace gameTools {
 	}
 
 	void scale_all(MainData * mdata) {
-		int scale = mdata->settings.scale;
-		mdata->scale_tile_size = scale * TILE_SIZE;
-
-		// Player.
-		mdata->scaled_images.player = scale_images(mdata->images.player, scale);
-
-		// World.
-		mdata->scaled_images.basic_world = scale_images(mdata->images.basic_world, scale);
-		mdata->scaled_images.curr_world = scale_images(mdata->images.curr_world, scale);
-		mdata->scaled_images.addon_images = scale_images(mdata->images.addon_images, scale);
-
-		// Tools/weapons.
-		scale_tool_images(mdata);
+		scale_all_image_lists(mdata);
 
 		// Player.
 		if (mdata->player != NULL)
@@ -65,7 +53,7 @@ namespace gameTools {
 
 		// Npcs.
 		if (mdata->map != NULL)
-			mdata->map->get_npc_map()->scale_npc_images();
+			mdata->map->get_npc_map()->refresh_npc_images();
 	}
 
 	bool test_collision(Fl_Widget * obj1, Fl_Widget * obj2) {

@@ -1,6 +1,7 @@
 #include "evil_puppy.h"
 #include "npc_map.h"
 #include "player.h"
+#include "id_to_object.h"
 
 EvilPuppy::~EvilPuppy() {
 	delete path_finder;

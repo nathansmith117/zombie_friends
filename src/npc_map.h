@@ -74,7 +74,7 @@ class NpcMap {
 
 		bool is_in_use(Npc * the_npc);
 
-		void scale_npc_images();
+		void refresh_npc_images();
 	private:
 		MainData * mdata;
 		int width, height;
@@ -85,5 +85,4 @@ class NpcMap {
 		void update_npcs_in_use();
 };
 
-Npc * get_npc_from_type(MainData * mdata, NpcMap * npc_map, NPC_TYPE type);
 Npc * create_npc_from_data(MainData * mdata, NpcMap * npc_map, NpcData npc_data);
