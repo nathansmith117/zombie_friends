@@ -102,5 +102,5 @@ void SubmachineGun::update() {
 
 void SubmachineGun::refresh_images() {
 	images(gameTools::copy_image_list(mdata->scaled_images.weapons.submachine_gun));
-	image(mdata->scaled_images.weapons.submachine_gun[0]->copy());
+	image(mdata->images.weapons.submachine_gun[0]->copy());
 }

@@ -35,12 +35,31 @@ void EvilPuppy::main_init(MainData * md) {
 
 	// Points.
 	//load_follow_data_from_file("test_route.nfd");
+	
+	set_name("Evil Puppy");
 }
 
 void EvilPuppy::update() {
+	char answer_buf[NAME_MAX];
+
+	const char * answers[NAME_MAX] = {
+		"good",
+		"bad",
+		"ok"
+	};
 
 	if (mdata->player == NULL)
 		return;
+
+	// Question debug.
+	if (question_state == NO_QUESTION)
+		ask_question("How are you");
+
+	if (wait_for_answer((const char**)answers, 3)) {
+		snprintf(answer_buf, NAME_MAX, "I got answer: %s", question_answer);
+		say(answer_buf, NAME_MAX);
+		close_question();
+	}
 
 	handle_hit_data();
 

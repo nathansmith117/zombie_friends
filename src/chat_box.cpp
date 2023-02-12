@@ -100,11 +100,11 @@ void ChatBox::printline(const char * msg) {
 }
 
 void ChatBox::post(const char * name, const char * msg, size_t n) {
-	size_t buf_size = n + 5; // Add more bytes for formatting.
+	size_t buf_size = n + 7; // Add more bytes for formatting.
 	char buf[buf_size];
 
 	memset(buf, 0, buf_size);
-	snprintf(buf, buf_size, "%s: %s\n", name, msg);
+	snprintf(buf, buf_size, "[%s]: %s\n", name, msg);
 
 	text_buffer->append(buf);
 	scroll_to_bottom();
@@ -501,7 +501,7 @@ void ChatBox::input_line_cb(Fl_Widget * w, void * d) {
 	if (input_size <= 0)
 		return;
 	if (input_size >= NAME_MAX) {
-		fprintf(stderr, "The input size is %d, the max is %d\n", input_size, NAME_MAX);
+		fprintf(stderr, "The input size is %ld, the max is %d\n", input_size, NAME_MAX);
 		return;
 	}
 
@@ -514,6 +514,12 @@ void ChatBox::input_line_cb(Fl_Widget * w, void * d) {
 	// Print input value then clear value.
 	chat_box->post(name, input_value, sizeof(name) + input_size);
 	chat_box->input_line->value("");
+
+	// If question.
+	if (chat_box->is_question_up()) {
+		chat_box->question_data.asker->answer_question(input_value);
+		chat_box->question_up = false;
+	}
 }
 
 int ChatBox::variable_str_to_data(const char * variable_str, size_t n, VariableData * variable_data) {
@@ -624,4 +630,9 @@ bool ChatBox::is_in_globals(VariableData var_data) {
 
 int ChatBox::add_or_set_global_var(VariableData var_data) {
 	return add_or_set_variable(var_data, &global_vars);
+}
+
+void ChatBox::set_question_data(CharacterQuestionData question_data) {
+	this->question_data = question_data;
+	question_up = true;
 }

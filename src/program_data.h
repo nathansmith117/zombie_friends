@@ -223,6 +223,10 @@ struct __attribute__((__packed__)) Settings {
 
 	// Scheme.
 	SCHEME_ID scheme_id = SCHEME_NONE;
+
+	// Player info display.
+	int32_t tool_display_scale = 2;
+	int32_t tool_display_border = 3;
 };
 
 struct WeaponImages {

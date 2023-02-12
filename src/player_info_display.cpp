@@ -2,27 +2,26 @@
 #include <FL/fl_draw.H>
 
 // ToolDisplay functions.
-void ToolDisplay::main_init(MainData * md, int X, int Y, int max_tool_count) {
+void ToolDisplay::main_init(MainData * md, int X, int Y, int W) {
 	mdata = md;
-	this->max_tool_count = max_tool_count;
-
-	set_width_and_height();
+	reset_size();
 }
 
-void ToolDisplay::set_width_and_height() {
-	size(
-		mdata->scale_tile_size * max_tool_count,
-		mdata->scale_tile_size
-	);
+void ToolDisplay::reset_size() {
+	tool_size = mdata->settings.tool_display_scale * TILE_SIZE;
+	h(tool_size);
 }
 
 void ToolDisplay::draw() {
 	int i;
 	Player * player = (Player*)mdata->player;
-	std::vector<CommonTool*> tools;
+	std::vector<Fl_PNG_Image*> images;
 	int tool_count;
 	int current_tool_locat;
 	Fl_PNG_Image * draw_img = NULL;
+
+	int draw_x;
+	int draw_y;
 
 	// Draw background.
 	fl_rectf(x(), y(), w(), h(), color());
@@ -33,36 +32,77 @@ void ToolDisplay::draw() {
 	if (player == NULL)
 		return;
 
-	// Get tools.
-	tools = player->get_tools();
+	// Get tool info.
 	tool_count = player->tool_count();
 	current_tool_locat = player->get_current_tool_local();
 
 	if (tool_count <= 0)
 		return;
 
+	// Get images.
+	images = get_tool_images();
+
+	draw_x = x() + mdata->settings.tool_display_border;
+
 	for (i = 0; i < tool_count; i++) {
-		// Get image to draw.
-		draw_img = (Fl_PNG_Image*)tools[i]->image();
+		draw_img = images[i];
 
-		if (draw_img == NULL)
-			draw_img = mdata->scaled_images.basic_world[0]; // NULL.
+		draw_y = y() + ((tool_size / 2) - (draw_img->h() / 2));
 
-		// Draw image.
 		draw_img->draw(
-			x() + (i * mdata->scale_tile_size),
-			y()
+			draw_x,
+			draw_y
 		);
 
 		// Is current image.
 		if (i == current_tool_locat)
 			fl_rect(
-				x() + (i * mdata->scale_tile_size),
-				y(),
+				draw_x,
+				draw_y,
 				draw_img->w(),
 				draw_img->h()
 			);
+
+		draw_x += draw_img->w() + mdata->settings.tool_display_border;
 	}
+
+	gameTools::delete_image_list(&images);
+}
+
+std::vector<Fl_PNG_Image*> ToolDisplay::get_tool_images() {
+	Player * player = (Player*)mdata->player;
+	std::vector<Fl_PNG_Image*> images;
+	Fl_PNG_Image * curr_img;
+
+	int scale_width;
+	int scale_height;
+
+	// Add images.
+	for (auto tool : mdata->player->get_tools()) {
+
+		// Get image.
+		curr_img = (Fl_PNG_Image*)tool->image();
+
+		// Is null.
+		if (curr_img == NULL) {
+			images.push_back(
+				(Fl_PNG_Image*)mdata->scaled_images.basic_world[0]->copy(tool_size, tool_size)
+			);
+
+			continue;
+		}
+
+		// Get scaled width and height.
+		scale_width = curr_img->w() * mdata->settings.tool_display_scale;
+		scale_height = curr_img->h() * mdata->settings.tool_display_scale;
+
+		// Scale and add to list.
+		images.push_back(
+			(Fl_PNG_Image*)curr_img->copy(scale_width, scale_height)
+		);
+	}
+
+	return images;
 }
 
 int ToolDisplay::handle(int event) {
@@ -86,21 +126,25 @@ void PlayerInfoDisplay::main_init(MainData * md, int X, int Y, int W, int H) {
 	// Fuel output.
 	fuel_output = new Fl_Output(0, 0, 0, 0, "Fuel/Ammo");
 
+	end();
+
 	reset_size();
 	update();
 }
 
 void PlayerInfoDisplay::reset_size() {
 	int output_w, output_y, output_x;
+	int tool_size = mdata->settings.tool_display_scale * TILE_SIZE;
 
 	// Tool display.
-	tool_display->position(
-		x() + mdata->scale_tile_size,
-		y() + (mdata->scale_tile_size / 2)
+	tool_display->resize(
+		x() + tool_size,
+		y() + (tool_size / 2),
+		w() - (tool_size * 2),
+		0
 	);
 
-	tool_display->set_max_tool_count((w() - (mdata->scale_tile_size * 2)) / mdata->scale_tile_size);
-	tool_display->set_width_and_height();
+	tool_display->reset_size();
 
 	// Output size.
 	output_w = w() / 10;

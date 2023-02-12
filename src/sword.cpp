@@ -60,5 +60,5 @@ void Sword::update() {
 
 void Sword::refresh_images() {
 	images(gameTools::copy_image_list(mdata->scaled_images.weapons.sword));
-	image(mdata->scaled_images.weapons.sword[0]->copy());
+	image(mdata->images.weapons.sword[0]->copy());
 }

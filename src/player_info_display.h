@@ -7,22 +7,21 @@
 
 class ToolDisplay : public Fl_Widget {
 	public:
-		ToolDisplay(MainData * md, int X, int Y, int max_tool_count) : Fl_Widget(X, Y, 0, 0) {
-			main_init(md, X, Y, max_tool_count);
+		ToolDisplay(MainData * md, int X, int Y, int W) : Fl_Widget(X, Y, 0, 0) {
+			main_init(md, X, Y, W);
 		}
 
 		virtual void draw();
 		int handle(int event);
 
-		void set_width_and_height();
-
-		int get_max_tool_count() { return max_tool_count; }
-		void set_max_tool_count(int max_tool_count) { this->max_tool_count = max_tool_count; }
+		void reset_size();
 	private:
 		MainData * mdata;
-		int max_tool_count;
+		int tool_size;
 
-		void main_init(MainData * md, int X, int Y, int max_tool_count);
+		std::vector<Fl_PNG_Image*> get_tool_images();
+
+		void main_init(MainData * md, int X, int Y, int W);
 };
 
 class PlayerInfoDisplay : public Fl_Group {

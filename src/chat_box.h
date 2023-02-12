@@ -2,6 +2,7 @@
 
 #include "program_data.h"
 #include "game_tools.h"
+#include "character.h"
 
 struct VariableData {
 	char name[NAME_MAX];
@@ -80,12 +81,21 @@ class ChatBox : public Fl_Group {
 
 		bool is_in_globals(VariableData var_data);
 		int add_or_set_global_var(VariableData var_data);
+		
+		bool is_question_up() { return question_up; }
+
+		CharacterQuestionData get_question_data() { return question_data; }
+		void set_question_data(CharacterQuestionData question_data);
 	protected:
 		MainData * mdata;
 		std::vector<ChatCommand> command_list;
 
 		// Global variables.
 		std::vector<VariableData> global_vars;
+
+		// Question data.
+		bool question_up = false;
+		CharacterQuestionData question_data;
 
 		// Widgets.
 		Fl_Text_Display * text_display = NULL;

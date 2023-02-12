@@ -17,6 +17,17 @@ struct CharacterHitData {
 	bool hit_handled = false;
 };
 
+struct CharacterQuestionData {
+	char question[NAME_MAX] = "\0";
+	class Character * asker = NULL;
+};
+
+enum QuestionStates {
+	WAITING_FOR_ANSWER,
+	GOT_ANSWER,
+	NO_QUESTION
+};
+
 class Character : public Fl_Widget {
 	public:
 		Character(MainData * md) : Fl_Widget(0, 0, 0, 0) {
@@ -38,6 +49,10 @@ class Character : public Fl_Widget {
 			current_tool = 0;
 
 			speed = 0.0;
+
+			set_name("unnamed");
+
+			memset(question_answer, 0, NAME_MAX);
 		}
 
 		~Character();
@@ -135,10 +150,28 @@ class Character : public Fl_Widget {
 		float get_speed() { return speed; }
 		float get_scaled_speed();
 		void set_speed(float speed) { this->speed = speed; }
+
+		// NAME_MAX for size.
+		void get_name(char * name_buf);
+		void set_name(const char * new_name);
+
+		// NAME_MAX for question size.
+		void ask_question(const char * question); // Ask player a question.
+		void answer_question(const char * answer);
+		void close_question();
+
+		// Takes list of posible answers.
+		// Returns true of anwsered.
+		bool wait_for_answer(const char ** answers, size_t n);
 	protected:
 		MainData * mdata;
 		gameTools::Direction dir;
 		int frame;
+
+		// For saying something in chatbox.
+		void say(const char * msg, size_t n);
+
+		char character_name[NAME_MAX];
 
 		std::vector<CommonTool*> tools;
 		int current_tool;
@@ -150,6 +183,11 @@ class Character : public Fl_Widget {
 
 		float old_world_x, old_world_y;
 		gameTools::Direction old_direction;
+
+		// Question stuff.
+		CharacterQuestionData question_data;
+		char question_state = NO_QUESTION;
+		char question_answer[NAME_MAX];
 
 		std::vector<Fl_PNG_Image*> character_images;
 

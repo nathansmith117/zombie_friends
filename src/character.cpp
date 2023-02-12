@@ -1,6 +1,7 @@
 #include "character.h"
 #include "npc_map.h"
 #include "id_to_object.h"
+#include "chat_box.h"
 
 void Character::draw() {
 	Fl_PNG_Image * current_image;
@@ -40,9 +41,7 @@ void Character::images(std::vector<Fl_PNG_Image*> character_images) {
 	if (character_images.empty())
 		return;
 
-	gameTools::delete_image_list(&this->character_images);
-
-	this->character_images = character_images;
+	gameTools::set_image_list(&this->character_images, character_images);
 	size(character_images[0]->w(), character_images[0]->h());
 }
 
@@ -509,4 +508,108 @@ void Character::update_old_values() {
 	old_world_x = world_x;
 	old_world_y = world_y;
 	old_direction = dir;
+}
+
+void Character::get_name(char * name_buf) {
+	if (name_buf == NULL)
+		return;
+
+	memset(name_buf, 0, NAME_MAX);
+	strncat(name_buf, character_name, NAME_MAX - 1);
+}
+
+void Character::set_name(const char * new_name) {
+	if (new_name == NULL)
+		return;
+
+	memset(character_name, 0, NAME_MAX);
+	strncat(character_name, new_name, NAME_MAX - 1);
+}
+
+void Character::say(const char * msg, size_t n) {
+	if (msg == NULL || n <= 0)
+		return;
+
+	mdata->chat_box->post(character_name, msg, n + NAME_MAX);
+}
+
+void Character::ask_question(const char * question) {
+	if (question == NULL)
+		return;
+
+	CharacterQuestionData question_data;
+
+	// Set question.
+	memset(question_data.question, 0, NAME_MAX);
+	strncat(question_data.question, question, NAME_MAX - 1);
+
+	// Set asker.
+	question_data.asker = this;
+
+	// Send to chatbox.
+	mdata->chat_box->set_question_data(question_data);
+
+	this->question_data = question_data;
+
+	// Set other stuff.
+	question_state = WAITING_FOR_ANSWER;
+	memset(question_answer, 0, NAME_MAX);
+
+	// Say question.
+	say(question, NAME_MAX);
+}
+
+void Character::answer_question(const char * answer) {
+	if (answer == NULL)
+		return;
+
+	// Did not ask question.
+	if (question_state != WAITING_FOR_ANSWER)
+		return;
+
+	question_state = GOT_ANSWER;
+
+	memset(question_answer, 0, NAME_MAX);
+	strncat(question_answer, answer, NAME_MAX - 1);
+}
+
+void Character::close_question() {
+	question_state = NO_QUESTION;
+	memset(question_answer, 0, NAME_MAX);
+}
+
+bool Character::wait_for_answer(const char ** answers, size_t n) {
+	int i;
+	char buf[NAME_MAX];
+	bool in_answer_list = false;
+
+	if (answers == NULL)
+		return question_state == GOT_ANSWER;
+
+	if (question_state != GOT_ANSWER)
+		return false;
+
+	// Check if answer is in answer list.
+	for (i = 0; i < n; i++)
+		if (strncmp(question_answer, answers[i], NAME_MAX) == 0) {
+			in_answer_list = true;
+			break;
+		}
+
+	if (in_answer_list)
+		return true;
+
+	// Answer not one of the options.
+	snprintf(buf, NAME_MAX, "'%s' is not a valid anwser. try one of these instead: ", question_answer);
+	say(buf, NAME_MAX);
+
+	for (i = 0; i < n; i++) {
+		snprintf(buf, NAME_MAX, "--- %s", answers[i]);
+		say(buf, NAME_MAX);
+	}
+
+	// Reask question.
+	ask_question(question_data.question);
+
+	return false;
 }
