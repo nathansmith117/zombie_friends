@@ -1,0 +1,242 @@
+[
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/appWindow.cpp.o -c /home/nathan/Desktop/zombie_friends/src/appWindow.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/appWindow.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/astar_pathfinder.cpp.o -c /home/nathan/Desktop/zombie_friends/src/astar_pathfinder.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/astar_pathfinder.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/character.cpp.o -c /home/nathan/Desktop/zombie_friends/src/character.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/character.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/chat_box.cpp.o -c /home/nathan/Desktop/zombie_friends/src/chat_box.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/chat_box.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/common_item.cpp.o -c /home/nathan/Desktop/zombie_friends/src/common_item.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/common_item.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/common_tool.cpp.o -c /home/nathan/Desktop/zombie_friends/src/common_tool.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/common_tool.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/debug_window.cpp.o -c /home/nathan/Desktop/zombie_friends/src/debug_window.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/debug_window.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/dll_loader.cpp.o -c /home/nathan/Desktop/zombie_friends/src/dll_loader.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/dll_loader.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/evil_puppy.cpp.o -c /home/nathan/Desktop/zombie_friends/src/evil_puppy.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/evil_puppy.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/game_commands.cpp.o -c /home/nathan/Desktop/zombie_friends/src/game_commands.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/game_commands.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/game_tab_menu.cpp.o -c /home/nathan/Desktop/zombie_friends/src/game_tab_menu.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/game_tab_menu.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/game_tools.cpp.o -c /home/nathan/Desktop/zombie_friends/src/game_tools.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/game_tools.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/gun.cpp.o -c /home/nathan/Desktop/zombie_friends/src/gun.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/gun.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/id_to_object.cpp.o -c /home/nathan/Desktop/zombie_friends/src/id_to_object.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/id_to_object.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/image_loader.cpp.o -c /home/nathan/Desktop/zombie_friends/src/image_loader.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/image_loader.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/loader_file_handling.cpp.o -c /home/nathan/Desktop/zombie_friends/src/loader_file_handling.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/loader_file_handling.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/map.cpp.o -c /home/nathan/Desktop/zombie_friends/src/map.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/map.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/npc.cpp.o -c /home/nathan/Desktop/zombie_friends/src/npc.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/npc.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/npc_map.cpp.o -c /home/nathan/Desktop/zombie_friends/src/npc_map.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/npc_map.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/player.cpp.o -c /home/nathan/Desktop/zombie_friends/src/player.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/player.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/player_info_display.cpp.o -c /home/nathan/Desktop/zombie_friends/src/player_info_display.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/player_info_display.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/progress_bar.cpp.o -c /home/nathan/Desktop/zombie_friends/src/progress_bar.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/progress_bar.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/settings_editor.cpp.o -c /home/nathan/Desktop/zombie_friends/src/settings_editor.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/settings_editor.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/startup.cpp.o -c /home/nathan/Desktop/zombie_friends/src/startup.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/startup.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/submachine_gun.cpp.o -c /home/nathan/Desktop/zombie_friends/src/submachine_gun.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/submachine_gun.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/sword.cpp.o -c /home/nathan/Desktop/zombie_friends/src/sword.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/sword.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/tab_menu.cpp.o -c /home/nathan/Desktop/zombie_friends/src/tab_menu.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/tab_menu.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/tile.cpp.o -c /home/nathan/Desktop/zombie_friends/src/tile.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/tile.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/top_menu.cpp.o -c /home/nathan/Desktop/zombie_friends/src/top_menu.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/top_menu.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/view_window.cpp.o -c /home/nathan/Desktop/zombie_friends/src/view_window.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/view_window.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends.dir/src/weapon.cpp.o -c /home/nathan/Desktop/zombie_friends/src/weapon.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/weapon.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/launcher_dlls",
+  "command": "/usr/lib64/ccache/c++ -Dzombie_friends_dll_EXPORTS -I/home/nathan/Desktop/zombie_friends/src/launcher_dlls -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/launcher_dlls/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -fPIC -std=gnu++11 -o CMakeFiles/zombie_friends_dll.dir/game.cpp.o -c /home/nathan/Desktop/zombie_friends/src/launcher_dlls/game.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/launcher_dlls/game.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/launcher",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/launcher -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/launcher/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends_launcher.dir/launcher.cpp.o -c /home/nathan/Desktop/zombie_friends/src/launcher/launcher.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/launcher/launcher.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/launcher",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/launcher -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/launcher/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends_launcher.dir/launcher_option_editor.cpp.o -c /home/nathan/Desktop/zombie_friends/src/launcher/launcher_option_editor.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/launcher/launcher_option_editor.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/launcher",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/launcher -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/launcher/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends_launcher.dir/launcher_top_menu.cpp.o -c /home/nathan/Desktop/zombie_friends/src/launcher/launcher_top_menu.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/launcher/launcher_top_menu.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/launcher",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/launcher -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/launcher/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends_launcher.dir/launcher_window.cpp.o -c /home/nathan/Desktop/zombie_friends/src/launcher/launcher_window.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/launcher/launcher_window.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/launcher",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/launcher -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/launcher/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/zombie_friends_launcher.dir/main.cpp.o -c /home/nathan/Desktop/zombie_friends/src/launcher/main.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/launcher/main.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/launcher",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/launcher -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/launcher/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/launcher.dir/launcher.cpp.o -c /home/nathan/Desktop/zombie_friends/src/launcher/launcher.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/launcher/launcher.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/launcher/cmd_launcher",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/launcher/cmd_launcher -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/launcher/cmd_launcher/.. -I/home/nathan/Desktop/zombie_friends/src/launcher/cmd_launcher/../.. -I/home/nathan/Desktop/zombie_friends -I/home/nathan/Desktop/zombie_friends/src/launcher -I/home/nathan/Desktop/zombie_friends/src/launcher/.. -fPIC -g -std=gnu++11 -o CMakeFiles/cmd_launcher.dir/main.cpp.o -c /home/nathan/Desktop/zombie_friends/src/launcher/cmd_launcher/main.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/launcher/cmd_launcher/main.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/level_edit",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/level_edit -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/level_edit/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/level_edit.dir/editWindow.cpp.o -c /home/nathan/Desktop/zombie_friends/src/level_edit/editWindow.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/level_edit/editWindow.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/level_edit",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/level_edit -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/level_edit/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/level_edit.dir/edit_commands.cpp.o -c /home/nathan/Desktop/zombie_friends/src/level_edit/edit_commands.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/level_edit/edit_commands.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/level_edit",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/level_edit -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/level_edit/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/level_edit.dir/edit_item_command_list.cpp.o -c /home/nathan/Desktop/zombie_friends/src/level_edit/edit_item_command_list.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/level_edit/edit_item_command_list.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/level_edit",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/level_edit -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/level_edit/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/level_edit.dir/edit_item_creater.cpp.o -c /home/nathan/Desktop/zombie_friends/src/level_edit/edit_item_creater.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/level_edit/edit_item_creater.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/level_edit",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/level_edit -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/level_edit/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/level_edit.dir/edit_menu.cpp.o -c /home/nathan/Desktop/zombie_friends/src/level_edit/edit_menu.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/level_edit/edit_menu.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/level_edit",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/level_edit -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/level_edit/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/level_edit.dir/edit_npc_creater.cpp.o -c /home/nathan/Desktop/zombie_friends/src/level_edit/edit_npc_creater.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/level_edit/edit_npc_creater.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/level_edit",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/level_edit -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/level_edit/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/level_edit.dir/edit_tab_menu.cpp.o -c /home/nathan/Desktop/zombie_friends/src/level_edit/edit_tab_menu.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/level_edit/edit_tab_menu.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/level_edit",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/level_edit -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/level_edit/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/level_edit.dir/edit_tile_creater.cpp.o -c /home/nathan/Desktop/zombie_friends/src/level_edit/edit_tile_creater.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/level_edit/edit_tile_creater.cpp"
+},
+{
+  "directory": "/home/nathan/Desktop/zombie_friends/build/src/level_edit",
+  "command": "/usr/lib64/ccache/c++  -I/home/nathan/Desktop/zombie_friends/src/level_edit -I/home/nathan/Desktop/fltk-1.3.8/build -I/home/nathan/Desktop/fltk-1.3.8 -I/home/nathan/Desktop/zombie_friends/src/level_edit/.. -I/home/nathan/Desktop/zombie_friends -fPIC -g -std=gnu++11 -o CMakeFiles/level_edit.dir/main.cpp.o -c /home/nathan/Desktop/zombie_friends/src/level_edit/main.cpp",
+  "file": "/home/nathan/Desktop/zombie_friends/src/level_edit/main.cpp"
+}
+]

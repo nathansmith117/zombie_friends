@@ -1,0 +1,172 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24.2"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "src/launcher_dlls",
+					"jsonFile" : "directory-src.launcher_dlls-Debug-e57b5844d922d3c276a7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/launcher_dlls",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "src/launcher",
+					"jsonFile" : "directory-src.launcher-Debug-ff4d58b8a18536d63f99.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/launcher",
+					"targetIndexes" : 
+					[
+						1,
+						5
+					]
+				},
+				{
+					"build" : "src/launcher/cmd_launcher",
+					"jsonFile" : "directory-src.launcher.cmd_launcher-Debug-6a70bbf0251c5e3eac61.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/launcher/cmd_launcher",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "src/level_edit",
+					"jsonFile" : "directory-src.level_edit-Debug-b6eaefa747638dd21635.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.24.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/level_edit",
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					],
+					"name" : "zombie_friends",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "cmd_launcher::@32f2a6d24b748f5d72d7",
+					"jsonFile" : "target-cmd_launcher-Debug-619a5bcdfb0d483df36f.json",
+					"name" : "cmd_launcher",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "launcher::@c66cdf36eefd40e79e40",
+					"jsonFile" : "target-launcher-Debug-17b6f0856f1ea5d3bfb8.json",
+					"name" : "launcher",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "level_edit::@fd757144d85298b84d54",
+					"jsonFile" : "target-level_edit-Debug-871af657c1fab0cfe3ac.json",
+					"name" : "level_edit",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "zombie_friends::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-zombie_friends-Debug-a4272698ca9ec1c9ec2d.json",
+					"name" : "zombie_friends",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "zombie_friends_dll::@2d9c62b60a022df62eb3",
+					"jsonFile" : "target-zombie_friends_dll-Debug-21ff10d2d13ecba184a3.json",
+					"name" : "zombie_friends_dll",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "zombie_friends_launcher::@c66cdf36eefd40e79e40",
+					"jsonFile" : "target-zombie_friends_launcher-Debug-f91c0d5c23e577fda838.json",
+					"name" : "zombie_friends_launcher",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/nathan/Desktop/zombie_friends/build",
+		"source" : "/home/nathan/Desktop/zombie_friends"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}
