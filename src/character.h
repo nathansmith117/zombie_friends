@@ -161,8 +161,12 @@ class Character : public Fl_Widget {
 		void close_question();
 
 		// Takes list of posible answers.
-		// Returns true of anwsered.
+		// returns true of anwsered.
 		bool wait_for_answer(const char ** answers, size_t n);
+
+		// Waits for a yes/no answer to a question.
+		// returns true of anwsered.
+		bool wait_for_y_n_answer();
 	protected:
 		MainData * mdata;
 		gameTools::Direction dir;

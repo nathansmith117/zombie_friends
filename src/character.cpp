@@ -581,7 +581,6 @@ void Character::close_question() {
 bool Character::wait_for_answer(const char ** answers, size_t n) {
 	int i;
 	char buf[NAME_MAX];
-	bool in_answer_list = false;
 
 	if (answers == NULL)
 		return question_state == GOT_ANSWER;
@@ -591,13 +590,8 @@ bool Character::wait_for_answer(const char ** answers, size_t n) {
 
 	// Check if answer is in answer list.
 	for (i = 0; i < n; i++)
-		if (strncmp(question_answer, answers[i], NAME_MAX) == 0) {
-			in_answer_list = true;
-			break;
-		}
-
-	if (in_answer_list)
-		return true;
+		if (strncmp(question_answer, answers[i], NAME_MAX) == 0)
+			return true;
 
 	// Answer not one of the options.
 	snprintf(buf, NAME_MAX, "'%s' is not a valid anwser. try one of these instead: ", question_answer);
@@ -613,3 +607,33 @@ bool Character::wait_for_answer(const char ** answers, size_t n) {
 
 	return false;
 }
+
+bool Character::wait_for_y_n_answer() {
+	int i;
+
+	const char * y_n_responces[NAME_MAX] = {
+		"yes",
+		"no",
+		"y",
+		"n"
+	};
+
+	size_t y_n_responces_size = 4;
+
+	if (question_state != GOT_ANSWER)
+		return false;
+
+	// Check if it is a yes or no question.
+	for (i = 0; i < y_n_responces_size; i++)
+		if (strncasecmp(y_n_responces[i], question_answer, NAME_MAX) == 0)
+			return true;
+
+	char responce[] = "Its a yes or no question!!!";
+
+	// Reask question.
+	ask_question(question_data.question);
+	say(responce, sizeof(responce));
+
+	return false;
+}
+

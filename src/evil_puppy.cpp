@@ -55,7 +55,13 @@ void EvilPuppy::update() {
 	if (question_state == NO_QUESTION)
 		ask_question("How are you");
 
-	if (wait_for_answer((const char**)answers, 3)) {
+	//if (wait_for_answer((const char**)answers, 3)) {
+	//	snprintf(answer_buf, NAME_MAX, "I got answer: %s", question_answer);
+	//	say(answer_buf, NAME_MAX);
+	//	close_question();
+	//}
+	
+	if (wait_for_y_n_answer()) {
 		snprintf(answer_buf, NAME_MAX, "I got answer: %s", question_answer);
 		say(answer_buf, NAME_MAX);
 		close_question();
