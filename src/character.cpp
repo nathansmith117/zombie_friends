@@ -29,51 +29,13 @@ Character::~Character() {
 
 	tools.clear();
 
-	// Images.
-	for (auto i : character_images)
-		if (i != NULL)
-			delete i;
-
-	character_images.clear();
-}
-
-void Character::images(std::vector<Fl_PNG_Image*> character_images) {
-	if (character_images.empty())
-		return;
-
-	gameTools::set_image_list(&this->character_images, character_images);
-	size(character_images[0]->w(), character_images[0]->h());
-}
-
-Fl_PNG_Image * Character::get_current_image() {
-	if (frame >= character_images.size() || frame < 0)
-		return NULL;
-
-	return character_images[frame];
+	delete_images();
 }
 
 void Character::refresh_tool_images() {
 	for (auto tl : tools)
 		if (tl != NULL)
 			tl->refresh_images();
-}
-
-int Character::get_width() {
-	Fl_PNG_Image * curr_image = get_current_image();
-
-	if (curr_image == NULL)
-		return 0;
-
-	return curr_image->w();
-}
-
-int Character::get_height() {
-	Fl_PNG_Image * curr_image = get_current_image();
-
-	if (curr_image == NULL)
-		return 0;
-
-	return curr_image->h();
 }
 
 bool Character::is_moving() {

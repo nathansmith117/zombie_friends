@@ -2,7 +2,7 @@
 #include "character.h"
 #include "id_to_object.h"
 
-void Sword::main_init(MainData * md, Fl_Widget * item_holder) {
+void Sword::main_init(MainData * md, ObjectBase * item_holder) {
 	mdata = md;
 
 	type = TOOL_SWORD;

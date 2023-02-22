@@ -4,6 +4,7 @@
 #include "npc.h"
 #include "npc_map.h"
 #include "map.h"
+#include "character_preview.h"
 #include "game_tools.h"
 
 #define NPC_TOOL_EDITOR_COLS NPC_DATA_TOOLS_SIZE
@@ -48,7 +49,7 @@ class EditNpcCreater : public Fl_Group {
 		Map * map = NULL;
 		NpcMap * npc_map = NULL;
 
-		Npc * npc_preview = NULL;
+		CharacterPreview * npc_preview = NULL;
 
 		NpcData current_npc;
 

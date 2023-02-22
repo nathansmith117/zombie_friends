@@ -42,6 +42,8 @@ class Player : public Character {
 		// Redraw screen to update update_player_info.
 		void next_tool();
 		void pre_tool();
+
+		void destory() { delete (Player*)this; }
 	private:
 		void main_init(MainData * md);
 

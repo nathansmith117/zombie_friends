@@ -149,9 +149,10 @@ void Player::center() {
 	p_width = get_width();
 	p_height = get_height();
 
-	resize((win_width / 2) - (p_width / 2) , 
-			(win_height / 2) - (p_height / 2), 
-			p_width, p_height);
+	position(
+		(win_width / 2) - (p_width / 2),
+		(win_height / 2) - (p_height / 2)
+	);
 }
 
 void Player::go_right() {

@@ -8,14 +8,10 @@
 #include "submachine_gun.h"
 
 CommonTool::~CommonTool() {
-	for (auto i : image_frames)
-		if (i != NULL)
-			delete i;
-
-	image_frames.clear();
+	delete_images();
 }
 
-void CommonTool::main_init(MainData * md, Fl_Widget * item_holder) {
+void CommonTool::main_init(MainData * md, ObjectBase * item_holder) {
 	mdata = md;
 
 	this->item_holder = item_holder;
@@ -35,11 +31,6 @@ void CommonTool::draw() {
 	current_img->draw(x(), y());
 }
 
-void CommonTool::images(std::vector<Fl_PNG_Image*> image_frames) {
-	gameTools::set_image_list(&this->image_frames, image_frames);
-	size(image_frames[0]->w(), image_frames[0]->h());
-}
-
 int CommonTool::move_to_location() {
 	if (frame >= location.size() || frame < 0)
 		return -1;
@@ -52,13 +43,6 @@ int CommonTool::move_to_location() {
 			- (location[frame].y * mdata->settings.scale));
 
 	return 0;
-}
-
-Fl_PNG_Image * CommonTool::get_current_image() {
-	if (frame >= location.size() || frame < 0)
-		return NULL;
-
-	return image_frames[frame];
 }
 
 void CommonTool::use() {

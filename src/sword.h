@@ -2,12 +2,13 @@
 
 #include "program_data.h"
 #include "weapon.h"
+#include "object_base.h"
 
 #define SWORD_ATTACK_FRAMES 2
 
 class Sword : public Weapon {
 	public:
-		Sword(MainData * md, Fl_Widget * item_holder) : Weapon(md, item_holder) {
+		Sword(MainData * md, ObjectBase * item_holder) : Weapon(md, item_holder) {
 			main_init(md, item_holder);
 		}
 
@@ -20,7 +21,7 @@ class Sword : public Weapon {
 
 		void refresh_images();
 	protected:
-		void main_init(MainData * md, Fl_Widget * item_holder);
+		void main_init(MainData * md, ObjectBase * item_holder);
 
 		float sword_speed;
 };

@@ -4,7 +4,7 @@
 #include "npc_map.h"
 #include "id_to_object.h"
 
-void Gun::main_init(MainData * md, Fl_Widget * item_holder) {
+void Gun::main_init(MainData * md, ObjectBase * item_holder) {
 	type = TOOL_GUN;
 }
 

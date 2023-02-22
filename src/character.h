@@ -4,6 +4,7 @@
 #include "tile.h"
 #include "weapon.h"
 #include "common_item.h"
+#include "object_base.h"
 #include "game_tools.h"
 #include "map.h"
 #include "common_tool.h"
@@ -28,13 +29,12 @@ enum QuestionStates {
 	NO_QUESTION
 };
 
-class Character : public Fl_Widget {
+class Character : public ObjectBase {
 	public:
-		Character(MainData * md) : Fl_Widget(0, 0, 0, 0) {
+		Character(MainData * md) : ObjectBase() {
 			mdata = md;
 
 			dir = NO_MOVEMENT;
-			frame = 0;
 
 			world_x = 0.0;
 			world_y = 0.0;
@@ -58,18 +58,10 @@ class Character : public Fl_Widget {
 		~Character();
 
 		virtual void draw();
-		virtual void update() = 0;
 		virtual void handle_hit_data() = 0;
 
 		gameTools::Direction * direction() { return &dir; }
 		gameTools::Direction get_direction() { return dir; }
-
-		std::vector<Fl_PNG_Image*> images() { return character_images; }
-		void images(std::vector<Fl_PNG_Image*> character_images);
-
-		int get_frame() { return frame; }
-		void set_frame(int frame) { this->frame = frame; }
-		Fl_PNG_Image * get_current_image();
 
 		virtual void center() {};
 		virtual void use_tool();
@@ -81,12 +73,7 @@ class Character : public Fl_Widget {
 		virtual bool facing_right() = 0;
 		virtual bool facing_left() = 0;
 
-		virtual void refresh_images() = 0;
 		virtual void refresh_tool_images();
-
-		// Use these for getting character size.
-		virtual int get_width();
-		virtual int get_height();
 
 		// Gets or sets world position.
 		float wx() { return world_x; }
@@ -170,7 +157,6 @@ class Character : public Fl_Widget {
 	protected:
 		MainData * mdata;
 		gameTools::Direction dir;
-		int frame;
 
 		// For saying something in chatbox.
 		void say(const char * msg, size_t n);
@@ -192,8 +178,6 @@ class Character : public Fl_Widget {
 		CharacterQuestionData question_data;
 		char question_state = NO_QUESTION;
 		char question_answer[NAME_MAX];
-
-		std::vector<Fl_PNG_Image*> character_images;
 
 		float speed;
 

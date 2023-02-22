@@ -21,4 +21,4 @@ enum TOOL_TYPES {
 };
 
 Npc * get_npc_from_type(MainData * mdata, NpcMap * npc_map, NPC_TYPE type);
-CommonTool * get_tool_from_type(TOOL_TYPE type, MainData * mdata, Fl_Widget * item_holder=NULL);
+CommonTool * get_tool_from_type(TOOL_TYPE type, MainData * mdata, ObjectBase * item_holder=NULL);

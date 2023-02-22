@@ -1,0 +1,2 @@
+
+(level_edit:38215): Gtk-WARNING **: 23:01:28.676: Unable to locate theme engine in module_path: "adwaita",
