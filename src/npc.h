@@ -36,6 +36,8 @@ class Npc : public Character {
 			main_init(md, npc_map);
 		}
 
+		~Npc() { delete_images(); }
+
 		bool get_always_updated() { return always_updated; }
 		void set_always_updated(bool always_updated) { this->always_updated = always_updated; }
 

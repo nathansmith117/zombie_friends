@@ -21,15 +21,16 @@ void Character::draw() {
 }
 
 Character::~Character() {
+	delete_tools();
+	delete_images();
+}
 
-	// Tools.
+void Character::delete_tools() {
 	for (auto t : tools)
 		if (t != NULL)
 			delete t;
 
 	tools.clear();
-
-	delete_images();
 }
 
 void Character::refresh_tool_images() {
@@ -540,7 +541,7 @@ void Character::close_question() {
 	memset(question_answer, 0, NAME_MAX);
 }
 
-bool Character::wait_for_answer(const char ** answers, size_t n) {
+bool Character::wait_for_answer(const char ** answers, size_t n, int * answer_num) {
 	int i;
 	char buf[NAME_MAX];
 
@@ -552,8 +553,12 @@ bool Character::wait_for_answer(const char ** answers, size_t n) {
 
 	// Check if answer is in answer list.
 	for (i = 0; i < n; i++)
-		if (strncmp(question_answer, answers[i], NAME_MAX) == 0)
+		if (strncmp(question_answer, answers[i], NAME_MAX) == 0) {
+			if (answer_num != NULL)
+				*answer_num = i;
+
 			return true;
+		}
 
 	// Answer not one of the options.
 	snprintf(buf, NAME_MAX, "'%s' is not a valid anwser. try one of these instead: ", question_answer);
@@ -570,13 +575,13 @@ bool Character::wait_for_answer(const char ** answers, size_t n) {
 	return false;
 }
 
-bool Character::wait_for_y_n_answer() {
+bool Character::wait_for_y_n_answer(bool * answered_yes) {
 	int i;
 
 	const char * y_n_responces[NAME_MAX] = {
 		"yes",
-		"no",
 		"y",
+		"no",
 		"n"
 	};
 
@@ -587,8 +592,17 @@ bool Character::wait_for_y_n_answer() {
 
 	// Check if it is a yes or no question.
 	for (i = 0; i < y_n_responces_size; i++)
-		if (strncasecmp(y_n_responces[i], question_answer, NAME_MAX) == 0)
+		if (strncasecmp(y_n_responces[i], question_answer, NAME_MAX) == 0) {
+			if (answered_yes == NULL)
+				return true;
+
+			if (i <= 1)
+				*answered_yes = true;
+			else
+				*answered_yes = false;
+
 			return true;
+		}
 
 	char responce[] = "Its a yes or no question!!!";
 
@@ -599,3 +613,73 @@ bool Character::wait_for_y_n_answer() {
 	return false;
 }
 
+void Character::have_conversation(CharacterConversationData conversation_data) {
+	in_conversation = true;
+	current_conversation = conversation_data;
+	close_question();
+	update_conversation();
+}
+
+void Character::update_conversation() {
+	bool got_answer = false;
+	int answer_num;
+	bool answered_yes;
+
+	// No conversation.
+	if (!in_conversation)
+		return;
+
+	// Wait.
+	if (question_state == WAITING_FOR_ANSWER)
+		return;
+
+	// Start question.
+	if (question_state == NO_QUESTION) {
+		ask_question(current_conversation.question);
+		return;
+	}
+
+	// Get answer.
+	switch (current_conversation.type) {
+		case YES_OR_NO_QUESTION:
+			got_answer = wait_for_y_n_answer(&answered_yes);
+			answer_num = (int)!answered_yes;
+			break;
+		case CUSTOM_ANSWERS:
+			got_answer = wait_for_answer(
+				(const char**)current_conversation.possible_anwsers,
+				current_conversation.answer_count,
+				&answer_num
+			);
+
+			break;
+		case ANY_ANSWER:
+			got_answer = wait_for_answer(NULL, 0);
+			answer_num = 0;
+			break;
+		default:
+			break;
+	}
+
+	if (!got_answer)
+		return;
+
+	// Prevent segfault.
+	if (answer_num >= current_conversation.answer_count)
+		return;
+
+	// Call callback.
+	if (current_conversation.callback != NULL)
+		current_conversation.callback(this, mdata, question_answer);
+
+	// End conversation.
+	if (current_conversation.next_questions[answer_num] == NULL) {
+		in_conversation = false;
+		close_question();
+		return;
+	}
+
+	// Next question.
+	current_conversation = *current_conversation.next_questions[answer_num];
+	ask_question(current_conversation.question);
+}

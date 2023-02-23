@@ -29,6 +29,30 @@ enum QuestionStates {
 	NO_QUESTION
 };
 
+enum QUESTION_TYPES {
+	YES_OR_NO_QUESTION, // Uses index 0 for yes and 1 for no.
+	CUSTOM_ANSWERS,
+	ANY_ANSWER
+};
+
+#define MAX_QUESTION_ANSWERS 15
+
+#define CONVERSATION_CB_ARGS class Character * character, MainData * mdata, const char * answer
+typedef int (*CONVERSATION_CB)(CONVERSATION_CB_ARGS);
+
+struct CharacterConversationData {
+	char question[NAME_MAX];
+	unsigned char type;
+
+	// Askers and next questions.
+	char possible_anwsers[MAX_QUESTION_ANSWERS][NAME_MAX];
+	CharacterConversationData * next_questions[MAX_QUESTION_ANSWERS];
+	int answer_count;
+
+	// Callback.
+	CONVERSATION_CB callback;
+};
+
 class Character : public ObjectBase {
 	public:
 		Character(MainData * md) : ObjectBase() {
@@ -56,6 +80,8 @@ class Character : public ObjectBase {
 		}
 
 		~Character();
+
+		void delete_tools();
 
 		virtual void draw();
 		virtual void handle_hit_data() = 0;
@@ -147,13 +173,13 @@ class Character : public ObjectBase {
 		void answer_question(const char * answer);
 		void close_question();
 
-		// Takes list of posible answers.
+		// Takes list of possible answers.
 		// returns true of anwsered.
-		bool wait_for_answer(const char ** answers, size_t n);
+		bool wait_for_answer(const char ** answers, size_t n, int * answer_num=NULL);
 
 		// Waits for a yes/no answer to a question.
 		// returns true of anwsered.
-		bool wait_for_y_n_answer();
+		bool wait_for_y_n_answer(bool * answered_yes=NULL);
 	protected:
 		MainData * mdata;
 		gameTools::Direction dir;
@@ -170,6 +196,12 @@ class Character : public ObjectBase {
 
 		int heath;
 		int coins;
+
+		// Conversation stuff.
+		void have_conversation(CharacterConversationData conversation_data);
+		void update_conversation();
+		CharacterConversationData current_conversation;
+		bool in_conversation = false;
 
 		float old_world_x, old_world_y;
 		gameTools::Direction old_direction;

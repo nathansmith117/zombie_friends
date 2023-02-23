@@ -1,2 +1,0 @@
-
-(cmd_launcher:36506): Gtk-WARNING **: 22:44:13.982: Unable to locate theme engine in module_path: "adwaita",

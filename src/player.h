@@ -17,6 +17,8 @@ class Player : public Character {
 			main_init(md);
 		}
 
+		~Player();
+
 		void update();
 		void handle_hit_data();
 

@@ -1,5 +1,0 @@
-
-(level_edit:37707): Gtk-WARNING **: 22:59:05.887: Unable to locate theme engine in module_path: "adwaita",
-Error opening test_route.nfd
-Error opening test_route.nfd
-Error opening test_route.nfd

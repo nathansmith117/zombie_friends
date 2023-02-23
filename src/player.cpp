@@ -27,6 +27,11 @@ void Player::main_init(MainData * md) {
 	speed = mdata->settings.player_speed;
 }
 
+Player::~Player() {
+	delete_images();
+	delete_tools();
+}
+
 bool Player::facing_right() {
 	return frame < PLAYER_LEFT;
 }

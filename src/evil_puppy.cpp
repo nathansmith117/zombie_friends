@@ -5,6 +5,8 @@
 
 EvilPuppy::~EvilPuppy() {
 	delete path_finder;
+	delete_images();
+	delete_tools();
 }
 
 void EvilPuppy::main_init(MainData * md) {
@@ -55,14 +57,17 @@ void EvilPuppy::update() {
 	if (question_state == NO_QUESTION)
 		ask_question("How are you");
 
-	//if (wait_for_answer((const char**)answers, 3)) {
-	//	snprintf(answer_buf, NAME_MAX, "I got answer: %s", question_answer);
+	int answer_num;
+	bool answered_yes;
+
+	//if (wait_for_answer((const char**)answers, 3, &answer_num)) {
+	//	snprintf(answer_buf, NAME_MAX, "I got answer: %s %d", question_answer, answer_num);
 	//	say(answer_buf, NAME_MAX);
 	//	close_question();
 	//}
 	
-	if (wait_for_y_n_answer()) {
-		snprintf(answer_buf, NAME_MAX, "I got answer: %s", question_answer);
+	if (wait_for_y_n_answer(&answered_yes)) {
+		snprintf(answer_buf, NAME_MAX, "I got answer: %s %d", question_answer, answered_yes);
 		say(answer_buf, NAME_MAX);
 		close_question();
 	}
