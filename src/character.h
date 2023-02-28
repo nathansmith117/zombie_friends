@@ -29,10 +29,11 @@ enum QuestionStates {
 	NO_QUESTION
 };
 
-enum QUESTION_TYPES {
+enum CONVERSATION_MESSAGE_TYPES {
 	YES_OR_NO_QUESTION, // Uses index 0 for yes and 1 for no.
 	CUSTOM_ANSWERS,
-	ANY_ANSWER
+	ANY_ANSWER,
+	MESSAGE
 };
 
 #define MAX_QUESTION_ANSWERS 15
@@ -41,12 +42,12 @@ enum QUESTION_TYPES {
 typedef int (*CONVERSATION_CB)(CONVERSATION_CB_ARGS);
 
 struct CharacterConversationData {
-	char question[NAME_MAX];
+	char message[NAME_MAX];
 	unsigned char type;
 
-	// Askers and next questions.
+	// Answers and next conversations.
 	char possible_anwsers[MAX_QUESTION_ANSWERS][NAME_MAX];
-	CharacterConversationData * next_questions[MAX_QUESTION_ANSWERS];
+	CharacterConversationData * next_conversations[MAX_QUESTION_ANSWERS];
 	int answer_count;
 
 	// Callback.
@@ -175,17 +176,17 @@ class Character : public ObjectBase {
 
 		// Takes list of possible answers.
 		// returns true of anwsered.
-		bool wait_for_answer(const char ** answers, size_t n, int * answer_num=NULL);
+		bool wait_for_answer(char answers[MAX_QUESTION_ANSWERS][NAME_MAX], size_t n, int * answer_num=NULL);
 
 		// Waits for a yes/no answer to a question.
 		// returns true of anwsered.
 		bool wait_for_y_n_answer(bool * answered_yes=NULL);
-	protected:
-		MainData * mdata;
-		gameTools::Direction dir;
 
 		// For saying something in chatbox.
 		void say(const char * msg, size_t n);
+	protected:
+		MainData * mdata;
+		gameTools::Direction dir;
 
 		char character_name[NAME_MAX];
 

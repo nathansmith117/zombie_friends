@@ -2,6 +2,43 @@
 #include "npc_map.h"
 #include "player.h"
 #include "id_to_object.h"
+#include "src/character.h"
+
+CharacterConversationData good = {
+	.message = "Good for you kiddo",
+	.type = MESSAGE,
+	.possible_anwsers = {},
+	.next_conversations = {NULL},
+	.answer_count = 0,
+	.callback = NULL
+};
+
+CharacterConversationData bad = {
+	.message = "Bad day in deed",
+	.type = MESSAGE,
+	.possible_anwsers = {},
+	.next_conversations = {NULL},
+	.answer_count = 0,
+	.callback = NULL
+};
+
+CharacterConversationData how_are_you = {
+	.message = "How are you?",
+	.type = CUSTOM_ANSWERS,
+	.possible_anwsers = {"good", "bad"},
+	.next_conversations = {&good, &bad},
+	.answer_count = 2,
+	.callback = NULL
+};
+
+CharacterConversationData test_conversation = {
+	.message = "I am going to ask some questions",
+	.type = MESSAGE,
+	.possible_anwsers = {},
+	.next_conversations = {&how_are_you},
+	.answer_count = 0,
+	.callback = NULL
+};
 
 EvilPuppy::~EvilPuppy() {
 	delete path_finder;
@@ -54,8 +91,8 @@ void EvilPuppy::update() {
 		return;
 
 	// Question debug.
-	if (question_state == NO_QUESTION)
-		ask_question("How are you");
+	//if (question_state == NO_QUESTION)
+	//	ask_question("How are you");
 
 	int answer_num;
 	bool answered_yes;
@@ -66,11 +103,16 @@ void EvilPuppy::update() {
 	//	close_question();
 	//}
 	
-	if (wait_for_y_n_answer(&answered_yes)) {
-		snprintf(answer_buf, NAME_MAX, "I got answer: %s %d", question_answer, answered_yes);
-		say(answer_buf, NAME_MAX);
-		close_question();
-	}
+	//if (wait_for_y_n_answer(&answered_yes)) {
+	//	snprintf(answer_buf, NAME_MAX, "I got answer: %s %d", question_answer, answered_yes);
+	//	say(answer_buf, NAME_MAX);
+	//	close_question();
+	//}
+	
+	if (!in_conversation)
+		have_conversation(test_conversation);
+
+	update_conversation();
 
 	handle_hit_data();
 

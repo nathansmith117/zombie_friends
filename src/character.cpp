@@ -541,7 +541,7 @@ void Character::close_question() {
 	memset(question_answer, 0, NAME_MAX);
 }
 
-bool Character::wait_for_answer(const char ** answers, size_t n, int * answer_num) {
+bool Character::wait_for_answer(char answers[MAX_QUESTION_ANSWERS][NAME_MAX], size_t n, int * answer_num) {
 	int i;
 	char buf[NAME_MAX];
 
@@ -617,27 +617,22 @@ void Character::have_conversation(CharacterConversationData conversation_data) {
 	in_conversation = true;
 	current_conversation = conversation_data;
 	close_question();
-	update_conversation();
+
+	if (question_state == NO_QUESTION &&
+			current_conversation.type != MESSAGE) {
+		ask_question(current_conversation.message);
+	}
 }
 
 void Character::update_conversation() {
 	bool got_answer = false;
 	int answer_num;
 	bool answered_yes;
+	bool can_call_cb;
 
 	// No conversation.
 	if (!in_conversation)
 		return;
-
-	// Wait.
-	if (question_state == WAITING_FOR_ANSWER)
-		return;
-
-	// Start question.
-	if (question_state == NO_QUESTION) {
-		ask_question(current_conversation.question);
-		return;
-	}
 
 	// Get answer.
 	switch (current_conversation.type) {
@@ -647,7 +642,7 @@ void Character::update_conversation() {
 			break;
 		case CUSTOM_ANSWERS:
 			got_answer = wait_for_answer(
-				(const char**)current_conversation.possible_anwsers,
+				current_conversation.possible_anwsers,
 				current_conversation.answer_count,
 				&answer_num
 			);
@@ -655,7 +650,12 @@ void Character::update_conversation() {
 			break;
 		case ANY_ANSWER:
 			got_answer = wait_for_answer(NULL, 0);
+			answer_num = -1;
+			break;
+		case MESSAGE:
+			close_question();
 			answer_num = 0;
+			got_answer = true;
 			break;
 		default:
 			break;
@@ -664,22 +664,37 @@ void Character::update_conversation() {
 	if (!got_answer)
 		return;
 
-	// Prevent segfault.
-	if (answer_num >= current_conversation.answer_count)
-		return;
+	can_call_cb = current_conversation.callback != NULL;
 
-	// Call callback.
-	if (current_conversation.callback != NULL)
-		current_conversation.callback(this, mdata, question_answer);
+	if (answer_num == -1) { // Any answer.
+		if (can_call_cb)
+			answer_num = current_conversation.callback(this, mdata, question_answer);
+		else
+			answer_num = 0;
+	} else { // Call callback.
+		if (can_call_cb)
+			current_conversation.callback(this, mdata, question_answer);
+	}
+
+	// Prevent segfault.
+	if (answer_num >= current_conversation.answer_count 
+			&& current_conversation.type != YES_OR_NO_QUESTION
+			&& current_conversation.type != MESSAGE) {
+		fputs("'answer_num' is too big\n", stderr);
+		return;
+	}
 
 	// End conversation.
-	if (current_conversation.next_questions[answer_num] == NULL) {
+	if (current_conversation.next_conversations[answer_num] == NULL) {
 		in_conversation = false;
-		close_question();
 		return;
 	}
 
 	// Next question.
-	current_conversation = *current_conversation.next_questions[answer_num];
-	ask_question(current_conversation.question);
+	current_conversation = *current_conversation.next_conversations[answer_num];
+
+	if (current_conversation.type == MESSAGE)
+		say(current_conversation.message, NAME_MAX);
+	else
+		ask_question(current_conversation.message);
 }
